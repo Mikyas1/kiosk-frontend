@@ -2,6 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import { routes as module } from "../module";
 
+import store from "./store"; // your vuex store
+
 
 Vue.use(Router);
 
@@ -20,5 +22,28 @@ const router = new Router({
     }
     
 });
+
+// NAVIGATION GUARDS
+router.beforeEach((to, from, next) => {
+    if(to.matched.some(record => record.meta.requiresAuth)){
+        if(!store.getters["auth/loggedIn"]){
+            next({
+                name: 'login'
+            })
+        } else {
+            next()
+        }
+    } else if(to.matched.some(record => record.meta.requiresVisitor)){
+        if(store.getters["auth/loggedIn"]){
+            next({
+                name: 'dashboard'
+            })
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
+})
 
 export default router;
