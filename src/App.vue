@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     nav() {
-      return this.$store.state.loggedIn;
+      return this.$store.getters["auth/loggedIn"];
     }
   }
 }

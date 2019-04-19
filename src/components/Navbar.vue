@@ -141,7 +141,7 @@
     },
     methods: {
       getActive: function(page) {
-        if (this.$store.state.active == page){
+        if (this.$store.getters['dashboard/active'] == page){
           return true
         } else {
           return false

@@ -1,7 +1,12 @@
 <template>
-  <div class="home">
-    <h1>This is an home page</h1>
-  </div>
+    <div></div>
 </template>
 
-<script></script>
+<script>
+export default {
+    created () { 
+        this.$store.dispatch('auth/logout')
+        this.$router.push({ name: 'login' })
+    }
+}
+</script>

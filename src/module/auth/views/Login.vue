@@ -84,7 +84,7 @@ export default {
 
       .then(response => {
         console.log(response)
-        // this.$router.push({ name: 'dashboard'})
+        this.$router.push({ name: 'dashboard'})
       })
 
       .catch(error => {

@@ -1,5 +1,6 @@
 import Login from "./views/Login";
 import Register from "./views/Register";
+import LogOut from "./views/Logout";
 
 export default [
     { 
@@ -17,5 +18,13 @@ export default [
         meta: {
             requiresVisitor: true,
         },
-    }
+    },
+    {
+      path: '/logout',
+      name: 'logOut',
+      component: LogOut,
+      meta: {
+        requiresAuth: true,
+      }
+    },
 ];

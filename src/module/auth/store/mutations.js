@@ -11,5 +11,6 @@ export default {
     RESET: state => {
       state.token = null;
       state.owner = null;
+      state.storeId = null;
     }
   };

@@ -7,7 +7,7 @@ import store from "./store"; // your vuex store
 
 Vue.use(Router);
 
-const baseRoutes = [{ path: "*", redirect: "/" }];
+const baseRoutes = [{ path: "*", redirect: "/dashboard" }];
 const routes = baseRoutes.concat(module);
 
 const router = new Router({
