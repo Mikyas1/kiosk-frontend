@@ -40,6 +40,9 @@
                 </v-stepper>
               </v-card-text>
             </v-card>
+
+            <AuthFooter/>
+
           </v-flex>
         </v-layout>
       </v-container>
@@ -48,8 +51,13 @@
 </template>
 
 <script>
+import AuthFooter from "../components/AuthFooter";
+
 export default {
   name: 'login',
+  components: {
+    AuthFooter
+  },
   data: () => ({
     step: 1,
     loading: false,
@@ -99,7 +107,8 @@ export default {
 </script>
 <style scoped lang="css">
   #login {
-    background: url("../../../assets/login_1.jpg");
+    /* background: url("../../../assets/login_1.jpg"); */
+    background: 1e88e5;
     background-size: cover;
     height: 100vh;
     /* height: 50%; */

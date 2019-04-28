@@ -2,7 +2,7 @@ import EditSite from "./views/EditSite";
 
 export default [
     {
-        path: '/edit-site',
+        path: 'edit-site',
         name: 'editSite',
         component: EditSite,
         meta: {

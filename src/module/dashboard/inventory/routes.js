@@ -2,7 +2,7 @@ import Inventory from "./views/Inventory";
 
 export default [
     {
-        path: '/inventory',
+        path: 'inventory',
         name: 'inventory',
         component: Inventory,
         meta: {

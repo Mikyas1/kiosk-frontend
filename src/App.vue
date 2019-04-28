@@ -1,37 +1,7 @@
 <template>
-
-<v-app class="c_light">
-
-
-    <!-- NON AUTHINCATED SECTION -->
-    <template v-if="!nav">
-      
-      <!-- PAGE CONTENT -->
-      <v-content>
-        <router-view></router-view>
-      </v-content>
-
-    </template>  
-
-
-
-    <!-- AUTHINCATED SECTION -->
-    <template v-if="nav">
-      
-      <!-- LOAD NAVIGATION -->
-      <Navbar />
-
-      <!-- PAGE CONTENT -->
-      <v-content>
-        <router-view></router-view>
-        <!-- PAGE FOOTER -->
-        <Footer />
-      </v-content>
-    
-    </template>
-
+  <v-app class="c_light">
+      <router-view></router-view>
   </v-app>
-  
 </template>
 
 <script>
@@ -49,10 +19,5 @@ export default {
       //
     }
   },
-  computed: {
-    nav() {
-      return this.$store.getters["auth/loggedIn"];
-    }
-  }
 }
 </script>

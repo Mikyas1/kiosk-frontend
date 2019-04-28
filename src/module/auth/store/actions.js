@@ -1,12 +1,10 @@
-import http from "@/resources/http";
-import urls from "@/resources/urls";
+import apiClient from "@/resources/apiClient";
 
 export default {
     
   login: ({ commit, state }, data) => {
     return new Promise((resolve, reject) => {
-      http
-        .post(urls.login, data)
+      apiClient.auth.login(data)
         .then(response => {
           commit("SET_TOKEN", response.data.token);
           commit("SET_OWNER", response.data.store.owner);
@@ -25,8 +23,7 @@ export default {
 
   register: ({ commit, state }, data) => {
     return new Promise((resolve, reject) => {
-      http
-      .post(urls.register, data)
+      apiClient.auth.register(data)
       .then(response => {
         commit("SET_TOKEN", response.data.token);
         commit("SET_OWNER", response.data.store.owner);

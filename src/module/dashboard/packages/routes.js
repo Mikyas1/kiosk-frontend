@@ -2,7 +2,7 @@ import Packages from "./views/Packages";
 
 export default [
     {
-        path: '/packages',
+        path: 'packages',
         name: 'packages',
         component: Packages,
         meta: {

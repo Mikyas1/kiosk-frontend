@@ -1,5 +1,16 @@
 import { routes as auth } from "./auth";
 import { routes as dashboard } from "./dashboard";
-// import { routes as internship } from './internship'
+import { routes as home } from "./home";
 
-export default [...auth, ...dashboard];
+import WithNav from "./dashboard/views/WithNav";
+
+var dashboardWithNav = [
+    {
+        path: '/app/',
+        component: WithNav,
+        children: [ ...dashboard ],
+        redirect: "/app/dashboard"
+    }
+]
+
+export default [...auth, ...home, ...dashboardWithNav];

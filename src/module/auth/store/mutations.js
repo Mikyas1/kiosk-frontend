@@ -1,6 +1,6 @@
 export default {
-    SET_STORE_ID: (state, data) => {
-      state.storeId = data;
+    SET_STORE_ID: (state, storeId) => {
+      state.storeId = storeId;
     },
     SET_TOKEN: (state, token) => {
       state.token = token;
@@ -12,5 +12,9 @@ export default {
       state.token = null;
       state.owner = null;
       state.storeId = null;
+    },
+    SET_OWNER_NAME: (state, name) => {
+      state.owner.firtName = name.firstName;
+      state.owner.lastName = name.lastName;
     }
   };

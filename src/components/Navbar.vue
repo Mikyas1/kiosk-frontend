@@ -121,12 +121,12 @@
     data: () => ({
       drawer: true,
       links: [
-        { icon: 'dashboard', text: 'Dashboard', route: '/dashboard', name: 'dashboard', notif: 0, notif_val: 0 },
-        { icon: 'notifications', text: 'Orders and FAQs', route: '/orders-faqs', name: 'ordersAndFaqs', notif: 1, notif_val: 3 },
-        { icon: 'widgets', text: 'Inventory', route: '/inventory', name: 'inventory', notif: 0, notif_val: 0 },
-        { icon: 'brush', text: 'Edit Site', route: '/edit-site', name: 'editSite', notif: 0, notif_val: 0 },
-        { icon: 'store', text: 'Store Information', route: '/store-information',name: 'storeInformation', notif: 0, notif_val: 0 },
-        { icon: 'donut_large', text: 'Packages', route: '/packages', name: 'packages', notif: 0, notif_val: 0 },
+        { icon: 'dashboard', text: 'Dashboard', route: '/app/dashboard', name: 'dashboard', notif: 0, notif_val: 0 },
+        { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs', name: 'ordersAndFaqs', notif: 1, notif_val: 3 },
+        { icon: 'widgets', text: 'Inventory', route: '/app/inventory', name: 'inventory', notif: 0, notif_val: 0 },
+        { icon: 'brush', text: 'Edit Site', route: '/app/edit-site', name: 'editSite', notif: 0, notif_val: 0 },
+        { icon: 'store', text: 'Store Information', route: '/app/store-information',name: 'storeInformation', notif: 0, notif_val: 0 },
+        { icon: 'donut_large', text: 'Packages', route: '/app/packages', name: 'packages', notif: 0, notif_val: 0 },
       ],
       menus: [
         // { icon: 'dashboard', text: 'Setting', route: '/profile' },
@@ -135,8 +135,9 @@
     }),
     computed: {
       fullName() {
-        // return this.$store.state.store.owner.firtName + ' ' + this.$store.state.store.owner.lastName; 
-        return "Mikyas Alemayehu"
+        let owner = this.$store.getters['auth/owner'];
+        return owner.firtName + ' ' + owner.lastName 
+        // return "Mikyas Alemayehu"
       }
     },
     methods: {

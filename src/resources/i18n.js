@@ -9,7 +9,7 @@ const messages = {
     },
     am: {
         signup: "ተመዝገቡ",
-    }
+    },
 };
 
 export const i18n = new VueI18n({

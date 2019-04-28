@@ -27,7 +27,7 @@
                             
                                 <v-subheader class="mb-3 c_text_1--text" v-bind:class="$vuetify.breakpoint.xsOnly && 'title ml-4' || 'display-1 ml-5'">
                                     <!-- <span>Create Store</span> -->
-                                    <span>{{ $t("signup", "am") }}</span>
+                                    <span v-on:click="setLang(getLang().lang)">{{ $t("signup", lang) }}</span>
                                 </v-subheader>
 
                                 <v-form class="pr-2" v-on:submit.prevent="goNext" ref="gonext">
@@ -102,12 +102,12 @@
                                     </v-form>
                                 </v-card>    
                             </v-stepper-content>
-
+                            
                         </v-stepper-items>
                     </v-stepper>
-                    <br>
-                    <span class="c-links"><a href="#">Conditions</a> | <a href="#">Help</a> | <a href="#">Terms</a></span>
-                    <div class="c-info">copyright © 2018 www.kiosk.com All rights reserved</div>
+                    
+                    <AuthFooter/>
+
                 </v-flex>
             </v-layout>
         </v-container>
@@ -118,11 +118,17 @@
 
 
 <script>
-import http from "@/resources/http";
-import urls from "@/resources/urls";
+import { mapGetters } from "vuex";
+import { urlify } from "../helper";
+import apiClient from "@/resources/apiClient";
+
+import AuthFooter from "../components/AuthFooter";
 
 export default {
     name: 'signUp',
+    components: {
+        AuthFooter,
+    },
     data() {
     return {
         showPhone: true,
@@ -194,8 +200,7 @@ export default {
                 if(this.signUpData.chosen == 0){
 
                     // CHECK FOR CODE
-                    http
-                    .get(urls.validateCode + this.code)
+                    apiClient.auth.validateCode(this.code)
 
                     .then(response => {
                         
@@ -284,9 +289,7 @@ export default {
         
                 if(this.signUpData.chosen == 0) {
                     
-                    http
-                    
-                    .get(urls.validatePhone + this.signUpData.phoneNumber)
+                    apiClient.auth.validatePhone(this.signUpData.phoneNumber)
                     
                         .then(response => {
                             
@@ -312,9 +315,7 @@ export default {
         
                 }else if(this.signUpData.chosen == 1) {
                     
-                    http
-                    
-                    .get(urls.validateEmail + this.signUpData.email)
+                    apiClient.auth.validateEmail(this.signUpData.email)
                     
                         .then(response => {
                             
@@ -364,9 +365,7 @@ export default {
                 this.signUpData.categories = categories
 
                 // CHECK FOR STORE URL UNIQUENESS
-                http
-                
-                .get(urls.validateUrl + this.signUpData.storeUrl)
+                apiClient.auth.validateUrl(this.signUpData.storeUrl)
                     
                     .then(response => {
                     
@@ -398,11 +397,7 @@ export default {
         },
 
         updateUrl: function(){
-            this.signUpData.storeUrl = this.urlify(this.signUpData.storeName);
-        },
-
-        urlify: function(storeName){
-            return storeName.toLowerCase().trim().replace(/ /g, '-').replace(/'|;|!|@|#|$|%|^|&|_|=|:|"|<|>/g, '');
+            this.signUpData.storeUrl = urlify(this.signUpData.storeName);
         },
 
         showPhoneField: function(){
@@ -418,22 +413,38 @@ export default {
             this.signUpData.phoneNumber = '+251';
             this.signUpData.chosen = 1;
         },
+
+        setLang(lang) {
+            this.$store.dispatch("lang/setLang", { vm: this, lang })
+        },
+
+        getLang() {
+            if (this.lang == "am") {
+                return { lang: "en", text: "EN" };
+            }
+            return { lang: "am", text : "አ"};
+        },
+        
     },
     computed: {
+        ...mapGetters({
+            lang: 'lang/lang',
+        }),
         categoriesDisp() {
-            var categories = []
+            let categories = []
             for(var i = 0; i < this.categories.length; i++) {
                 categories.push(this.categories[i].text);
             }
             return categories
-        }
+        },
     }
 }
 </script>
 
 <style scoped>
 #register {
-    background: url("../../../assets/login_1.jpg");
+    /* background: url("../../../assets/login_1.jpg"); */
+    background: 1e88e5;
     background-size: cover;
     height: 100vh;
 }
@@ -445,23 +456,5 @@ export default {
     color: rgba(0, 0, 0, 0.8);
     color: #1e88e5;
     text-decoration: underline;
-}
-.c-links{
-    color: rgba(255, 255, 255, .5);
-    font-size: .85em;
-    margin-left: 30%;
-}
-.c-links a{
-    text-decoration: none;
-    color: rgba(255, 255, 255, .5);
-}
-.c-links a:hover {
-    text-decoration: underline;
-}
-.c-info{
-    color: rgba(255, 255, 255, .5);
-    font-size: .85em;
-    margin-left: 15%;
-    margin-top: 20px;
 }
 </style>
