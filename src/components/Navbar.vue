@@ -132,6 +132,7 @@
         // { icon: 'dashboard', text: 'Setting', route: '/profile' },
         { icon: 'power_settings_new', text: 'Logout', route: '/logout' },
       ],
+      home: '',
     }),
     computed: {
       fullName() {

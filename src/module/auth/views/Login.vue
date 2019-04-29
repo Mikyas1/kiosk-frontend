@@ -4,33 +4,45 @@
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4 lg4>
-            <v-card class="elevation-1 pa-3">
-              <v-card-text>
-                <div class="layout column align-center">
-                  <img src="../../../assets/m.png" alt="Kiosk . com" width="120" height="120">
-                  <h1 class="flex my-4 primary--text">Kiosk where your dreams come true</h1>
-                </div>  
+            <!-- <v-card class="elevation-1 pa-3">
+              <v-card-text> -->
+                 
                 <v-stepper v-model="step">
                   <v-stepper-items>
                     <v-stepper-content step="1">
+
+                        <v-subheader class="mb-3 c_text_1--text" v-bind:class="$vuetify.breakpoint.xsOnly && 'title ml-4' || 'display-1 ml-5'">
+                            <span>Login</span>
+                        </v-subheader> 
+
                         <v-form v-on:submit.prevent="next">
-                          <v-text-field append-icon="person" label="Store Url" type="text" v-model="logData.storeUrl"></v-text-field>
+                          <v-text-field label="Store Url" type="text" v-model="logData.storeUrl" prepend-icon="language"></v-text-field>
                           <v-btn router v-bind:to="{ name: 'register' }" flat class="white">Register</v-btn>
                           <v-spacer></v-spacer>
                           <v-btn type="submit" class="c-btn" block color="primary">Next</v-btn>
                         </v-form>
                     </v-stepper-content>
                     <v-stepper-content step="2">
+
+                        <v-subheader class="mb-3 c_text_1--text" v-bind:class="$vuetify.breakpoint.xsOnly && 'title ml-4' || 'display-1 ml-5'">
+                            <span>Login</span>
+                        </v-subheader> 
+
                         <v-form v-on:submit.prevent="confirm">
-                          <v-text-field append-icon="person" label="Email" type="text" v-model="logData.email"></v-text-field>
+                          <v-text-field label="Email" type="text" v-model="logData.email"></v-text-field>
                           <v-btn flat class="white" v-on:click="back">back</v-btn>
                           <v-spacer></v-spacer>
                           <v-btn type="submit" class="c-btn" block color="primary">Login</v-btn>
                         </v-form>
                     </v-stepper-content>
                     <v-stepper-content step="3">
+
+                        <v-subheader class="mb-3 c_text_1--text" v-bind:class="$vuetify.breakpoint.xsOnly && 'title ml-4' || 'display-1 ml-5'">
+                            <span>Login</span>
+                        </v-subheader> 
+
                         <v-form v-on:submit.prevent="login">
-                          <v-text-field append-icon="person" label="code" type="text" v-model="logData.code"></v-text-field>
+                          <v-text-field label="code" type="text" v-model="logData.code"></v-text-field>
                           <v-btn flat class="white" v-on:click="back">back</v-btn>
                           <v-spacer></v-spacer>
                           <v-btn type="submit" class="c-btn" block color="primary" v-on:click="login">Confirm</v-btn>
@@ -38,8 +50,8 @@
                     </v-stepper-content>
                   </v-stepper-items>
                 </v-stepper>
-              </v-card-text>
-            </v-card>
+              <!-- </v-card-text>
+            </v-card> -->
 
             <AuthFooter/>
 
