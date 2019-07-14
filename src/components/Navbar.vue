@@ -51,13 +51,13 @@
           <v-list-tile v-for="menu in menus" v-bind:key="menu.text" router v-bind:to="menu.route">
             <v-list-tile-action>
               <v-list-tile-title>
-                <v-icon>
+                <v-icon right>
                   {{ menu.icon }}
                 </v-icon>
               </v-list-tile-title>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>
+              <v-list-tile-title class="pr-4">
                 {{ menu.text }}
               </v-list-tile-title>
             </v-list-tile-content>
@@ -88,27 +88,44 @@
 
         <!-- NAVIGATION DRAWER TITLE -->
         <v-toolbar-title>
-          <div>
+          <router-link class="c-logo" tag="div" to="/">
             <span>KIOSK</span>
             <span class="font-weight-light body-1"> com</span>
-          </div>
+          </router-link>
         </v-toolbar-title>
       </v-toolbar>
 
       <!-- NAVIGATION DRAWER LIST -->
-      <v-list class="mt-1">
-        <v-list-tile v-for="link in links" v-bind:key="link.route" class="mt-2 mx-2 c_text--text" v-bind:class="{active: getActive(link.name)}" ripple router v-bind:to="link.route">
-          <v-list-tile-action>
-            <v-badge overlap top v-bind:value='link.notif' color="rgba(244, 67, 54, 0.65)">
-              <span slot="badge" class="white--text">{{ link.notif_val }}</span>
-              <v-icon v-bind:class="{'white--text': getActive(link.name)}" >{{ link.icon }}</v-icon> 
-              </v-badge>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="font-weight-light text-capitalize subheading" v-bind:class="{'white--text': getActive(link.name)}">{{ link.text }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile> 
-      </v-list>
+      <v-layout column align-content-start>
+        <v-flex>
+          <v-list class="mt-1">
+            <v-list-tile v-for="link in links" v-bind:key="link.route" class="mt-2 mx-2 c_text--text" v-bind:class="{active: getActive(link.name)}" ripple router v-bind:to="link.route">
+              <v-list-tile-action>
+                <v-badge overlap top v-bind:value='link.notif' color="rgba(244, 67, 54, 0.65)">
+                  <span slot="badge" class="white--text">{{ link.notif_val }}</span>
+                  <v-icon right v-bind:class="{'white--text': getActive(link.name)}" >{{ link.icon }}</v-icon> 
+                  </v-badge>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="font-weight-light text-capitalize subheading" v-bind:class="{'white--text': getActive(link.name)}">{{ link.text }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile> 
+          </v-list>
+        </v-flex>
+      </v-layout>
+      <v-layout class="c-bottom-drawar" v-bind:class="$vuetify.breakpoint.mdAndDown && 'c-bottom-drawar-mobile' || 'c-bottom-drawar-desktop'" align-center>
+        <v-flex>
+          <v-btn depressed>
+            <v-icon class="c_text_2--text">language</v-icon>
+          </v-btn>
+        </v-flex>
+        <v-flex>
+          <v-btn depressed>
+            <v-icon class="c_text_2--text">power_settings_new</v-icon>
+          </v-btn>
+        </v-flex>
+        
+      </v-layout>
 
     </v-navigation-drawer>
 
@@ -137,8 +154,8 @@
     computed: {
       fullName() {
         let owner = this.$store.getters['auth/owner'];
-        return owner.firtName + ' ' + owner.lastName 
-        // return "Mikyas Alemayehu"
+        //return owner.firtName + ' ' + owner.lastName 
+        return "Mikyas Alemayehu"
       }
     },
     methods: {
@@ -167,5 +184,20 @@
   background: #26C6DA;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.14) 1px 0px 20px 0px;
+}
+.c-bottom-drawar {
+  background: #F2F6F8;
+  height: 58px;
+  border-top: solid 1px rgba(0, 0, 0, .08)
+}
+.c-bottom-drawar-mobile {
+  margin-top: 25vh;
+}
+.c-bottom-drawar-desktop {
+  margin-top: 26vh;
+}
+.c-logo {
+  color: white;
+  text-decoration: none;
 }
 </style>

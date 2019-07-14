@@ -25,8 +25,10 @@
                             <img src="../../../assets/iphone3.png" alt="" width="300">
                         </v-flex>
                         <v-flex xs12 md6>
-                            <h1 class="display-1 white--text">Awesome landing page.</h1>
-                            <p class="white--text subheading">Be amazed by the best looking bootstrap landing page on the web! Your new app deserves an amazing page to show all of its features. Clear visual, light colours and beautifully aligned elements - they all try to make the users aware of your great app features!</p>
+                            <h1 class="display-1 white--text mb-4">The Future Is Here.</h1>
+                            <p class="white--text subheading">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad voluptates consequuntur odit libero ipsum illum, rerum aliquam numquam veniam at dolorum suscipit facilis, ab nam incidunt cupiditate in! Amet, doloremque.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. In molestiae provident porro natus iusto? Iste, quas expedita enim omnis, ipsum doloribus deleniti fugiat similique dolore, at vel velit incidunt ducimus.
+                            </p>
                             <v-btn depressed>Appstore</v-btn>
                         </v-flex>
                     </v-layout>

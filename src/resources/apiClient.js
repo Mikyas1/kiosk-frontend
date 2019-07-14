@@ -40,7 +40,7 @@ export default {
                 return http.get(urls.store_image)
             },
             update_store_img(payload) {
-                return http.post(urls.store_image_upload, payload, {headers: {'Content-Type': 'multipart/form-data'}});
+                return http.post(urls.store_image_upload, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
             },
             update_branch(branchId, payload) {
                 return http.put(urls.update_branch + branchId, payload);

@@ -8,10 +8,10 @@
         <v-toolbar-title>
           <v-layout column>
             <v-flex class="primary--text title font-weight-light">
-              {{ parent }}
+              <v-icon class="primary--text">{{ icon }}</v-icon> {{ parent }}
             </v-flex>
             <v-flex>
-                <span class="primary--text body-2 font-weight-light">Home</span><span class="grey--text body-2 font-weight-light"> > {{ parent }}</span>
+                <span class="primary--text body-2 font-weight-light">Home </span><span class="grey--text body-2 font-weight-light"> <v-icon small>keyboard_arrow_right</v-icon> {{ parent }}</span>
             </v-flex>
           </v-layout>
         </v-toolbar-title>
@@ -34,7 +34,8 @@
 export default {
   name: 'BodyNav',
   props: [
-      'parent'
+      'parent',
+      'icon'
   ],
 }
 </script>

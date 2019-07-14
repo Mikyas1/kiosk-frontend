@@ -1,17 +1,21 @@
 <template>
   <v-app class="c_light">
-      <router-view></router-view>
+    <Snackbar/>
+    <router-view></router-view>
   </v-app>
 </template>
 
 <script>
-
+import Snackbar from "@/components/Snackbar";
 export default {
-  name: 'App',
-  data () {
+  name: "App",
+  data() {
     return {
       //
-    }
+    };
   },
-}
+  components: {
+    Snackbar
+  }
+};
 </script>
