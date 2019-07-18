@@ -380,6 +380,7 @@ export default {
           .catch(error => {
             // for test
             // this.step = 2;
+            // console.log(error)
 
             this.$store.commit("SET_SNACKBAR", {
               message: getErrorMessage(error),

@@ -112,7 +112,7 @@ export default {
     login() {
       // this.$router.push({ name: 'dashboard'})
       var data = {
-        email: "merrylove@gmail.com",
+        email: "mikyasalemayehu1@gmail.com",
         password: "hgfds"
       };
 
@@ -137,7 +137,6 @@ export default {
               value: true,
               status: "error"
             });
-          // this.$router.push({ name: 'dashboard' })
         });
     }
   }

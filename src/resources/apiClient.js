@@ -33,8 +33,8 @@ export default {
             update_customer_support(customer_support_id, payload) {
                 return http.put(urls.customer_support_update + customer_support_id, payload);
             },
-            update_owner(payload, ownerId) {
-                return http.put(urls.update_owner + ownerId, payload);
+            update_owner(payload) {
+                return http.put(urls.update_owner, payload);
             },
             get_store_img() {
                 return http.get(urls.store_image)

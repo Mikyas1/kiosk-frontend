@@ -153,9 +153,9 @@
     }),
     computed: {
       fullName() {
-        let owner = this.$store.getters['auth/owner'];
-        //return owner.firtName + ' ' + owner.lastName 
-        return "Mikyas Alemayehu"
+        let owner = this.$store.getters['dashboard/owner'];
+        return owner.firtName + ' ' + owner.lastName 
+        // return "Mikyas Alemayehu"
       }
     },
     methods: {

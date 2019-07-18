@@ -58,7 +58,7 @@
 
           <div class="mb-2 ml-2 email mr-4 mt-2" v-for="phone in phones" v-bind:key="phone.id">
             <v-btn
-              v-on:click="uploadPhone(3, phone.phone, phone.id)"
+              v-on:click="uploadPhone(3, phone.phoneNumber, phone.id)"
               fab
               depressed
               small
@@ -67,7 +67,7 @@
             >
               <v-icon small>clear</v-icon>
             </v-btn>
-            {{ phone.phone }}
+            {{ phone.phoneNumber }}
           </div>
         </v-form>
 
@@ -132,16 +132,11 @@
 import apiClient from "@/resources/apiClient";
 import { getErrorMessage } from "@/resources/helper";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "storeInformationContactUs",
   components: {},
-
-  props: {
-    contactUs: {
-      type: Object,
-      required: true
-    }
-  },
 
   data() {
     return {
@@ -169,13 +164,21 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters({
+      contactUs: "dashboard/contactUs"
+    })
+  },
+
   methods: {
     uploadLocation: function() {
       if (this.$refs.location.validate()) {
         this.loading = true;
 
-        let data = {};
-        data["location"] = this.locationInformation;
+        let data = {
+          data: { location: this.locationInformation },
+          type: "location"
+        }
 
         this.uploadStoreInfo(data, "Successfully uploaded location");
         this.loading = false;
@@ -185,20 +188,24 @@ export default {
     },
 
     uploadEmail: function(choice, email, id) {
-      let data = {
-        emailData: {}
-      };
-
-      data.emailData["choice"] = choice;
-      data.emailData["email"] = email;
-
+    
       if (choice == 0) {
+
+        let data = {
+          data: {
+            emailData: [
+              {
+                choice: choice,
+                newEmail: email
+              }
+            ]
+          }
+        };
         // ADD
         if (this.$refs.email.validate()) {
           this.loadingEmail = true;
 
-          this.uploadStoreInfo(data, "Successfully added Email")
-          .then(() => {
+          this.uploadStoreInfo(data, "Successfully added Email").then(() => {
             // this.emails.push(response.data)
             this.emails.push(email);
           });
@@ -209,31 +216,49 @@ export default {
           return;
         }
       } else if (choice == 3) {
+        
+        let data = {
+          data: {
+            emailData: [
+              {
+                newEmail: email,
+                id: id,
+                choice: 2
+              }
+            ]
+          }
+        };
+        
         // DELETE
-        this.uploadStoreInfo(data, "Successfully removed Email")
-        .then(() => {
+        this.uploadStoreInfo(data, "Successfully removed Email").then(() => {
           this.emails = this.emails.filter(x => x.id !== id);
         });
       }
     },
 
     uploadPhone: function(choice, phone, id) {
-      let data = {
-        phone: {}
-      };
-
-      data.phone["choice"] = choice;
-      data.phone["phoneNumber"] = phone;
 
       if (choice == 0) {
+        let data = {
+          data: {
+            phoneData: [
+              {
+                choice: choice,
+                newPhoneNumber: phone
+              }
+            ]
+          }
+        };
+        
         // ADD PHONE NO
         if (this.$refs.phone.validate()) {
           this.loadingPhone = true;
 
-          this.uploadStoreInfo(data, "Successfully added Phone Number")
-          .then(response => {
-            this.phones.push(response.data);
-          });
+          this.uploadStoreInfo(data, "Successfully added Phone Number").then(
+            response => {
+              this.phones.push(response.data);
+            }
+          );
 
           this.loadingPhone = false;
           this.phone = "";
@@ -241,19 +266,33 @@ export default {
           return;
         }
       } else if (choice == 3) {
+
+        let data = {
+          data: {
+            phoneData: [
+              {
+                id: id,
+                newPhoneNumber: phone,
+                choice: 2
+              }
+            ]
+          }
+        };
+      
         // REMOVE PHONE NO
-        this.uploadStoreInfo(data, "Successfully removed Phone Number")
-        .then(() => {
-          this.phones = this.phones.filter(x => x.id !== id);
-        });
+        this.uploadStoreInfo(data, "Successfully removed Phone Number").then(
+          () => {
+            this.phones = this.phones.filter(x => x.id !== id);
+          }
+        );
       }
     },
 
     // HELPER FUNCTION
     uploadStoreInfo: function(data, message) {
       return new Promise((resolve, reject) => {
-        apiClient.dashboard.store_information
-          .update_store(data)
+        this.$store
+          .dispatch("dashboard/update_store", data)
 
           .then(response => {
             this.$store.commit("SET_SNACKBAR", {

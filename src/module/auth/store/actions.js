@@ -7,8 +7,9 @@ export default {
       apiClient.auth.login(data)
         .then(response => {
           commit("SET_TOKEN", response.data.token);
-          commit("SET_OWNER", response.data.store.owner);
-          commit("SET_STORE_ID", response.data.store.storeId);
+          // commit("SET_OWNER", response.data.store.owner);
+          // commit("SET_STORE_ID", response.data.store.storeId);
+          commit("dashboard/SET_STORE_INFO", response.data.store, { root: true });
           resolve({ results: response });
         })
         .catch(e => {
@@ -19,6 +20,7 @@ export default {
     
   logout: ({ commit }) => {
     commit("RESET");
+    commit("dashboard/RESET", null, { root: true })
   },
 
   register: ({ commit, state }, data) => {
@@ -26,8 +28,9 @@ export default {
       apiClient.auth.register(data)
       .then(response => {
         commit("SET_TOKEN", response.data.token);
-        commit("SET_OWNER", response.data.store.owner);
-        commit("SET_STORE_ID", response.data.store.storeId);
+        // commit("SET_OWNER", response.data.store.owner);
+        // commit("SET_STORE_ID", response.data.store.storeId);
+        commit("dashboard/SET_STORE_INFO", response.data.store, { root: true });
         resolve({ results: response });
       })
       .catch(e => {

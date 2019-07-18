@@ -177,18 +177,13 @@
 </template>
 
 <script>
-import apiClient from "@/resources/apiClient";
 import { getErrorMessage } from "@/resources/helper";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "storeInformationCustomerSupport",
   components: {},
-  props: {
-    customerSupport: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       warrantyDialog: false,
@@ -218,6 +213,23 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters({
+      customerSupport: "dashboard/customerSupport"
+    }),
+    getWarranty() {
+      return this.checkLengthReturn(this.showWarranty);
+    },
+
+    getReturn() {
+      return this.checkLengthReturn(this.showReturnPolicy);
+    },
+
+    getCare() {
+      return this.checkLengthReturn(this.showCustomerCare);
+    }
+  },
+
   methods: {
     copyWarranty: function() {
       this.customerSupportInformation.warranty.discription = this.showWarranty;
@@ -236,25 +248,26 @@ export default {
 
     handelWarranty: function() {
       if (
-        this.customerSupportInformation.warranty.discription.length != "" &&
+        this.customerSupportInformation.warranty.discription.length != 0 &&
         this.customerSupportInformation.warranty.discription !=
           this.showWarranty
       ) {
         var data = {
           warrantyInfo: this.customerSupportInformation.warranty.discription
         };
-        this.customerSupportUploader(this.customerSupport.id, data)
-        .then(x => {
-          if (x) {
-            this.customerSupportInformation.warranty.set = true;
-            this.showWarranty = data.warrantyInfo;
-            this.$store.commit("SET_SNACKBAR", {
-              message: "Successfully uploaded Warranty Information",
-              value: true,
-              status: "success"
-            });
+        this.customerSupportUploader(this.customerSupport.id, data, "W").then(
+          x => {
+            if (x) {
+              this.customerSupportInformation.warranty.set = true;
+              this.showWarranty = data.warrantyInfo;
+              this.$store.commit("SET_SNACKBAR", {
+                message: "Successfully uploaded Warranty Information",
+                value: true,
+                status: "success"
+              });
+            }
           }
-        });
+        );
 
         this.warrantyDialog = false;
       } else if (
@@ -267,19 +280,20 @@ export default {
 
     removeWarranty: function() {
       var data = { warrantyInfo: "" };
-      this.customerSupportUploader(this.customerSupport.id, data)
-      .then(x => {
-        if (x) {
-          this.customerSupportInformation.warranty.discription = "";
-          this.showWarranty = "";
-          this.customerSupportInformation.warranty.set = false;
-          this.$store.commit("SET_SNACKBAR", {
-            message: "Successfully removed Warranty Information",
-            value: true,
-            status: "success"
-          });
+      this.customerSupportUploader(this.customerSupport.id, data, "W").then(
+        x => {
+          if (x) {
+            this.customerSupportInformation.warranty.discription = "";
+            this.showWarranty = "";
+            this.customerSupportInformation.warranty.set = false;
+            this.$store.commit("SET_SNACKBAR", {
+              message: "Successfully removed Warranty Information",
+              value: true,
+              status: "success"
+            });
+          }
         }
-      });
+      );
 
       this.warrantyDialog = false;
     },
@@ -293,18 +307,19 @@ export default {
         var data = {
           returnPolicy: this.customerSupportInformation.returnPolicy.discription
         };
-        this.customerSupportUploader(this.customerSupport.id, data)
-        .then(x => {
-          if (x) {
-            this.customerSupportInformation.returnPolicy.set = true;
-            this.showReturnPolicy = data.returnPolicy;
-            this.$store.commit("SET_SNACKBAR", {
-              message: "Successfully uploaded Return Policy",
-              value: true,
-              status: "success"
-            });
+        this.customerSupportUploader(this.customerSupport.id, data, "R").then(
+          x => {
+            if (x) {
+              this.customerSupportInformation.returnPolicy.set = true;
+              this.showReturnPolicy = data.returnPolicy;
+              this.$store.commit("SET_SNACKBAR", {
+                message: "Successfully uploaded Return Policy",
+                value: true,
+                status: "success"
+              });
+            }
           }
-        });
+        );
 
         this.returnDialog = false;
       } else if (
@@ -317,19 +332,20 @@ export default {
 
     removeReturnPolicy: function() {
       var data = { returnPolicy: "" };
-      this.customerSupportUploader(this.customerSupport.id, data)
-      .then(x => {
-        if (x) {
-          this.customerSupportInformation.returnPolicy.discription = "";
-          this.showReturnPolicy = "";
-          this.customerSupportInformation.returnPolicy.set = false;
-          this.$store.commit("SET_SNACKBAR", {
-            message: "Successfully removed Return Policy",
-            value: true,
-            status: "success"
-          });
+      this.customerSupportUploader(this.customerSupport.id, data, "R").then(
+        x => {
+          if (x) {
+            this.customerSupportInformation.returnPolicy.discription = "";
+            this.showReturnPolicy = "";
+            this.customerSupportInformation.returnPolicy.set = false;
+            this.$store.commit("SET_SNACKBAR", {
+              message: "Successfully removed Return Policy",
+              value: true,
+              status: "success"
+            });
+          }
         }
-      });
+      );
 
       this.returnDialog = false;
     },
@@ -343,18 +359,19 @@ export default {
         var data = {
           customerCare: this.customerSupportInformation.customerCare.discription
         };
-        this.customerSupportUploader(this.customerSupport.id, data)
-        .then(x => {
-          if (x) {
-            this.customerSupportInformation.customerCare.set = true;
-            this.showCustomerCare = data.customerCare;
-            this.$store.commit("SET_SNACKBAR", {
-              message: "Successfully uploaded Customer Care",
-              value: true,
-              status: "success"
-            });
+        this.customerSupportUploader(this.customerSupport.id, data, "C").then(
+          x => {
+            if (x) {
+              this.customerSupportInformation.customerCare.set = true;
+              this.showCustomerCare = data.customerCare;
+              this.$store.commit("SET_SNACKBAR", {
+                message: "Successfully uploaded Customer Care",
+                value: true,
+                status: "success"
+              });
+            }
           }
-        });
+        );
 
         this.careDialog = false;
       } else if (
@@ -366,31 +383,37 @@ export default {
     },
     removeCustomerCare: function() {
       var data = { customerCare: "" };
-      this.customerSupportUploader(this.customerSupport.id, data)
-      .then(x => {
-        if (x) {
-          this.customerSupportInformation.customerCare.discription = "";
-          this.showCustomerCare = "";
-          this.customerSupportInformation.customerCare.set = false;
-          this.$store.commit("SET_SNACKBAR", {
-            message: "Successfully removed Customer Care",
-            value: true,
-            status: "success"
-          });
+      this.customerSupportUploader(this.customerSupport.id, data, "C").then(
+        x => {
+          if (x) {
+            this.customerSupportInformation.customerCare.discription = "";
+            this.showCustomerCare = "";
+            this.customerSupportInformation.customerCare.set = false;
+            this.$store.commit("SET_SNACKBAR", {
+              message: "Successfully removed Customer Care",
+              value: true,
+              status: "success"
+            });
+          }
         }
-      });
+      );
 
       this.careDialog = false;
     },
 
     // WARRANTY UPLOADER
-    customerSupportUploader: function(id, data) {
+    customerSupportUploader: function(id, data, type) {
       return new Promise((resolve, reject) => {
         this.loading = true;
-        this.$store.commit("SET_SNACKBAR", { value: false });
 
-        apiClient.dashboard.store_information
-          .update_customer_support(id, data)
+        let newData = {
+          data: data,
+          id: id,
+          type: type
+        };
+
+        this.$store
+          .dispatch("dashboard/update_customer_support", newData)
 
           .then(() => {
             this.loading = false;
@@ -425,20 +448,6 @@ export default {
       } else if (val.length >= 26) {
         return val.slice(0, 23) + "...";
       }
-    }
-  },
-
-  computed: {
-    getWarranty() {
-      return this.checkLengthReturn(this.showWarranty);
-    },
-
-    getReturn() {
-      return this.checkLengthReturn(this.showReturnPolicy);
-    },
-
-    getCare() {
-      return this.checkLengthReturn(this.showCustomerCare);
     }
   },
 

@@ -29,12 +29,18 @@
                   fab
                   dark
                   class="secondary_1 white--text mt-5 c-btn"
+                  @click="openAddDialog"
                 >
                 <v-icon>
                     add
                 </v-icon>
               </v-btn>
             </v-toolbar>
+
+            <!-- ADD ITEM DIALOG -->
+            <v-dialog max-width="600px" v-model="addDialog">
+                <AddItem></AddItem>
+            </v-dialog>
 
             <v-divider></v-divider>
 
@@ -102,15 +108,23 @@
 <script>
 
 import Navbar from '@/components/BodyNav'
+import AddItem from '../components/AddItem'
 
 export default {
   name: 'inventory',
+  methods: {
+    openAddDialog() {
+      this.addDialog = !this.addDialog;
+    }
+  },
   components: {
-    Navbar
+    Navbar,
+    AddItem
   },
   data() {
     return {
       search: '',
+      addDialog: false,
       complex: {
         selected: [],
         headers: [

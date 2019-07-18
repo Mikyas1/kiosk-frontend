@@ -4,8 +4,8 @@ const http = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
     // baseURL: "http://localhost:8080/kiosk/ws",
     headers: {},
-    xsrfCookieName: "csrftoken",
-    xsrfHeaderName: "X-CSRFToken",
+    // xsrfCookieName: "csrftoken",
+    // xsrfHeaderName: "X-CSRFToken",
     withCredentials: true,
 });
 

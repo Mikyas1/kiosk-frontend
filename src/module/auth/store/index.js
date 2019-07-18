@@ -5,9 +5,9 @@ import mutations from "./mutations";
 export default {
     namespaced: true,
     state: {
-        owner: {},
+        // owner: {},
         token: null,
-        storeId: null,
+        // storeId: null,
     },
     getters,
     actions,

@@ -6,7 +6,8 @@ export default {
     namespaced: true,
     state: {
         // WHICH PAGE IS ACTIVE
-        active: '',
+        active: null,
+        storeInfo: null
     },
     getters,
     actions,

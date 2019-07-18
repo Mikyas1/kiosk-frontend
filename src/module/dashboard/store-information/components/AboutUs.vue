@@ -16,13 +16,13 @@
       <v-card-text>
         The following information is gone be displayed in your website's about us page.
         <v-card height="335" flat class="mt-4">
-          <h2 class="font-weight-regular">1: Store Descreption</h2>
+          <h2 class="font-weight-regular">1: Store Description</h2>
 
           <quill-editor
             class="quill mt-1"
-            v-bind:content="storeDescription.description"
+            v-bind:content="tempStoreDescription"
             v-bind:options="editorOptionOne"
-            v-model="storeDescription.description"
+            v-model="tempStoreDescription"
           ></quill-editor>
 
           <v-btn
@@ -44,10 +44,10 @@
           >The picture you upload here, is gone be displayed in your website's about us page.</div>
 
           <div v-if="image">
-            <img v-bind:src="imageString" height="120">
+            <img v-bind:src="imageString" height="120" />
           </div>
           <div v-if="!image && imageString">
-            <img v-bind:src="'data:image/jpeg;base64, ' + imageString" height="120">
+            <img v-bind:src="'data:image/jpeg;base64, ' + imageString" height="120" />
           </div>
 
           <v-btn
@@ -64,7 +64,7 @@
             ref="fileInput"
             accept="image/*"
             v-on:change="onFilePicked"
-          >
+          />
         </v-card>
       </v-card-text>
     </v-card>
@@ -80,6 +80,8 @@ import { quillEditor } from "vue-quill-editor";
 import apiClient from "@/resources/apiClient";
 import { getErrorMessage } from "@/resources/helper";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "storeInformationAboutUs",
 
@@ -87,16 +89,15 @@ export default {
     quillEditor
   },
 
-  props: {
-    aboutUs: {
-      type: Object,
-      required: true
-    }
+  computed: {
+    ...mapGetters({
+      storeDescription: "dashboard/storeDescription"
+    })
   },
 
   data() {
     return {
-      storeDescription: {},
+      tempStoreDescription: null,
 
       editorOptionOne: {
         placeholder:
@@ -126,12 +127,20 @@ export default {
 
   methods: {
     uploadDescription: function() {
-      if (this.storeDescription !== "") {
+      if (
+        this.tempStoreDescription !== "" &&
+        this.tempStoreDescription !== this.storeDescription &&
+        this.tempStoreDescription.length < 20000
+      ) {
         this.loading = true;
 
-        var data = { description: this.aboutUs.description };
-        apiClient.dashboard.store_information
-          .update_store(data)
+        var data = {
+          data: { description: this.tempStoreDescription },
+          type: "description"
+        }
+
+        this.$store
+          .dispatch("dashboard/update_store", data)
 
           .then(() => {
             this.$store.commit("SET_SNACKBAR", {
@@ -150,6 +159,19 @@ export default {
             });
             this.loading = false;
           });
+      } else if (this.tempStoreDescription == this.storeDescription) {
+        this.$store.commit("SET_SNACKBAR", {
+          message: "Successfully uploaded Store Description",
+          value: true,
+          status: "success"
+        });
+      } else if (this.tempStoreDescription.length >= 20000) {
+        this.$store.commit("SET_SNACKBAR", {
+          message:
+            "Store Description more than 20,000 characters is not allowed!",
+          value: true,
+          status: "error"
+        });
       }
     },
 
@@ -207,7 +229,8 @@ export default {
   },
 
   created() {
-    this.storeDescription = this.aboutUs;
+    this.tempStoreDescription = this.storeDescription;
+    // alert(this.tempStoreDescription.length)
   },
 
   mounted() {

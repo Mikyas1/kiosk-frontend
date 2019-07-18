@@ -23,7 +23,7 @@
             flat
             dark
             class="c_selected_btn ml-0 text-capitalize"
-            v-bind:loading="loading"
+            v-bind:loading="loadingName"
             type="submit"
           >Submit</v-btn>
         </v-form>
@@ -46,7 +46,7 @@
             flat
             dark
             class="c_selected_btn ml-0 text-capitalize"
-            v-bind:loading="loading"
+            v-bind:loading="loadingUrl"
             type="submit"
           >Submit</v-btn>
         </v-form>
@@ -69,7 +69,7 @@
             flat
             dark
             class="c_selected_btn ml-0 text-capitalize"
-            v-bind:loading="loading"
+            v-bind:loading="loadingProfile"
             type="submit"
           >Submit</v-btn>
         </v-form>
@@ -79,22 +79,25 @@
 </template>
 
 <script>
-import apiClient from "@/resources/apiClient";
 import { getErrorMessage } from "@/resources/helper";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "storeInformationProfile",
 
-  props: {
-    profile: {
-      type: Object,
-      required: true
-    }
+  computed: {
+    ...mapGetters({
+      owner: "dashboard/owner",
+      storeProfile: "dashboard/storeProfile"
+    })
   },
 
   data() {
     return {
-      loading: false,
+      loadingName: false,
+      loadingUrl: false,
+      loadingProfile: false,
 
       showStoreName: "",
       showStoreUrl: "",
@@ -109,14 +112,17 @@ export default {
     uploadStoreName: function() {
       if (
         this.$refs.storeName.validate() &&
-        this.showStoreName !== this.profile.store.storeName
+        this.showStoreName !== this.storeProfile.storeName
       ) {
-        this.loading = true;
+        this.loadingName = true;
 
-        var data = { storeName: this.showStoreName.trim() };
+        var data = {
+          data: { storeName: this.showStoreName.trim() },
+          type: "storeName"
+        }
 
-        apiClient.dashboard.store_information
-          .update_store(data)
+        this.$store
+          .dispatch("dashboard/update_store", data)
 
           .then(() => {
             this.$store.commit("SET_SNACKBAR", {
@@ -124,8 +130,7 @@ export default {
               value: true,
               status: "success"
             });
-            this.loading = false;
-            this.profile.store.storeName = this.showStoreName;
+            this.loadingName = false;
           })
 
           .catch(error => {
@@ -134,8 +139,7 @@ export default {
               value: true,
               status: "error"
             });
-            this.loading = false;
-            this.showStoreName = this.profile.store.storeName;
+            this.loadingName = false;
           });
       }
     },
@@ -143,14 +147,17 @@ export default {
     uploadStoreUrl: function() {
       if (
         this.$refs.storeUrl.validate() &&
-        this.showStoreUrl !== this.profile.store.storeUrl
+        this.showStoreUrl !== this.storeProfile.storeUrl
       ) {
-        this.loading = true;
+        this.loadingUrl = true;
 
-        var data = { storeUrl: this.showStoreUrl.trim() };
+        var data = {
+          data: { storeUrl: this.showStoreUrl.trim() },
+          type: "storeUrl"
+        }
 
-        apiClient.dashboard.store_information
-          .update_store(data)
+        this.$store
+          .dispatch("dashboard/update_store", data)
 
           .then(() => {
             this.$store.commit("SET_SNACKBAR", {
@@ -158,8 +165,7 @@ export default {
               value: true,
               status: "success"
             });
-            this.loading = false;
-            this.profile.store.storeUrl = this.showStoreUrl;
+            this.loadingUrl = false;
           })
 
           .catch(error => {
@@ -168,23 +174,22 @@ export default {
               value: true,
               status: "error"
             });
-            this.loading = false;
-            this.showStoreUrl = this.profile.store.storeUrl;
+            this.loadingUrl = false;
           });
       }
     },
 
     uploadProfile: function() {
       if (this.$refs.profile.validate()) {
-        this.loading = true;
+        this.loadingProfile = true;
 
         var data = {
           firstName: this.showFirstName.trim(),
           lastName: this.showLastName.trim()
         };
 
-        apiClient.dashboard.store_information
-          .update_owner(data, this.profile.owner.id)
+        this.$store
+          .dispatch("dashboard/update_owner", data)
 
           .then(() => {
             this.$store.commit("SET_SNACKBAR", {
@@ -192,8 +197,7 @@ export default {
               value: true,
               status: "success"
             });
-            this.loading = false;
-            this.$store.commit("auth/SET_OWNER_NAME", data);
+            this.loadingProfile = false;
           })
 
           .catch(error => {
@@ -202,17 +206,17 @@ export default {
               value: true,
               status: "error"
             });
-            this.loading = false;
+            this.loadingProfile = false;
           });
       }
     }
   },
 
   created() {
-    this.showFirstName = this.profile.owner.firtName;
-    this.showLastName = this.profile.owner.lastName;
-    this.showStoreName = this.profile.store.storeName;
-    this.showStoreUrl = this.profile.store.storeUrl;
+    this.showFirstName = this.owner.firtName;
+    this.showLastName = this.owner.lastName;
+    this.showStoreName = this.storeProfile.storeName;
+    this.showStoreUrl = this.storeProfile.storeUrl;
   }
 };
 </script>
