@@ -21,8 +21,9 @@ const urls = {
     store_image_upload: '/images/uploadProfilePicture/',
 
     // FOR STORE BRANCH
-    update_branch: '/kiosks/branch/add/',
-    delete_branch: '/kiosks/branch/delete',
+    add_branch: '/kiosks/branch/add/',
+    delete_branch: '/kiosks/branch/delete?branchId=',
+    update_branch:'/kiosks/branch/update/',
 
 }
 

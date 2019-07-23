@@ -19,6 +19,12 @@ export default {
                 else if (data.type == 'location'){
                     commit("SET_LOCATION", data.data.location)
                 }
+                else if (data.type == 'storeEmail'){
+                    commit("SET_EMAIL", response.data.emails)
+                }
+                else if (data.type == 'storePhone'){
+                    commit('SET_PHONE_NO', response.data.phones)
+                }
                 resolve({ results: response });
             })
             .catch(e => {
@@ -63,5 +69,47 @@ export default {
         });
     },
 
+    add_branch: ({ commit, }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.store_information
+            .add_branch(data)
+            .then(response => {
+                commit("ADD_BRANCH", response.data);
+                resolve({ results: response });
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    },
+
+    delete_branch: ({ commit, }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.store_information
+            .delete_branch(data)
+            .then(response => {
+                commit("REMOVE_BRANCH", data);
+                resolve({ results: response });
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    },
+
+    update_branch: ({ commit, }, data) => {
+        return new Promise((resolve, reject) => {
+            console.log(data.data)
+            apiClient.dashboard.store_information
+            .update_branch(data.id, data.data)
+            .then(response => {
+                commit("EDIT_BRANCH", response.data);
+                resolve({ results: response });
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    },
 
 };

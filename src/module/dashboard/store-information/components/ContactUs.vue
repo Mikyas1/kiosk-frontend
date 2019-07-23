@@ -30,9 +30,9 @@
             v-bind:loading="loadingEmail"
           >Add</v-btn>
 
-          <div class="mb-2 ml-2 email mr-4 mt-2" v-for="email in emails" v-bind:key="email.id">
+          <div class="mb-2 ml-2 email mr-4 mt-2" v-for="email in contactUs.emails" v-bind:key="email.id">
             <v-btn
-              v-on:click="uploadEmail(3, email.email, email.id)"
+              v-on:click="uploadEmail(2, email.email, email.id)"
               fab
               depressed
               small
@@ -46,7 +46,11 @@
         </v-form>
 
         <v-form class="mt-4" ref="phone" v-on:submit.prevent="uploadPhone(0, phone, null)">
-          <v-text-field label="Add Phone no" class="input-group--focused pr-4 pl-2" v-model="phone"></v-text-field>
+          <v-text-field 
+            label="Add Phone no" 
+            class="input-group--focused pr-4 pl-2" 
+            v-model="phone">
+          </v-text-field>
 
           <v-btn
             flat
@@ -56,9 +60,9 @@
             v-bind:loading="loadingPhone"
           >Add</v-btn>
 
-          <div class="mb-2 ml-2 email mr-4 mt-2" v-for="phone in phones" v-bind:key="phone.id">
+          <div class="mb-2 ml-2 email mr-4 mt-2" v-for="phone in contactUs.phones" v-bind:key="phone.id">
             <v-btn
-              v-on:click="uploadPhone(3, phone.phoneNumber, phone.id)"
+              v-on:click="uploadPhone(2, phone.phoneNumber, phone.id)"
               fab
               depressed
               small
@@ -129,7 +133,6 @@
 </template>
 
 <script>
-import apiClient from "@/resources/apiClient";
 import { getErrorMessage } from "@/resources/helper";
 
 import { mapGetters } from "vuex";
@@ -147,8 +150,8 @@ export default {
       locationInformation: {},
       email: "",
       phone: "",
-      emails: [],
-      phones: [],
+      // emails: [],
+      // phones: [],
 
       // Rules for Inputs
       inputRules: [
@@ -199,7 +202,8 @@ export default {
                 newEmail: email
               }
             ]
-          }
+          },
+          type: "storeEmail"
         };
         // ADD
         if (this.$refs.email.validate()) {
@@ -207,7 +211,6 @@ export default {
 
           this.uploadStoreInfo(data, "Successfully added Email").then(() => {
             // this.emails.push(response.data)
-            this.emails.push(email);
           });
 
           this.loadingEmail = false;
@@ -215,7 +218,7 @@ export default {
         } else {
           return;
         }
-      } else if (choice == 3) {
+      } else if (choice == 2) {
         
         let data = {
           data: {
@@ -223,15 +226,16 @@ export default {
               {
                 newEmail: email,
                 id: id,
-                choice: 2
+                choice: choice
               }
             ]
-          }
+          },
+          type: "storeEmail"
         };
         
         // DELETE
         this.uploadStoreInfo(data, "Successfully removed Email").then(() => {
-          this.emails = this.emails.filter(x => x.id !== id);
+          // this.emails = this.emails.filter(x => x.id !== id);
         });
       }
     },
@@ -247,16 +251,18 @@ export default {
                 newPhoneNumber: phone
               }
             ]
-          }
+          },
+          type: "storePhone"
         };
         
         // ADD PHONE NO
-        if (this.$refs.phone.validate()) {
+        
+        if(this.phone != '') {
           this.loadingPhone = true;
 
           this.uploadStoreInfo(data, "Successfully added Phone Number").then(
             response => {
-              this.phones.push(response.data);
+              // this.phones.push(response.data);
             }
           );
 
@@ -265,7 +271,7 @@ export default {
         } else {
           return;
         }
-      } else if (choice == 3) {
+      } else if (choice == 2) {
 
         let data = {
           data: {
@@ -273,16 +279,17 @@ export default {
               {
                 id: id,
                 newPhoneNumber: phone,
-                choice: 2
+                choice: choice
               }
             ]
-          }
+          },
+          type: "storePhone"
         };
       
         // REMOVE PHONE NO
         this.uploadStoreInfo(data, "Successfully removed Phone Number").then(
           () => {
-            this.phones = this.phones.filter(x => x.id !== id);
+            // this.phones = this.phones.filter(x => x.id !== id);
           }
         );
       }
@@ -317,8 +324,8 @@ export default {
 
   created() {
     this.locationInformation = this.contactUs.location;
-    this.emails = this.contactUs.emails;
-    this.phones = this.contactUs.phones;
+    // this.emails = this.contactUs.emails;
+    // this.phones = this.contactUs.phones;
   }
 };
 </script>

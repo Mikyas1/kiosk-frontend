@@ -69,15 +69,9 @@
                     ></v-text-field>
 
                     <v-text-field
-                      label="Email"
+                      label="Branch Phone no"
                       class="input-group--focused pr-4 pl-2"
-                      v-model="email"
-                    ></v-text-field>
-
-                    <v-text-field
-                      label="Phone no"
-                      class="input-group--focused pr-4 pl-2"
-                      v-model="phone"
+                      v-model="branchEditing.phones[0].phoneNumber"
                     ></v-text-field>
 
                     <v-subheader>Location</v-subheader>
@@ -176,15 +170,9 @@
               ></v-text-field>
 
               <v-text-field
-                label="Email"
+                label="Branch Phone no"
                 class="input-group--focused pr-4 pl-2"
-                v-model="newBranch.email"
-              ></v-text-field>
-
-              <v-text-field
-                label="Phone no"
-                class="input-group--focused pr-4 pl-2"
-                v-model="newBranch.phone"
+                v-model="newBranch.phoneData[0].newPhoneNumber"
               ></v-text-field>
 
               <v-subheader>Location</v-subheader>
@@ -249,21 +237,28 @@
 import apiClient from "@/resources/apiClient";
 import { getErrorMessage } from "@/resources/helper";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "storeInformationBranches",
-  props: {
-    branches: {
-      type: Array,
-      required: true
-    }
+  computed: {
+    ...mapGetters({
+      branches: "dashboard/branchs"
+    })
   },
   data() {
     return {
-      email: "",
-      phone: "",
+      // email: "",
+      // phone: "",
       editDialog: false,
       branchEditing: {
         branchName: "",
+        phones: [
+          {
+            // choice: 1,
+            phoneNumber: ""
+          },
+        ],
         location: {
           country: "",
           region: "",
@@ -278,8 +273,12 @@ export default {
       addDialog: false,
       newBranch: {
         branchName: "",
-        email: "",
-        phone: "",
+        phoneData: [
+          {
+            choice: 0,
+            newPhoneNumber: ""
+          },
+        ],
         location: {
           country: "",
           region: "",
@@ -308,8 +307,8 @@ export default {
     removeBranch: function(id) {
       this.loading = true;
 
-      apiClient.dashboard.store_information
-        .delete_branch(id)
+        this.$store
+        .dispatch("dashboard/delete_branch", id)
 
         .then(() => {
           this.$store.commit("SET_SNACKBAR", {
@@ -319,7 +318,7 @@ export default {
           });
           this.loading = false;
           this.editDialog = !this.editDialog;
-          this.$emit("removeBranch", id);
+          // this.$emit("removeBranch", id);
         })
 
         .catch(error => {
@@ -330,8 +329,8 @@ export default {
           });
           this.loading = false;
           // FOR TESTING
-          this.editDialog = !this.editDialog;
-          this.$emit("removeBranch", id);
+          // this.editDialog = !this.editDialog;
+          // this.$emit("removeBranch", id);
         });
     },
 
@@ -339,11 +338,11 @@ export default {
       if (this.$refs.add.validate()) {
         this.loading = true;
 
-        apiClient.dashboard.store_information
-          .add_branch(this.$store.getters["auth/storeId"], this.newBranch)
+        this.$store
+          .dispatch("dashboard/add_branch", this.newBranch)
 
           .then(response => {
-            this.$emit("addBranch", response.data);
+            // this.$emit("addBranch", response.data);
             this.$store.commit("SET_SNACKBAR", {
               message: "Successfully added Branch.",
               value: true,
@@ -369,11 +368,23 @@ export default {
       if (this.$refs.edit.validate()) {
         this.loadingEdit = true;
 
-        this.branchEditing["emailData"] = { choice: 1, email: this.email };
-        this.branchEditing["phone"] = { choice: 1, phoneNumber: this.phone };
+        var data = {
+          data: {
+            branchName: this.branchEditing.branchName,
+            location: this.branchEditing.location,
+            phoneData: [
+              {
+                choice: 1,
+                newPhoneNumber: this.branchEditing.phones[0].phoneNumber,
+                id: this.branchEditing.phones[0].id
+              }
+            ]
+          },
+          id: this.branchEditing.id
+        }
 
-        apiClient.dashboard.store_information
-          .update_branch(this.branchEditing.id, this.branchEditing)
+        this.$store
+          .dispatch("dashboard/update_branch", data)
 
           .then(response => {
             this.$store.commit("SET_SNACKBAR", {
@@ -386,9 +397,6 @@ export default {
           })
 
           .catch(error => {
-            // FOR TEST THIS SHOULD BE FOR SUCCESS!
-            // this.$emit('editBranch', response.data)
-            this.$emit("editBranch", this.branchEditing);
             this.$store.commit("SET_SNACKBAR", {
               message: getErrorMessage(error),
               value: true,
@@ -412,15 +420,7 @@ export default {
       for (let branch of this.branches) {
         if (branch.id == id) {
           this.branchEditing = JSON.parse(JSON.stringify(branch));
-          this.branchEditing["id"] = id;
-
-          try {
-            this.email = this.branchEditing.emails[0].email;
-          } catch (err) {}
-          try {
-            this.phone = this.branchEditing.phones[0].phone;
-          } catch (err) {}
-
+          // this.branchEditing["id"] = id;
           this.editDialog = !this.editDialog;
         }
       }
@@ -429,8 +429,8 @@ export default {
     clearAddBranch: function() {
       // CLEAR NEWBRANCH
       this.newBranch.branchName = "";
-      this.newBranch.email = "";
-      this.newBranch.phone = "";
+      // this.newBranch.email = "";
+      this.newBranch.phoneData.newPhoneNumber = "";
       this.newBranch.location.country = "";
       this.newBranch.location.region = "";
       this.newBranch.location.city = "";
@@ -442,7 +442,7 @@ export default {
   },
 
   created() {
-    //   console.log(this.branches)
+      // console.log(this.branches[0])
   }
 };
 </script>

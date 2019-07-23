@@ -4,7 +4,7 @@
     <Navbar parent="Store Information" icon="store" />
 
     <!-- LOADER -->
-    <v-progress-linear v-if="loading" v-bind:indeterminate="true" class="my-0"></v-progress-linear>
+    <!-- <v-progress-linear v-if="loading" v-bind:indeterminate="true" class="my-0"></v-progress-linear> -->
 
     <!-- some height if no page content -->
 
@@ -28,7 +28,6 @@
           v-on:removeBranch="deleteBranch($event)"
           v-on:addBranch="addNewBranch($event)"
           v-on:editBranch="editBranch($event)"
-          v-bind:branches="storeInfo.branches"
         />
       </v-layout>
 
@@ -49,8 +48,6 @@ import Profile from "../components/Profile";
 import ContactUs from "../components/ContactUs";
 import Branches from "../components/Branches";
 
-import { mapGetters } from "vuex";
-
 export default {
   name: "storeInformation",
 
@@ -65,40 +62,11 @@ export default {
   },
 
   data() {
-    return {
-  
-      // branches: {},
-
-      // contactUs: {},
-
-      loading: false
-    };
-  },
-  computed: {
-    ...mapGetters({
-      storeInfo: "dashboard/storeInfo"
-    })
+    return {};
   },
 
   created() {
     this.$store.commit("dashboard/SET_ACTIVE_PAGE", "storeInformation");
-
-    this.loading = true;
-
-    // SET DATA FOR PROFILE PAGE
-    // this.profile.owner.firtName = this.storeInfo.owner.firtName;
-    // this.profile.owner.lastName = this.storeInfo.owner.lastName;
-    // this.profile.owner.id = this.storeInfo.owner.id;
-
-    // this.profile.store.storeName = this.storeInfo.storeName;
-    // this.profile.store.storeUrl = this.storeInfo.storeUrl;
-
-    // SET DATA FOR PROFILE PAGE
-    // this.contactUs["location"] = this.storeInfo.location;
-    // this.contactUs["emails"] = this.storeInfo.emails;
-    // this.contactUs["phones"] = this.storeInfo.phones;
-
-    this.loading = false;
   },
   methods: {
     // REMOVE BRANCH FROM BRANCHS

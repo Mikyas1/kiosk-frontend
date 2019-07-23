@@ -141,7 +141,7 @@
         { icon: 'dashboard', text: 'Dashboard', route: '/app/dashboard', name: 'dashboard', notif: 0, notif_val: 0 },
         { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs', name: 'ordersAndFaqs', notif: 1, notif_val: 3 },
         { icon: 'widgets', text: 'Inventory', route: '/app/inventory', name: 'inventory', notif: 0, notif_val: 0 },
-        { icon: 'brush', text: 'Edit Site', route: '/app/edit-site', name: 'editSite', notif: 0, notif_val: 0 },
+        { icon: 'brush', text: 'Edit Web-Site', route: '/app/edit-site', name: 'editSite', notif: 0, notif_val: 0 },
         { icon: 'store', text: 'Store Information', route: '/app/store-information',name: 'storeInformation', notif: 0, notif_val: 0 },
         { icon: 'donut_large', text: 'Packages', route: '/app/packages', name: 'packages', notif: 0, notif_val: 0 },
       ],

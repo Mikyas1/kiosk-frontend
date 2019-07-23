@@ -33,5 +33,25 @@ export default {
     },
     SET_LOCATION: (state, data) => {
       state.storeInfo.location = data;
+    },
+    SET_EMAIL: (state, data) => {
+      state.storeInfo.emails = data;
+    },
+    SET_PHONE_NO: (state, data) => {
+      state.storeInfo.phones = data;
+    },
+    ADD_BRANCH: (state, data) => {
+      state.storeInfo.branches.push(data);
+    },
+    REMOVE_BRANCH: (state, branchId) => {
+      state.storeInfo.branches = state.storeInfo.branches.filter(
+        x => x.id !== branchId
+      );
+    },
+    EDIT_BRANCH: (state, data) => {
+      let index = state.storeInfo.branches.findIndex(
+        x => x.id == data.id
+      );
+      state.storeInfo.branches[index] = data;
     }
   };

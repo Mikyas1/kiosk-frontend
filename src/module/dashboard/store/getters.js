@@ -17,5 +17,6 @@ export default {
       emails: state.storeInfo.emails,
       phones: state.storeInfo.phones
     }
-  }
+  },
+  branchs: state => state.storeInfo.branches,
 };

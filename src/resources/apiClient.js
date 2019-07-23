@@ -48,8 +48,8 @@ export default {
             delete_branch(branchId) {
                 return http.delete(urls.delete_branch + branchId);
             },
-            add_branch(branchId, payload) {
-                return http.post(urls.update_branch + branchId, payload);
+            add_branch(payload) {
+                return http.post(urls.add_branch, payload);
             }
         }
     }
