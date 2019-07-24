@@ -80,7 +80,7 @@
         <v-form ref="location" v-on:submit.prevent="uploadLocation">
           <v-select
             v-bind:items="countries"
-            label="Country"
+            label="* Country"
             item-text="Country"
             item-value="abbr"
             single-line
@@ -91,7 +91,7 @@
 
           <v-select
             v-bind:items="regions"
-            label="Region"
+            label="* Region"
             item-text="Region"
             item-value="abbr"
             single-line
@@ -101,7 +101,7 @@
           ></v-select>
 
           <v-text-field
-            label="City"
+            label="* City"
             class="input-group--focused pr-4 pl-2"
             v-model="locationInformation.city"
             v-bind:rules="inputRules"

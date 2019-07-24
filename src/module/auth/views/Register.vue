@@ -17,14 +17,14 @@
 
                   <v-form class="pr-2" v-on:submit.prevent="goNext" ref="gonext">
                     <v-text-field
-                      label="Store Name"
+                      label="* Store Name"
                       v-model="signUpData.storeName"
                       prepend-icon="store"
                       v-on:keyup="updateUrl"
                       v-bind:rules="inputRules"
                     ></v-text-field>
                     <v-text-field
-                      label="Store Url"
+                      label="* Store Url"
                       v-model="signUpData.storeUrl"
                       prepend-icon="language"
                       v-bind:rules="inputRules"
@@ -32,7 +32,7 @@
                     <v-select
                       v-bind:items="categoriesDisp"
                       v-model="categoryChoosen"
-                      label="Category"
+                      label="* Category"
                       item-text="categories"
                       item-value="abbr"
                       class="input-group--focused"
@@ -52,13 +52,13 @@
 
                   <v-form class="pr-2" v-on:submit.prevent="confirm" ref="confirm">
                     <v-text-field
-                      label="First Name"
+                      label="* First Name"
                       v-model="signUpData.firstName"
                       prepend-icon="person_outline"
                       v-bind:rules="inputRules"
                     ></v-text-field>
                     <v-text-field
-                      label="Last Name"
+                      label="* Last Name"
                       v-model="signUpData.lastName"
                       prepend-icon="person_outline"
                       v-bind:rules="inputRules"
@@ -85,14 +85,14 @@
                     </v-layout>
                     <v-text-field
                       class="mt-1"
-                      label="Phone Number"
+                      label="* Phone Number"
                       v-if="showPhone"
                       v-model="signUpData.phoneNumber"
                       prepend-icon="phone"
                     ></v-text-field>
                     <v-text-field
                       class="mt-1"
-                      label="Email"
+                      label="* Email"
                       v-bind:rules="emailRules"
                       v-if="showEmail"
                       v-model="signUpData.email"
@@ -111,7 +111,7 @@
                   <v-card flat height="200">
                     <v-form class="pr-2" v-on:submit.prevent="register" ref="register">
                       <v-text-field
-                        label="Confirm"
+                        label="* Confirm"
                         v-model="code"
                         prepend-icon="check"
                         v-bind:rules="[(v) => v.length > 3 || 'Code must be 4 digits' ]"

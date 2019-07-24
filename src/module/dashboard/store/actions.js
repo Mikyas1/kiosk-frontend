@@ -99,7 +99,6 @@ export default {
 
     update_branch: ({ commit, }, data) => {
         return new Promise((resolve, reject) => {
-            console.log(data.data)
             apiClient.dashboard.store_information
             .update_branch(data.id, data.data)
             .then(response => {

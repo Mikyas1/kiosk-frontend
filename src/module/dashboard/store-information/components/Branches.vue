@@ -163,7 +163,7 @@
             </div>
             <v-form ref="add" v-on:submit.prevent="addBranch">
               <v-text-field
-                label="Branch Name"
+                label="* Branch Name"
                 class="input-group--focused pr-4 pl-2 mt-2"
                 v-bind:rules="inputRules"
                 v-model="newBranch.branchName"
@@ -179,7 +179,7 @@
 
               <v-select
                 v-bind:items="countries"
-                label="Country"
+                label="* Country"
                 item-text="Country"
                 item-value="abbr"
                 single-line
@@ -191,7 +191,7 @@
               <v-select
                 v-bind:rules="[(v) => v.length > 0 || 'Region is required']"
                 v-bind:items="regions"
-                label="Region"
+                label="* Region"
                 item-text="Region"
                 item-value="abbr"
                 single-line
@@ -200,7 +200,7 @@
               ></v-select>
 
               <v-text-field
-                label="City"
+                label="* City"
                 class="input-group--focused pr-4 pl-2"
                 v-bind:rules="inputRules"
                 v-model="newBranch.location.city"
@@ -430,7 +430,7 @@ export default {
       // CLEAR NEWBRANCH
       this.newBranch.branchName = "";
       // this.newBranch.email = "";
-      this.newBranch.phoneData.newPhoneNumber = "";
+      this.newBranch.phoneData[0].newPhoneNumber = "";
       this.newBranch.location.country = "";
       this.newBranch.location.region = "";
       this.newBranch.location.city = "";
