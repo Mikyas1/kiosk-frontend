@@ -13,7 +13,7 @@
           <v-card flat>
             <!-- TABLE TOOLBAR -->
             <v-toolbar flat color="white">
-              <h2 class="mr-3 primary--text subheading font-weight-light">
+              <h2 class="mr-3 primary--text subheading font-weight-light" style="min-width: 100px">
                 <v-icon class="primary--text">widgets</v-icon> Inventory
               </h2>
               <v-text-field
@@ -23,7 +23,7 @@
               placeholder="Search Items..."
               v-model="search"
               hide-details
-              class="hidden-sm-and-down"
+              class="ml-2"
               ></v-text-field>
               <v-btn 
                   fab
@@ -55,6 +55,8 @@
                 item-key="name"
                 select-all
                 v-model="complex.selected"
+                disable-initial-sort
+                dark
                 >
 
                   <template v-slot:items="props">
@@ -74,10 +76,10 @@
                     <td>{{ props.item.email }}</td>
                     <td>{{ props.item.phone }}</td>
                     <td>
-                      <v-btn depressed outline icon fab dark color="primary" small>
+                      <v-btn v-on:click="edit(props.item.name)" depressed outline icon fab dark color="primary" small>
                         <v-icon>edit</v-icon>
                       </v-btn>
-                      <v-btn depressed outline icon fab dark color="pink" small>
+                      <v-btn v-on:click="delet(props.item.name)" depressed outline icon fab dark color="pink" small>
                         <v-icon>delete</v-icon>
                       </v-btn>
                     </td>
@@ -115,6 +117,12 @@ export default {
   methods: {
     openAddDialog() {
       this.addDialog = !this.addDialog;
+    },
+    edit(x) {
+      alert(x)
+    },
+    delet(y){
+      alert(y)
     }
   },
   components: {
@@ -579,7 +587,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .c-table {
   box-shadow: none !important;
 }

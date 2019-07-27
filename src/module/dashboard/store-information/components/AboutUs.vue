@@ -197,7 +197,7 @@ export default {
       this.imageBtn = true;
 
       let formData = new FormData();
-      formData.append("imageFile", this.image);
+      formData.append("file", this.image);
 
       apiClient.dashboard.store_information
         .update_store_img(formData)

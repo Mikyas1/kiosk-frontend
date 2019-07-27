@@ -111,4 +111,17 @@ export default {
         });
     },
 
+    delete_store: () => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.store_information
+            .delete_store()
+            .then(response => {
+                resolve({ results: response });
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    },
+
 };

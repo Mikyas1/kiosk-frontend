@@ -74,7 +74,7 @@
                       v-model="branchEditing.phones[0].phoneNumber"
                     ></v-text-field>
 
-                    <v-subheader>Location</v-subheader>
+                    <v-subheader>Branch Location</v-subheader>
 
                     <v-select
                       v-bind:items="countries"
@@ -112,7 +112,7 @@
                     ></v-text-field>
 
                     <v-textarea
-                      label="Discribe Store Location"
+                      label="Discribe Branch Location"
                       class="pr-4 pl-2"
                       v-model="branchEditing.location.buildingAndRoomNo"
                     ></v-textarea>
@@ -175,7 +175,7 @@
                 v-model="newBranch.phoneData[0].newPhoneNumber"
               ></v-text-field>
 
-              <v-subheader>Location</v-subheader>
+              <v-subheader>Branch Location</v-subheader>
 
               <v-select
                 v-bind:items="countries"
@@ -213,7 +213,7 @@
               ></v-text-field>
 
               <v-textarea
-                label="Discribe Store Location"
+                label="Discribe Branch Location"
                 class="pr-4 pl-2"
                 v-model="newBranch.location.buildingAndRoomNo"
               ></v-textarea>

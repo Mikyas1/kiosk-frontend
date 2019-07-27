@@ -30,6 +30,9 @@ export default {
             update_store(payload) {
                 return http.put(urls.store_update, payload);
             },
+            delete_store() {
+                return http.delete(urls.delete_store);
+            },
             update_customer_support(customer_support_id, payload) {
                 return http.put(urls.customer_support_update + customer_support_id, payload);
             },

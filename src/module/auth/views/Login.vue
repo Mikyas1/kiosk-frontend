@@ -112,7 +112,7 @@ export default {
     login() {
       // this.$router.push({ name: 'dashboard'})
       var data = {
-        email: "mikyasalemayehu1@gmail.com",
+        email: "mike@gmail.com",
         password: "hgfds"
       };
 

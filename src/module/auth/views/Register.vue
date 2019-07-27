@@ -161,15 +161,16 @@ export default {
         lastName: "",
         email: "",
         phoneNumber: "+251",
-        chosen: 0
+        chosen: 0,
+        registeredBy: "PHONE"
       },
 
       categoryChoosen: [],
 
       // To be accepted form back-end
       categories: [
-        { val: 1, text: "Electronics" },
-        { val: 2, text: "Clothing" },
+        { val: "ELECTORNICS", text: "ELECTORNICS" },
+        { val: "CLOTHING", text: "Clothing" },
         { val: 3, text: "Automobiles" },
         { val: 4, text: "Machinery" },
         { val: 5, text: "Others" }
@@ -405,6 +406,7 @@ export default {
       this.showEmail = false;
       this.signUpData.email = "";
       this.signUpData.chosen = 0;
+      this.signUpData.registeredBy = "PHONE"
     },
 
     showEmailField: function() {
@@ -412,6 +414,7 @@ export default {
       this.showEmail = true;
       this.signUpData.phoneNumber = "+251";
       this.signUpData.chosen = 1;
+      this.signUpData.registeredBy = "EMAIL"
     },
 
     setLang(lang) {

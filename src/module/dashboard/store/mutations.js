@@ -35,9 +35,11 @@ export default {
       state.storeInfo.location = data;
     },
     SET_EMAIL: (state, data) => {
+      state.storeInfo.emails = null;
       state.storeInfo.emails = data;
     },
     SET_PHONE_NO: (state, data) => {
+      state.storeInfo.phones = null;
       state.storeInfo.phones = data;
     },
     ADD_BRANCH: (state, data) => {

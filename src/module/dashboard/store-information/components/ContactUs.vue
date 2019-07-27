@@ -16,7 +16,7 @@
 
         <v-form ref="email" v-on:submit.prevent="uploadEmail(0, email, null)">
           <v-text-field
-            label="Add Email"
+            label="Add Store Email"
             class="input-group--focused pr-4 pl-2 mt-2"
             v-model="email"
             v-bind:rules="emailRules"
@@ -47,8 +47,9 @@
 
         <v-form class="mt-4" ref="phone" v-on:submit.prevent="uploadPhone(0, phone, null)">
           <v-text-field 
-            label="Add Phone no" 
-            class="input-group--focused pr-4 pl-2" 
+            label="Add Store Phone no" 
+            class="input-group--focused pr-4 pl-2"
+            type="numver"
             v-model="phone">
           </v-text-field>
 
