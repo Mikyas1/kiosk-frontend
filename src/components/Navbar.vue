@@ -113,7 +113,7 @@
           </v-list>
         </v-flex>
       </v-layout>
-      <v-layout class="c-bottom-drawar" v-bind:class="$vuetify.breakpoint.mdAndDown && 'c-bottom-drawar-mobile' || 'c-bottom-drawar-desktop'" align-center>
+      <!-- <v-layout class="c-bottom-drawar" v-bind:class="$vuetify.breakpoint.mdAndDown && 'c-bottom-drawar-mobile' || 'c-bottom-drawar-desktop'" align-center>
         <v-flex>
           <v-btn depressed>
             <v-icon class="c_text_2--text">language</v-icon>
@@ -125,7 +125,41 @@
           </v-btn>
         </v-flex>
         
-      </v-layout>
+      </v-layout> -->
+
+      <v-bottom-nav
+      :active.sync="bottomNav"
+      :value="true"
+      absolute
+      color="transparent"
+    >
+      <v-btn
+        color="teal"
+        flat
+        value="recent"
+      >
+        <span>Recent</span>
+        <v-icon>history</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="teal"
+        flat
+        value="favorites"
+      >
+        <span>Favorites</span>
+        <v-icon>favorite</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="teal"
+        flat
+        value="nearby"
+      >
+        <span>Nearby</span>
+        <v-icon>place</v-icon>
+      </v-btn>
+    </v-bottom-nav>
 
     </v-navigation-drawer>
 
@@ -136,6 +170,7 @@
 <script>
   export default {
     data: () => ({
+      bottomNav: 'recent',
       drawer: true,
       links: [
         { icon: 'dashboard', text: 'Dashboard', route: '/app/dashboard', name: 'dashboard', notif: 0, notif_val: 0 },
@@ -194,7 +229,7 @@
   margin-top: 25vh;
 }
 .c-bottom-drawar-desktop {
-  margin-top: 26vh;
+  margin-top: 77%;
 }
 .c-logo {
   color: white;
