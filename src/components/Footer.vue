@@ -1,9 +1,10 @@
 <template>
 
-  <v-footer height="58" class="white pa-3 c-footer">
+  <v-footer height="55" class="white pa-3 c-footer" absolute>
     <span class="subheading c_text_1--text">Kiosic.com &copy; {{ new Date().getFullYear() }}</span>
     <v-spacer></v-spacer>
-    <span class="mr-1 c_text_1--text subheading"> Kiosk where your dreams come true!</span>
+    <span class="mr-1 c_text_1--text subheading">Its always sunny at KIOSK.et</span>
+    <!-- <span class="mr-1 c_text_1--text subheading"> Kiosk where your dreams come true!</span> -->
   </v-footer>
 
 </template>

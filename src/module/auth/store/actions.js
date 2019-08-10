@@ -46,4 +46,16 @@ export default {
       });
     });
   },
+
+  getCategory: ({ commit, }, data) => {
+    return new Promise((resolve, reject) => {
+        apiClient.auth.getCategory()
+        .then(response => {
+            resolve(response);
+        })
+        .catch(e => {
+            reject(e);
+        });
+    });
+  },
 }

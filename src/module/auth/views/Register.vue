@@ -30,7 +30,8 @@
                       v-bind:rules="inputRules"
                     ></v-text-field>
                     <v-select
-                      v-bind:items="categoriesDisp"
+                      v-if="loadCata"
+                      v-bind:items="categories"
                       v-model="categoryChoosen"
                       label="* Category"
                       item-text="categories"
@@ -40,8 +41,35 @@
                       v-bind:rules="[(v) => v.length > 0 || 'Category is required']"
                       required
                     ></v-select>
-                    <v-btn color="primary" type="submit" v-bind:loading="loadingOne">continue</v-btn>
-                    <v-btn class="ml-5" flat router v-bind:to="{ name: 'login'}">login</v-btn>
+
+                  <v-flex v-if="!loadCata" class="my-5">
+                    <div class="circular-progress">
+                      <v-progress-circular
+                        :size="30"
+                        color="primary"
+                        indeterminate
+                      ></v-progress-circular>
+                    </div>
+                  </v-flex>
+
+                    <v-btn 
+                      color="primary" 
+                      type="submit" 
+                      :loading="loadingOne || !loadCata" 
+                      class="text-capitalize"
+                    >
+                      continue
+                    </v-btn>
+                    
+                    <v-btn 
+                      class="ml-5 text-capitalize" 
+                      flat 
+                      router 
+                      v-bind:to="{ name: 'login'}" 
+                    >
+                      login
+                    </v-btn>
+
                   </v-form>
                 </v-stepper-content>
 
@@ -168,13 +196,7 @@ export default {
       categoryChoosen: [],
 
       // To be accepted form back-end
-      categories: [
-        { val: "ELECTORNICS", text: "ELECTORNICS" },
-        { val: "CLOTHING", text: "Clothing" },
-        { val: 3, text: "Automobiles" },
-        { val: 4, text: "Machinery" },
-        { val: 5, text: "Others" }
-      ],
+      categories: [],
 
       code: "",
 
@@ -185,6 +207,7 @@ export default {
       loadingOne: false,
       loadingTwo: false,
       loadingThree: false,
+      loadCata: false,
 
       // Rules for Inputs
       inputRules: [
@@ -357,12 +380,7 @@ export default {
         this.loadingOne = true;
 
         // SET THE CORRECT VALUE FOR CHOSEN CATEGORIES
-        var categories = [];
-
-        for (var i = 0; i < this.categories.length; i++) {
-          if (this.categoryChoosen == this.categories[i].text)
-            categories.push(this.categories[i].val);
-        }
+        var categories = [ this.categoryChoosen ];
 
         this.signUpData.categories = categories;
 
@@ -431,14 +449,22 @@ export default {
   computed: {
     ...mapGetters({
       lang: "lang/lang"
-    }),
-    categoriesDisp() {
-      let categories = [];
-      for (var i = 0; i < this.categories.length; i++) {
-        categories.push(this.categories[i].text);
-      }
-      return categories;
-    }
+    })
+  },
+  created() {
+    this.loadCata = false;
+    this.$store.dispatch("auth/getCategory")
+    .then((response) => {
+      this.categories = response.data;
+      this.loadCata = true;
+    })
+    .catch((error)=>{
+      this.$store.commit("SET_SNACKBAR", {
+        message: getErrorMessage(error),
+        value: true,
+        status: "error"
+      });
+    })
   }
 };
 </script>
@@ -458,5 +484,8 @@ export default {
   color: rgba(0, 0, 0, 0.8);
   color: #1e88e5;
   text-decoration: underline;
+}
+.circular-progress {
+  margin-left: 45% !important;
 }
 </style>

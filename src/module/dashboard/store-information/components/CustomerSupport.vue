@@ -14,7 +14,7 @@
         <v-subheader class="c-list-header">Supports you give your Customers.</v-subheader>
 
         <!-- WARRANTY -->
-        <v-list-tile avatar ripple href="javascript:;" class="c-list" v-on:click="copyWarranty">
+        <v-list-tile avatar ripple class="c-list" v-on:click="copyWarranty">
           <v-list-tile-action>
             <v-checkbox
               v-model="customerSupportInformation.warranty.set"
@@ -67,7 +67,7 @@
         </v-dialog>
 
         <!-- RETURN POLICY -->
-        <v-list-tile ripple href="javascript:;" class="c-list" v-on:click="copyReturnPolicy">
+        <v-list-tile ripple class="c-list" v-on:click="copyReturnPolicy">
           <v-list-tile-action>
             <v-checkbox
               v-model="customerSupportInformation.returnPolicy.set"
@@ -120,7 +120,7 @@
         </v-dialog>
 
         <!-- CUSTOMER CARE -->
-        <v-list-tile ripple href="javascript:;" class="c-list" v-on:click="copyCustomerCare">
+        <v-list-tile ripple class="c-list" v-on:click="copyCustomerCare">
           <v-list-tile-action>
             <v-checkbox
               v-model="customerSupportInformation.customerCare.set"

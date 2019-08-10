@@ -14,69 +14,8 @@
           <v-icon small color="primary">info</v-icon>The following Information is gone be displayed in your Contact Us page. Your customers might contact you through them.
         </div>
 
-        <v-form ref="email" v-on:submit.prevent="uploadEmail(0, email, null)">
-          <v-text-field
-            label="Add Store Email"
-            class="input-group--focused pr-4 pl-2 mt-2"
-            v-model="email"
-            v-bind:rules="emailRules"
-          ></v-text-field>
-
-          <v-btn
-            flat
-            dark
-            class="c_selected_btn ml-0 text-capitalize"
-            type="submit"
-            v-bind:loading="loadingEmail"
-          >Add</v-btn>
-
-          <div class="mb-2 ml-2 email mr-4 mt-2" v-for="email in contactUs.emails" v-bind:key="email.id">
-            <v-btn
-              v-on:click="uploadEmail(2, email.email, email.id)"
-              fab
-              depressed
-              small
-              dark
-              class="secondary_1 white--text"
-            >
-              <v-icon small>clear</v-icon>
-            </v-btn>
-            {{ email.email }}
-          </div>
-        </v-form>
-
-        <v-form class="mt-4" ref="phone" v-on:submit.prevent="uploadPhone(0, phone, null)">
-          <v-text-field 
-            label="Add Store Phone no" 
-            class="input-group--focused pr-4 pl-2"
-            type="numver"
-            v-model="phone">
-          </v-text-field>
-
-          <v-btn
-            flat
-            dark
-            class="c_selected_btn ml-0 text-capitalize"
-            type="submit"
-            v-bind:loading="loadingPhone"
-          >Add</v-btn>
-
-          <div class="mb-2 ml-2 email mr-4 mt-2" v-for="phone in contactUs.phones" v-bind:key="phone.id">
-            <v-btn
-              v-on:click="uploadPhone(2, phone.phoneNumber, phone.id)"
-              fab
-              depressed
-              small
-              dark
-              class="secondary_1 white--text"
-            >
-              <v-icon small>clear</v-icon>
-            </v-btn>
-            {{ phone.phoneNumber }}
-          </div>
-        </v-form>
-
-        <div class="headline mt-4">Store Location</div>
+        <!-- STORE LOCATION -->
+        <h2 class="font-weight-regular mt-4">1: Store Location</h2>
 
         <v-form ref="location" v-on:submit.prevent="uploadLocation">
           <v-select
@@ -128,6 +67,76 @@
             v-bind:loading="loading"
           >Submit</v-btn>
         </v-form>
+
+        <!-- STORE PHONE NO -->
+        <h2 class="font-weight-regular mt-4">2: Add Store Phone No</h2>
+        <v-form ref="phone" v-on:submit.prevent="uploadPhone(0, phone, null)">
+          <v-text-field 
+            label="Add Store Phone no" 
+            class="input-group--focused pr-4 pl-2"
+            type="numver"
+            v-model="phone">
+          </v-text-field>
+
+          <v-btn
+            flat
+            dark
+            class="c_selected_btn ml-0 text-capitalize"
+            type="submit"
+            v-bind:loading="loadingPhone"
+          >Add</v-btn>
+
+          <div class="mb-2 ml-2 email mr-4 mt-2" v-for="phone in contactUs.phones" v-bind:key="phone.id">
+            <v-btn
+              v-on:click="uploadPhone(2, phone.phoneNumber, phone.id)"
+              fab
+              depressed
+              small
+              dark
+              class="secondary_1 white--text"
+            >
+              <v-icon small>clear</v-icon>
+            </v-btn>
+            {{ phone.phoneNumber }}
+          </div>
+        </v-form>
+
+
+        <!-- STORE EMAIL -->
+        <h2 class="font-weight-regular mt-4">3  : Add Store Email</h2>
+        <v-form ref="email" v-on:submit.prevent="uploadEmail(0, email, null)">
+          <v-text-field
+            label="Add Store Email"
+            class="input-group--focused pr-4 pl-2 mt-2"
+            v-model="email"
+            v-bind:rules="emailRules"
+          ></v-text-field>
+
+          <v-btn
+            flat
+            dark
+            class="c_selected_btn ml-0 text-capitalize"
+            type="submit"
+            v-bind:loading="loadingEmail"
+          >Add</v-btn>
+
+          <div class="mb-2 ml-2 email mr-4 mt-2" v-for="email in contactUs.emails" v-bind:key="email.id">
+            <v-btn
+              v-on:click="uploadEmail(2, email.email, email.id)"
+              fab
+              depressed
+              small
+              dark
+              class="secondary_1 white--text"
+            >
+              <v-icon small>clear</v-icon>
+            </v-btn>
+            {{ email.email }}
+          </div>
+        </v-form>
+
+
+
       </v-card-text>
     </v-card>
   </v-flex>

@@ -6,6 +6,7 @@ const urls = {
     validatePhone: '/registration/validatePhone/',
     validateCode: '/registration/validateCode/',
     register: '/registration/create',
+    getCategory: '/unsecured/getCategories',
 
     // FOR LOGIN
     login: "/kiosks/login",

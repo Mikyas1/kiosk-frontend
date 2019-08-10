@@ -20,6 +20,9 @@ export default {
         },
         validateEmail(email) {
             return http.get(urls.validateEmail + email);
+        },
+        getCategory(){
+            return http.get(urls.getCategory);
         }
     },
     dashboard: {

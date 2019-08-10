@@ -14,25 +14,25 @@
       <v-toolbar-title class="white--text ml-0 pl-0">
         
         <!-- NAV DRAWER ICON -->
-        <v-toolbar-side-icon v-on:click="drawer = !drawer"></v-toolbar-side-icon>
+        <v-toolbar-side-icon :class="{'drawer-icon': drawer}" v-on:click="drawer = !drawer"></v-toolbar-side-icon>
 
       </v-toolbar-title>
 
       <!-- SEARCH FIELD -->
-      <v-text-field
+      <!-- <v-text-field
         flat
         solo-inverted
         prepend-icon="search"
         label="Search"
         class="hidden-sm-and-down ml-3"
         >
-      </v-text-field>
+      </v-text-field> -->
 
       <!-- SPACER TO SEPARATE HORIZONTALLY -->
       <v-spacer></v-spacer>
 
       <!-- USER INFO -->
-      <v-menu>
+      <v-menu bottom offset-y>
         <v-btn
           flat
           class="px-3"
@@ -45,6 +45,7 @@
             </v-avatar>
             <span class="subheading text-capitalize white--text hidden-sm-and-up" v-if="!drawer">{{ fullName }}</span>
             <span class="subheading text-capitalize white--text hidden-sm-and-down">{{ fullName }} </span>
+            <v-icon>expand_more</v-icon>
           </div>  
         </v-btn>
         <v-list>
@@ -113,51 +114,61 @@
           </v-list>
         </v-flex>
       </v-layout>
-      <!-- <v-layout class="c-bottom-drawar" v-bind:class="$vuetify.breakpoint.mdAndDown && 'c-bottom-drawar-mobile' || 'c-bottom-drawar-desktop'" align-center>
-        <v-flex>
-          <v-btn depressed>
-            <v-icon class="c_text_2--text">language</v-icon>
-          </v-btn>
-        </v-flex>
-        <v-flex>
-          <v-btn depressed>
-            <v-icon class="c_text_2--text">power_settings_new</v-icon>
-          </v-btn>
-        </v-flex>
-        
-      </v-layout> -->
 
+
+        <!-- BOTTOM DRAWER FOR LANG, ANDROID   ....  -->
       <v-bottom-nav
-      :active.sync="bottomNav"
-      :value="true"
-      absolute
-      color="transparent"
-    >
-      <v-btn
-        color="teal"
-        flat
-        value="recent"
+        :value="true"
+        absolute
+        mandatory
+        class="bottom-nav"
       >
-        <span>Recent</span>
-        <v-icon>history</v-icon>
-      </v-btn>
 
-      <v-btn
-        color="teal"
-        flat
-        value="favorites"
-      >
-        <span>Favorites</span>
-        <v-icon>favorite</v-icon>
-      </v-btn>
+          <v-menu top offset-y>
+            <template v-slot:activator="{ on }">
 
-      <v-btn
-        color="teal"
-        flat
-        value="nearby"
-      >
-        <span>Nearby</span>
-        <v-icon>place</v-icon>
+              <v-btn
+                color="teal"
+                flat
+                value="recent"
+                v-on="on"
+              >
+                <span>Language</span>
+                <v-icon>language</v-icon>
+              </v-btn>
+            </template>
+            <v-list class="language-popup">
+              <v-list-tile
+                ripple
+                v-for="(lang, index) in langs"
+                :key="index"
+                class="lang-choice"
+                v-on:click="popup(lang)"
+              >
+                <v-list-tile-title>
+                    <v-icon>language</v-icon>
+                    {{ lang.text }}
+                </v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+
+          <v-btn
+            color="teal"
+            flat
+            value="favorites"
+          >
+            <span>Favorites</span>
+            <v-icon>favorite</v-icon>
+          </v-btn>
+
+          <v-btn
+            color="teal"
+            flat
+            value="nearby"
+          >
+        <span>Android</span>
+        <v-icon>phone_android</v-icon>
       </v-btn>
     </v-bottom-nav>
 
@@ -182,7 +193,17 @@
       ],
       menus: [
         // { icon: 'dashboard', text: 'Setting', route: '/profile' },
+        { icon: 'dashboard', text: 'Dashboard', route: '/app/dashboard' },
+        { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs' },
+        { icon: 'widgets', text: 'Inventory', route: '/app/inventory' },
+        { icon: 'brush', text: 'Edit Web-Site', route: '/app/edit-site' },
+        { icon: 'store', text: 'Store Information', route: '/app/store-information' },
+        { icon: 'donut_large', text: 'Packages', route: '/app/packages' },
         { icon: 'power_settings_new', text: 'Logout', route: '/logout' },
+      ],
+      langs: [
+        { text: 'English', val: 'EN' },
+        { text: 'Amharic', val: 'AM' }
       ],
       home: '',
     }),
@@ -200,6 +221,9 @@
         } else {
           return false
         }
+      },
+      popup: function(val){
+        alert(val.val)
       }
     },
     created() {
@@ -234,5 +258,19 @@
 .c-logo {
   color: white;
   text-decoration: none;
+}
+.language-popup {
+  min-width: 170px;
+}
+.lang-choice:hover {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+  cursor: pointer;
+}
+.bottom-nav {
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  background-color: #F2F6F8 !important;
+}
+.drawer-icon {
+  margin-left: 0px !important;
 }
 </style>

@@ -19,4 +19,5 @@ export default {
     }
   },
   branchs: state => state.storeInfo.branches,
+  storeImage: state => state.storeInfo.storeProfile[0].path,
 };

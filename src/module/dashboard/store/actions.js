@@ -124,4 +124,18 @@ export default {
         });
     },
 
+    update_image: ({ commit, }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.store_information
+            .update_store_img(data)
+            .then(response => {
+                // update store profile
+                // commit("EDIT_BRANCH", response.data);
+                resolve({ results: response });
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    },
 };

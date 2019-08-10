@@ -1,14 +1,7 @@
 <template>
-  <v-container class="c-body pa-0" fluid="true">
+  <v-container class="c-body pa-0 mb-5" fluid="true">
     <!-- BODY NAVIGATOR -->
     <Navbar parent="Store Information" icon="store" />
-
-    <!-- LOADER -->
-    <!-- <v-progress-linear v-if="loading" v-bind:indeterminate="true" class="my-0"></v-progress-linear> -->
-
-    <!-- some height if no page content -->
-
-    <!-- <div v-if="!load" class="c-height"></div> -->
 
     <div>
       <v-layout row wrap class="first-card">
@@ -24,11 +17,8 @@
         <ContactUs/>
 
         <!-- BRANCHES -->
-        <Branches
-          v-on:removeBranch="deleteBranch($event)"
-          v-on:addBranch="addNewBranch($event)"
-          v-on:editBranch="editBranch($event)"
-        />
+        <Branches/>
+        
       </v-layout>
 
       <v-layout row wrap>

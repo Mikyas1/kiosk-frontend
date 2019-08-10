@@ -38,8 +38,8 @@
             </v-toolbar>
 
             <!-- ADD ITEM DIALOG -->
-            <v-dialog max-width="600px" v-model="addDialog">
-                <AddItem></AddItem>
+            <v-dialog max-width="98%" v-model="addDialog">
+                <AddItem @closeDialog="addDialog = !addDialog"></AddItem>
             </v-dialog>
 
             <v-divider></v-divider>
@@ -47,7 +47,7 @@
             <v-card-text flat class="pa-0">
               
               <v-data-table
-                :headers="complex.headers"
+                :headers="get_table_header"
                 :search="search"
                 :items="complex.items"
                 :rows-per-page-items="[10,25,50,{text:'All','value':-1}]"
@@ -80,8 +80,8 @@
                         {{ branch }}
                       </div>
                     </td>
-                    <td  v-on:click="edit(props.item.name)">{{ props.item.quantity }}</td>
-                    <td>
+                    <td v-if="$vuetify.breakpoint.smAndUp" v-on:click="edit(props.item.name)">{{ props.item.quantity }}</td>
+                    <td v-if="$vuetify.breakpoint.smAndUp">
                       <v-btn v-on:click="edit(props.item.name)" depressed outline icon fab dark color="primary" small>
                         <v-icon>edit</v-icon>
                       </v-btn>
@@ -141,6 +141,15 @@ export default {
   components: {
     Navbar,
     AddItem
+  },
+  computed: {
+    get_table_header(){
+      if(!this.$vuetify.breakpoint.smAndUp) {
+        return this.complex.headers.slice(1,5)
+      } else {
+        return this.complex.headers
+      }
+    }
   },
   data() {
     return {
