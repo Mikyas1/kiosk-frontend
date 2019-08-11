@@ -59,7 +59,7 @@
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title class="pr-4">
-                {{ menu.text }}
+                {{ $t(menu.name) }}
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -108,7 +108,7 @@
                   </v-badge>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title class="font-weight-light text-capitalize subheading" v-bind:class="{'white--text': getActive(link.name)}">{{ link.text }}</v-list-tile-title>
+                <v-list-tile-title class="font-weight-light text-capitalize subheading" v-bind:class="{'white--text': getActive(link.name)}">{{ $t(link.name) }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile> 
           </v-list>
@@ -133,7 +133,7 @@
                 value="recent"
                 v-on="on"
               >
-                <span>Language</span>
+                <span>{{ $t('language') }}</span>
                 <v-icon>language</v-icon>
               </v-btn>
             </template>
@@ -143,7 +143,7 @@
                 v-for="(lang, index) in langs"
                 :key="index"
                 class="lang-choice"
-                v-on:click="popup(lang)"
+                v-on:click="setLang(lang)"
               >
                 <v-list-tile-title>
                     <v-icon>language</v-icon>
@@ -167,7 +167,7 @@
             flat
             value="nearby"
           >
-        <span>Android</span>
+        <span>{{ $t('android') }}</span>
         <v-icon>phone_android</v-icon>
       </v-btn>
     </v-bottom-nav>
@@ -184,7 +184,7 @@
       bottomNav: 'recent',
       drawer: true,
       links: [
-        { icon: 'dashboard', text: 'Dashboard', route: '/app/dashboard', name: 'dashboard', notif: 0, notif_val: 0 },
+        { icon: 'dashboard', text: 'dashboard', route: '/app/dashboard', name: 'dashboard', notif: 0, notif_val: 0 },
         { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs', name: 'ordersAndFaqs', notif: 1, notif_val: 3 },
         { icon: 'widgets', text: 'Inventory', route: '/app/inventory', name: 'inventory', notif: 0, notif_val: 0 },
         { icon: 'brush', text: 'Edit Web-Site', route: '/app/edit-site', name: 'editSite', notif: 0, notif_val: 0 },
@@ -193,17 +193,17 @@
       ],
       menus: [
         // { icon: 'dashboard', text: 'Setting', route: '/profile' },
-        { icon: 'dashboard', text: 'Dashboard', route: '/app/dashboard' },
-        { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs' },
-        { icon: 'widgets', text: 'Inventory', route: '/app/inventory' },
-        { icon: 'brush', text: 'Edit Web-Site', route: '/app/edit-site' },
-        { icon: 'store', text: 'Store Information', route: '/app/store-information' },
-        { icon: 'donut_large', text: 'Packages', route: '/app/packages' },
-        { icon: 'power_settings_new', text: 'Logout', route: '/logout' },
+        { icon: 'dashboard', text: 'Dashboard', route: '/app/dashboard', name: 'dashboard' },
+        { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs', name: 'ordersAndFaqs' },
+        { icon: 'widgets', text: 'Inventory', route: '/app/inventory', name: 'inventory' },
+        { icon: 'brush', text: 'Edit Web-Site', route: '/app/edit-site', name: 'editSite' },
+        { icon: 'store', text: 'Store Information', route: '/app/store-information', name: 'storeInformation' },
+        { icon: 'donut_large', text: 'Packages', route: '/app/packages', name: 'packages' },
+        { icon: 'power_settings_new', text: 'Logout', route: '/logout', name: 'logout' },
       ],
       langs: [
-        { text: 'English', val: 'EN' },
-        { text: 'Amharic', val: 'AM' }
+        { text: 'English', val: 'en' },
+        { text: 'Amharic', val: 'am' }
       ],
       home: '',
     }),
@@ -222,9 +222,9 @@
           return false
         }
       },
-      popup: function(val){
-        alert(val.val)
-      }
+      setLang(lang) {
+        this.$store.dispatch("lang/setLang", { vm: this, lang });
+      },
     },
     created() {
       var width = window.window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

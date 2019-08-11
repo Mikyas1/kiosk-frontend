@@ -4,23 +4,24 @@
     <v-card class="my-4 mb-5" v-bind:class="$vuetify.breakpoint.xsOnly && 'mx-1' || 'ml-4 mr-2'">
       <v-card-title primary-title>
         <div>
-          <div class="headline">Contact Us</div>
-          <span class="grey--text">Information about how to Reach you</span>
+          <div class="headline">{{ $t('contact_us') }}</div>
+          <span class="grey--text">{{ $t('contact_us_info') }}</span>
         </div>
       </v-card-title>
 
       <v-card-text>
         <div class="ml-2">
-          <v-icon small color="primary">info</v-icon>The following Information is gone be displayed in your Contact Us page. Your customers might contact you through them.
+          <v-icon small color="primary">info</v-icon>
+          {{ $t('contact_us_info_detail') }}
         </div>
 
         <!-- STORE LOCATION -->
-        <h2 class="font-weight-regular mt-4">1: Store Location</h2>
+        <h2 class="font-weight-regular mt-4">1: {{ $t('store_location') }}</h2>
 
         <v-form ref="location" v-on:submit.prevent="uploadLocation">
           <v-select
             v-bind:items="countries"
-            label="* Country"
+            :label="'* ' + $t('country')"
             item-text="Country"
             item-value="abbr"
             single-line
@@ -31,7 +32,7 @@
 
           <v-select
             v-bind:items="regions"
-            label="* Region"
+            :label="'* ' + $t('region')"
             item-text="Region"
             item-value="abbr"
             single-line
@@ -41,20 +42,20 @@
           ></v-select>
 
           <v-text-field
-            label="* City"
+            :label="'* ' + $t('city')"
             class="input-group--focused pr-4 pl-2"
             v-model="locationInformation.city"
             v-bind:rules="inputRules"
           ></v-text-field>
 
           <v-text-field
-            label="Sub City"
+            :label="$t('sub_city')"
             class="input-group--focused pr-4 pl-2"
             v-model="locationInformation.sub_city"
           ></v-text-field>
 
           <v-textarea
-            label="Discribe Store Location"
+            :label="$t('buildingAndRoomNo')"
             class="pr-4 pl-2"
             v-model="locationInformation.buildingAndRoomNo"
           ></v-textarea>
@@ -65,14 +66,14 @@
             class="c_selected_btn ml-0 text-capitalize"
             type="submit"
             v-bind:loading="loading"
-          >Submit</v-btn>
+          >{{ $t('submit') }}</v-btn>
         </v-form>
 
         <!-- STORE PHONE NO -->
-        <h2 class="font-weight-regular mt-4">2: Add Store Phone No</h2>
+        <h2 class="font-weight-regular mt-4">2: {{ $t('add_store_phone') }}</h2>
         <v-form ref="phone" v-on:submit.prevent="uploadPhone(0, phone, null)">
           <v-text-field 
-            label="Add Store Phone no" 
+            :label="$t('add_store_phone')"
             class="input-group--focused pr-4 pl-2"
             type="numver"
             v-model="phone">
@@ -84,7 +85,7 @@
             class="c_selected_btn ml-0 text-capitalize"
             type="submit"
             v-bind:loading="loadingPhone"
-          >Add</v-btn>
+          >{{ $t('add') }}</v-btn>
 
           <div class="mb-2 ml-2 email mr-4 mt-2" v-for="phone in contactUs.phones" v-bind:key="phone.id">
             <v-btn
@@ -103,10 +104,10 @@
 
 
         <!-- STORE EMAIL -->
-        <h2 class="font-weight-regular mt-4">3  : Add Store Email</h2>
+        <h2 class="font-weight-regular mt-4">3: {{ $t('add_store_email') }}</h2>
         <v-form ref="email" v-on:submit.prevent="uploadEmail(0, email, null)">
           <v-text-field
-            label="Add Store Email"
+            :label="$t('add_store_email')"
             class="input-group--focused pr-4 pl-2 mt-2"
             v-model="email"
             v-bind:rules="emailRules"
@@ -118,7 +119,7 @@
             class="c_selected_btn ml-0 text-capitalize"
             type="submit"
             v-bind:loading="loadingEmail"
-          >Add</v-btn>
+          >{{ $t('add') }}</v-btn>
 
           <div class="mb-2 ml-2 email mr-4 mt-2" v-for="email in contactUs.emails" v-bind:key="email.id">
             <v-btn

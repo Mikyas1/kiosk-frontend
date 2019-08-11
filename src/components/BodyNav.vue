@@ -8,10 +8,10 @@
         <v-toolbar-title>
           <v-layout column>
             <v-flex class="primary--text title font-weight-light">
-              <v-icon class="primary--text">{{ icon }}</v-icon> {{ parent }}
+              <v-icon class="primary--text">{{ icon }}</v-icon> {{ $t(parent) }}
             </v-flex>
             <v-flex>
-                <span class="primary--text body-2 font-weight-light">Home </span><span class="grey--text body-2 font-weight-light"> <v-icon small>keyboard_arrow_right</v-icon> {{ parent }}</span>
+                <span class="primary--text body-2 font-weight-light">{{ $t('home') }} </span><span class="grey--text body-2 font-weight-light"> <v-icon small>keyboard_arrow_right</v-icon> {{ $t(parent) }}</span>
             </v-flex>
           </v-layout>
         </v-toolbar-title>
@@ -22,7 +22,7 @@
           flat
           target="_blank"
         >
-            Visit your Site
+            {{ $t('visit_your_site') }}
         </v-btn>
 
       </v-toolbar>

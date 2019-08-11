@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import Snackbar from "@/components/Snackbar";
 export default {
   name: "App",
@@ -16,6 +18,14 @@ export default {
   },
   components: {
     Snackbar
+  },
+  computed: {
+    ...mapGetters({
+      lang: "lang/lang"
+    }),
+  },
+  created() {
+    this.$store.dispatch("lang/setLang", { vm: this, lang: this.lang });
   }
 };
 </script>

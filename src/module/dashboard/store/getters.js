@@ -19,5 +19,11 @@ export default {
     }
   },
   branchs: state => state.storeInfo.branches,
-  storeImage: state => state.storeInfo.storeProfile[0].path,
+  storeImage: state => {
+    if(state.storeInfo.storeProfile[0]){
+      return state.storeInfo.storeProfile[0].path
+    } else {
+      return ""
+    }
+  },
 };

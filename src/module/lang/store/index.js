@@ -5,7 +5,10 @@ import mutations from "./mutations";
 export default {
     namespaced: true,
     state: {
-        lang: '',
+        lang: {
+                text: "English", 
+                val: "en"
+            },
     },
     getters,
     actions,

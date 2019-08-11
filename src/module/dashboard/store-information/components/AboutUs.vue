@@ -2,21 +2,21 @@
   <!-- ABOUT US -->
   <v-flex class="xs12 sm12 md8">
     <v-card
-      height="850"
+      height="940"
       class="my-4"
       v-bind:class="$vuetify.breakpoint.xsOnly && 'mx-1' || 'ml-4 mr-2'"
     >
       <v-card-title primary-title>
         <div>
-          <div class="headline">About Us</div>
-          <span class="grey--text">Information about your store.</span>
+          <div class="headline">{{ $t('about_us') }}</div>
+          <span class="grey--text">{{ $t('about_us_info') }}</span>
         </div>
       </v-card-title>
 
       <v-card-text>
-        The following information is gone be displayed in your website's about us page.
-        <v-card height="335" flat class="mt-4">
-          <h2 class="font-weight-regular">1: Store Description</h2>
+        {{ $t('about_us_info_detail') }}
+        <v-card height="415" flat class="mt-4">
+          <h2 class="font-weight-regular">1: {{ $t('store_description') }}</h2>
 
           <quill-editor
             class="quill mt-1"
@@ -33,7 +33,7 @@
             type="submit"
             v-bind:loading="loading"
             v-on:click="uploadDescription"
-          >Submit</v-btn>
+          >{{ $t('submit') }}</v-btn>
         </v-card>
 
         <!-- STORE IMAGE -->

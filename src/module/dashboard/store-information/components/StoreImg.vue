@@ -2,14 +2,14 @@
 
     <div>
         <v-card flat class="c-give-hight">
-          <h2 class="font-weight-regular">2: Store Picture</h2>
-          <div class="grey--text">Picture of your store.</div>
+          <h2 class="font-weight-regular">2: {{ $t('store_picture') }}</h2>
+          <div class="grey--text">{{ $t('store_picture_info') }}</div>
           <div
             class="my-4"
-          >The picture you upload here, is gone be displayed in your website's about us page.</div>
+          >{{ $t('store_picture_info_detail') }}</div>
 
           <div v-if="imageString != ''">
-            <v-img
+            <!-- <v-img
                 src="https://picsum.photos/510/300?random"
                 :lazy-src="require('@/assets/loading.png')"
                 max-height="155"
@@ -17,10 +17,10 @@
                 width="255"
                 position=""
             >
-            </v-img>
+            </v-img> -->
           </div>
           <div v-else>
-              <p><v-icon small color="primary">info</v-icon> You haven't added store image.</p>
+              <p><v-icon small color="primary">info</v-icon>{{ $t('no_store_image') }}</p>
           </div>
 
           <v-btn
@@ -31,10 +31,10 @@
             v-bind:loading="imageBtn"
           >
           <span v-if="imageString == ''">
-            Upload Image    
+            {{ $t('upload_image') }}   
           </span>
           <span v-else>
-            Change Image
+            {{ $t('change_image') }}
           </span>
           </v-btn>
 

@@ -1,7 +1,7 @@
 <template>
 
     <v-container class="c-body pa-0" fluid="true">
-      <Navbar parent="Packages" icon="donut_large" />
+      <Navbar parent="packages" icon="donut_large" />
 
       <v-card height="400" class="mx-4 my-5">
 

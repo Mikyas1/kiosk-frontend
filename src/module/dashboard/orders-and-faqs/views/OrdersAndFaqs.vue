@@ -1,7 +1,7 @@
 <template>
 
     <v-container class="c-body pa-0" fluid="true">
-      <Navbar parent="Orders and Faqs" icon="notifications" />
+      <Navbar parent="ordersAndFaqs" icon="notifications" />
 
       <v-card height="400" class="mx-4 my-5">
 

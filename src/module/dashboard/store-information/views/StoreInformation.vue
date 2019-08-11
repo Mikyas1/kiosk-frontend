@@ -1,7 +1,7 @@
 <template>
   <v-container class="c-body pa-0 mb-5" fluid="true">
     <!-- BODY NAVIGATOR -->
-    <Navbar parent="Store Information" icon="store" />
+    <Navbar parent="storeInformation" icon="store" />
 
     <div>
       <v-layout row wrap class="first-card">
@@ -58,23 +58,6 @@ export default {
   created() {
     this.$store.commit("dashboard/SET_ACTIVE_PAGE", "storeInformation");
   },
-  methods: {
-    // REMOVE BRANCH FROM BRANCHS
-    deleteBranch: function(branchId) {
-      this.storeInformation.branches = this.storeInformation.branches.filter(
-        x => x.id !== branchId
-      );
-    },
-    addNewBranch: function(newBranch) {
-      this.storeInformation.branches.push(newBranch);
-    },
-    editBranch: function(editedBranch) {
-      let index = this.storeInformation.branches.findIndex(
-        x => x.id == editedBranch.id
-      );
-      this.storeInformation.branches[index] = editedBranch;
-    }
-  }
 };
 </script>
 

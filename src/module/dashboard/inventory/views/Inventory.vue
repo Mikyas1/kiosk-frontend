@@ -1,7 +1,7 @@
 <template>
 
     <v-container class="c-body pa-0" fluid="true">
-      <Navbar parent="Inventory" icon="widgets" />
+      <Navbar parent="inventory" icon="widgets" />
 
       <v-card class="mx-4 mb-5 mt-4 " min-height="305">
  
@@ -14,7 +14,7 @@
             <!-- TABLE TOOLBAR -->
             <v-toolbar flat color="white">
               <h2 class="mr-3 primary--text subheading font-weight-light" style="min-width: 100px">
-                <v-icon class="primary--text">widgets</v-icon> Inventory
+                <v-icon class="primary--text">widgets</v-icon> Items
               </h2>
               <v-text-field
               flat

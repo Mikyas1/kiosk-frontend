@@ -12,7 +12,7 @@
                     v-bind:class="$vuetify.breakpoint.xsOnly && 'title ml-4' || 'display-1 ml-5'"
                   >
                     <!-- <span>Create Store</span> -->
-                    <span v-on:click="setLang(getLang().lang)">{{ $t("signup", lang) }}</span>
+                    <span>{{ $t("signup") }}</span>
                   </v-subheader>
 
                   <v-form class="pr-2" v-on:submit.prevent="goNext" ref="gonext">
@@ -127,7 +127,7 @@
                       prepend-icon="email"
                     ></v-text-field>
                     <v-btn type="submit" color="primary">continue</v-btn>
-                    <v-btn class="ml-5" flat v-on:click="step = 1">Cancle</v-btn>
+                    <v-btn class="ml-5" flat v-on:click="step = 1">{{ $t('cancel') }}</v-btn>
                   </v-form>
                 </v-stepper-content>
 
@@ -146,7 +146,7 @@
                       ></v-text-field>
                       <div class="mt-5">
                         <v-btn type="submit" color="primary">continue</v-btn>
-                        <v-btn class="ml-5" flat v-on:click="step = 2">Cancle</v-btn>
+                        <v-btn class="ml-5" flat v-on:click="step = 2">{{ $t('cancel') }}</v-btn>
                       </div>
                     </v-form>
                   </v-card>
@@ -435,21 +435,6 @@ export default {
       this.signUpData.registeredBy = "EMAIL"
     },
 
-    setLang(lang) {
-      this.$store.dispatch("lang/setLang", { vm: this, lang });
-    },
-
-    getLang() {
-      if (this.lang == "am") {
-        return { lang: "en", text: "EN" };
-      }
-      return { lang: "am", text: "አ" };
-    }
-  },
-  computed: {
-    ...mapGetters({
-      lang: "lang/lang"
-    })
   },
   created() {
     this.loadCata = false;

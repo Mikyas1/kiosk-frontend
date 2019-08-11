@@ -4,14 +4,14 @@
     <v-card class="my-4" v-bind:class="$vuetify.breakpoint.xsOnly && 'mx-1' || 'mx-4'">
       <v-toolbar color="primary" dark flat>
         <v-icon>toys</v-icon>
-        <v-toolbar-title>Customer Support</v-toolbar-title>
+        <v-toolbar-title>{{ $t('customer_support') }}</v-toolbar-title>
       </v-toolbar>
 
       <!-- LOADER -->
       <v-progress-linear v-if="loading" v-bind:indeterminate="true" class="my-0"></v-progress-linear>
 
       <v-list three-line subheader>
-        <v-subheader class="c-list-header">Supports you give your Customers.</v-subheader>
+        <v-subheader class="c-list-header">{{ $t('customer_support_info') }}</v-subheader>
 
         <!-- WARRANTY -->
         <v-list-tile avatar ripple class="c-list" v-on:click="copyWarranty">
@@ -23,10 +23,10 @@
             ></v-checkbox>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title class="primary--text">Warranty Information</v-list-tile-title>
+            <v-list-tile-title class="primary--text">{{ $t('warranty_information') }}</v-list-tile-title>
             <v-list-tile-sub-title
               class="caption font-weight-light"
-            >This Warranty information will be applied to all your Products.</v-list-tile-sub-title>
+            >{{ $t('warranty_information_info') }}</v-list-tile-sub-title>
             <v-list-tile-sub-title
               class="caption font-weight-medium"
               v-if="customerSupportInformation.warranty.set"
@@ -41,12 +41,12 @@
         <v-dialog max-width="600px" v-model="warrantyDialog">
           <v-card>
             <div primary-title>
-              <div class="headline pt-4 ml-4">Add your Warranty Information.</div>
+              <div class="headline pt-4 ml-4">{{ $t('add_warranty_information') }}</div>
             </div>
             <v-card-text>
               <v-form class="px-3">
                 <v-textarea
-                  label="Warranty Information"
+                  :label="$t('warranty_information')"
                   v-model="customerSupportInformation.warranty.discription"
                 ></v-textarea>
                 <v-btn
@@ -54,13 +54,13 @@
                   dark
                   class="c_selected_btn ml-0 text-capitalize"
                   v-on:click="handelWarranty"
-                >Submit</v-btn>
+                >{{ $t('submit') }}</v-btn>
                 <v-btn
                   v-if="customerSupportInformation.warranty.set"
                   flat
                   class="warning text-capitalize"
                   v-on:click="removeWarranty"
-                >Remove</v-btn>
+                >{{ $t('remove') }}</v-btn>
               </v-form>
             </v-card-text>
           </v-card>
@@ -76,10 +76,10 @@
             ></v-checkbox>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title class="primary--text">Return Policy</v-list-tile-title>
+            <v-list-tile-title class="primary--text">{{ $t('return_policy') }}</v-list-tile-title>
             <v-list-tile-sub-title
               class="caption font-weight-light"
-            >This Return Policy information will be applied to all your Products.</v-list-tile-sub-title>
+            >{{ $t('return_policy_info') }}</v-list-tile-sub-title>
             <v-list-tile-sub-title
               class="caption font-weight-medium"
               v-if="customerSupportInformation.returnPolicy.set"
@@ -94,12 +94,12 @@
         <v-dialog max-width="600px" v-model="returnDialog">
           <v-card>
             <div primary-title>
-              <div class="headline pt-4 ml-4">Add your Return Policy.</div>
+              <div class="headline pt-4 ml-4">{{ $t('add_return_policy') }}</div>
             </div>
             <v-card-text>
               <v-form class="px-3">
                 <v-textarea
-                  label="Return Policy"
+                  :label="$t('return_policy')"
                   v-model="customerSupportInformation.returnPolicy.discription"
                 ></v-textarea>
                 <v-btn
@@ -107,13 +107,13 @@
                   dark
                   class="c_selected_btn ml-0 text-capitalize"
                   v-on:click="handelReturnPolicy"
-                >Submit</v-btn>
+                >{{ $t('submit') }}</v-btn>
                 <v-btn
                   v-if="customerSupportInformation.returnPolicy.set"
                   flat
                   class="warning text-capitalize"
                   v-on:click="removeReturnPolicy"
-                >Remove</v-btn>
+                >{{ $t('remove') }}</v-btn>
               </v-form>
             </v-card-text>
           </v-card>
@@ -129,10 +129,10 @@
             ></v-checkbox>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title class="primary--text">Customer Care</v-list-tile-title>
+            <v-list-tile-title class="primary--text">{{ $t('customer_care') }}</v-list-tile-title>
             <v-list-tile-sub-title
               class="caption font-weight-light"
-            >This Customer Care information will be applied to all your Products.</v-list-tile-sub-title>
+            >{{ $t('customer_care_info') }}</v-list-tile-sub-title>
             <v-list-tile-sub-title
               class="caption font-weight-medium"
               v-if="customerSupportInformation.customerCare.set"
@@ -147,12 +147,12 @@
         <v-dialog max-width="600px" v-model="careDialog">
           <v-card>
             <div primary-title>
-              <div class="headline pt-4 ml-4">Add your Customer care brifly.</div>
+              <div class="headline pt-4 ml-4">{{ $t('add_customer_care') }}</div>
             </div>
             <v-card-text>
               <v-form class="px-3">
                 <v-textarea
-                  label="Customer Care"
+                  :label="$t('customer_care')"
                   v-model="customerSupportInformation.customerCare.discription"
                 ></v-textarea>
                 <v-btn
@@ -160,13 +160,13 @@
                   dark
                   class="c_selected_btn ml-0 text-capitalize"
                   v-on:click="handelCustomerCare"
-                >Submit</v-btn>
+                >{{ $t('submit') }}</v-btn>
                 <v-btn
                   v-if="customerSupportInformation.customerCare.set"
                   flat
                   class="warning text-capitalize"
                   v-on:click="removeCustomerCare"
-                >Remove</v-btn>
+                >{{ $t('remove') }}</v-btn>
               </v-form>
             </v-card-text>
           </v-card>

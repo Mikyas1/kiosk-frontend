@@ -4,23 +4,23 @@
     <v-card class="mt-2 mb-5" v-bind:class="$vuetify.breakpoint.xsOnly && 'mx-1' || 'ml-4 mr-2'">
       <v-card-title primary-title>
         <div>
-          <div class="headline">Edit Profile</div>
-          <span class="grey--text">Edit your account.</span>
+          <div class="headline">{{ $t('edit_profile') }}</div>
+          <span class="grey--text">{{ $t('edit_profile_info') }}</span>
         </div>
       </v-card-title>
 
       <v-card-text>
         
-        <h2 class="mt-0 font-weight-regular">1: Profile</h2>
+        <h2 class="mt-0 font-weight-regular">1: {{ $t('profile') }}</h2>
         <v-form v-on:submit.prevent="uploadProfile" ref="profile">
           <v-text-field
-            label="First Name"
+            :label="$t('first_name')"
             class="input-group--focused pr-4 pl-2 mt-2"
             v-model="showFirstName"
             v-bind:rules="inputRules"
           ></v-text-field>
           <v-text-field
-            label="Last Name"
+            :label="$t('last_name')"
             class="input-group--focused pr-4 pl-2 mt-2"
             v-model="showLastName"
             v-bind:rules="inputRules"
@@ -31,13 +31,13 @@
             class="c_selected_btn ml-0 text-capitalize"
             v-bind:loading="loadingProfile"
             type="submit"
-          >Submit</v-btn>
+          >{{ $t('submit') }}</v-btn>
         </v-form>
 
-        <h2 class="mt-4 mb-3 font-weight-regular">2: Store Name</h2>
+        <h2 class="mt-4 mb-3 font-weight-regular">2: {{ $t('store_name') }}</h2>
         <v-form v-on:submit.prevent="uploadStoreName" ref="storeName">
           <v-text-field
-            label="Store Name"
+            :label="$t('store_name')"
             class="input-group--focused pr-4 pl-2 mt-2"
             v-model="showStoreName"
             v-bind:rules="inputRules"
@@ -49,20 +49,21 @@
             class="c_selected_btn ml-0 text-capitalize"
             v-bind:loading="loadingName"
             type="submit"
-          >Submit</v-btn>
+          >{{ $t('submit') }}</v-btn>
         </v-form>
 
-        <h2 class="mt-4 mb-3 font-weight-regular">3: Store Url</h2>
+        <h2 class="mt-4 mb-3 font-weight-regular">3: {{ $t('store_url') }}</h2>
         <v-form v-on:submit.prevent="uploadStoreUrl" ref="storeUrl">
           <v-text-field
-            label="Store Url"
+            :label="$t('store_url')"
             class="input-group--focused pr-4 pl-2 mt-2"
             v-model="showStoreUrl"
             v-bind:rules="inputRules"
           ></v-text-field>
 
           <div class="ml-4 mb-2 mt-0">
-            <v-icon small color="warning">info</v-icon>Editing your store url will change your web-sites address.
+            <v-icon small color="warning">info</v-icon>
+            {{ $t('store_url_info') }}
           </div>
 
           <v-btn
@@ -71,14 +72,14 @@
             class="c_selected_btn ml-0 text-capitalize"
             v-bind:loading="loadingUrl"
             type="submit"
-          >Submit</v-btn>
+          >{{ $t('submit') }}</v-btn>
         </v-form>
 
-        <h2 class="mt-4 mb-1 font-weight-regular">4: Delete Store</h2>
+        <h2 class="mt-4 mb-1 font-weight-regular">4: {{ $t('delete_store') }}</h2>
 
           <div class="ml-0 mb-2 mt-0 warning--text">
             <v-icon small color="warning">info</v-icon>
-            Deleting your store will remove all your inventory, your web-site, all your store information, all your orders and more.
+            {{ $t('delete_store_info') }}
           </div>
 
           <v-btn
@@ -87,21 +88,21 @@
             class="ml-0 text-capitalize error"
             v-bind:loading="loadingUrl"
             v-on:click="deleteDialog = !deleteDialog"
-          >Delete Store</v-btn>
+          >{{ $t('delete_store') }}</v-btn>
 
           <v-dialog max-width="600px" v-model="deleteDialog">
             <v-card>
               <div primary-title>
-                <div class="headline pt-4 ml-4"><v-icon class="error--text">delete</v-icon> Delete Store - {{storeInfo.storeName}}</div>
+                <div class="headline pt-4 ml-4"><v-icon class="error--text">delete</v-icon> {{ $t('delete_store') }} - {{storeInfo.storeName}}</div>
               </div>
               <v-card-text>
                 <div class="ml-3 mb-2 mt-0 warning--text">
                   <v-icon small color="warning">info</v-icon>
-                  Deleting your store will remove all your inventory, your web-site, all your store information, all your orders and more.
+                    {{ $t('delete_store_info') }}
                 </div>
                 <div class="ml-0 mb-2 mt-4">
                   <v-icon small color="warning">warning</v-icon>
-                  Are your sure, you want to delete your store?
+                    {{ $t('delete_store_info_prompt') }}
                 </div>
                   <v-btn
                     flat
@@ -109,12 +110,12 @@
                     class="error ml-0 text-capitalize"
                     v-on:click="deleteStore"
                     :loading="deleteStoreLoading"
-                  >Delete Store</v-btn>
+                  >{{ $t('delete_store') }}</v-btn>
                   <v-btn
                     flat
                     class="c_selected_btn text-capitalize white--text"
                     v-on:click="deleteDialog = !deleteDialog "
-                  >Cancle</v-btn>
+                  >{{ $t('cancle') }}</v-btn>
               </v-card-text>
             </v-card>
           </v-dialog>

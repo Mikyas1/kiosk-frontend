@@ -8,7 +8,7 @@
       <v-toolbar color="primary" dark flat>
         <v-icon>store</v-icon>
 
-        <v-toolbar-title>Branches</v-toolbar-title>
+        <v-toolbar-title>{{ $t('branch') }}</v-toolbar-title>
       </v-toolbar>
 
       <v-divider></v-divider>
@@ -16,7 +16,7 @@
       <v-card-text class="pa-0">
         <v-list three-line class="pa-0">
           <template>
-            <v-subheader class="c-list-header">Total {{ branches.length }} Branches.</v-subheader>
+            <v-subheader class="c-list-header">{{ $t('total') }} {{ branches.length }} {{ $t('branch') }}</v-subheader>
 
             <v-divider></v-divider>
 
@@ -52,33 +52,34 @@
             <v-dialog max-width="600px" v-model="editDialog">
               <v-card>
                 <div primary-title>
-                  <div class="headline pt-4 ml-4">Edit Branch.</div>
+                  <div class="headline pt-4 ml-4">{{ $t('edit_branch') }}</div>
                 </div>
 
                 <v-card-text>
                   <div class="ml-2">
-                    <v-icon small color="primary">info</v-icon>The following Information is gone be displayed in your Contact Us page. Your customers might contact you through them.
+                    <v-icon small color="primary">info</v-icon>
+                    {{ $t('add_new_branch_info') }}
                   </div>
 
                   <v-form ref="edit">
                     <v-text-field
-                      label="Branch Name"
+                      :label="'* ' + $t('branch_name')"
                       class="input-group--focused pr-4 pl-2 mt-2"
                       v-bind:rules="inputRules"
                       v-model="branchEditing.branchName"
                     ></v-text-field>
 
                     <v-text-field
-                      label="Branch Phone no"
+                      :label="$t('branch_phone_no')"
                       class="input-group--focused pr-4 pl-2"
                       v-model="branchEditing.phones[0].phoneNumber"
                     ></v-text-field>
 
-                    <v-subheader>Branch Location</v-subheader>
+                    <v-subheader>{{ $t('branch_location') }}</v-subheader>
 
                     <v-select
                       v-bind:items="countries"
-                      label="Country"
+                      :label="'* ' + $t('country')"
                       item-text="Country"
                       item-value="abbr"
                       single-line
@@ -90,7 +91,7 @@
                     <v-select
                       v-bind:rules="[(v) => v.length > 0 || 'Region is required']"
                       v-bind:items="regions"
-                      label="Region"
+                      :label="'* ' + $t('region')"
                       item-text="Region"
                       item-value="abbr"
                       single-line
@@ -99,20 +100,20 @@
                     ></v-select>
 
                     <v-text-field
-                      label="City"
+                      :label="'* ' + $t('city')"
                       class="input-group--focused pr-4 pl-2"
                       v-bind:rules="inputRules"
                       v-model="branchEditing.location.city"
                     ></v-text-field>
 
                     <v-text-field
-                      label="Sub City"
+                      :label="$t('sub_city')"
                       class="input-group--focused pr-4 pl-2"
                       v-model="branchEditing.location.sub_city"
                     ></v-text-field>
 
                     <v-textarea
-                      label="Discribe Branch Location"
+                      :label="$t('buildingAndRoomNo')"
                       class="pr-4 pl-2"
                       v-model="branchEditing.location.buildingAndRoomNo"
                     ></v-textarea>
@@ -123,7 +124,7 @@
                       class="c_selected_btn ml-0 text-capitalize"
                       v-bind:loading="loadingEdit"
                       v-on:click="editBranch"
-                    >Edit</v-btn>
+                    >{{ $t('edit') }}</v-btn>
 
                     <v-btn
                       flat
@@ -131,7 +132,7 @@
                       class="warning ml-0 text-capitalize"
                       v-bind:loading="loading"
                       v-on:click="removeBranch(branchEditing.id)"
-                    >Remove</v-btn>
+                    >{{ $t('remove') }}</v-btn>
                   </v-form>
                 </v-card-text>
               </v-card>
@@ -154,32 +155,33 @@
         </v-btn>
         <v-card>
           <div primary-title>
-            <div class="headline pt-4 ml-4">Add a New Branch.</div>
+            <div class="headline pt-4 ml-4">{{ $t('add_new_branch') }}</div>
           </div>
 
           <v-card-text>
             <div class="ml-2">
-              <v-icon small color="primary">info</v-icon>The following Information is gone be displayed in your Contact Us page. Your customers might contact you through them.
+              <v-icon small color="primary">info</v-icon>
+              {{ $t('add_new_branch_info') }}
             </div>
             <v-form ref="add" v-on:submit.prevent="addBranch">
               <v-text-field
-                label="* Branch Name"
+                :label="'* ' + $t('branch_name')"
                 class="input-group--focused pr-4 pl-2 mt-2"
                 v-bind:rules="inputRules"
                 v-model="newBranch.branchName"
               ></v-text-field>
 
               <v-text-field
-                label="Branch Phone no"
+                :label="$t('branch_phone_no')"
                 class="input-group--focused pr-4 pl-2"
                 v-model="newBranch.phoneData[0].newPhoneNumber"
               ></v-text-field>
 
-              <v-subheader>Branch Location</v-subheader>
+              <v-subheader>{{ $t('branch_location') }}</v-subheader>
 
               <v-select
                 v-bind:items="countries"
-                label="* Country"
+                :label="'* ' + $t('country')"
                 item-text="Country"
                 item-value="abbr"
                 single-line
@@ -191,7 +193,7 @@
               <v-select
                 v-bind:rules="[(v) => v.length > 0 || 'Region is required']"
                 v-bind:items="regions"
-                label="* Region"
+                :label="'* ' + $t('region')"
                 item-text="Region"
                 item-value="abbr"
                 single-line
@@ -200,20 +202,20 @@
               ></v-select>
 
               <v-text-field
-                label="* City"
+                :label="'* ' + $t('city')"
                 class="input-group--focused pr-4 pl-2"
                 v-bind:rules="inputRules"
                 v-model="newBranch.location.city"
               ></v-text-field>
 
               <v-text-field
-                label="Sub City"
+                :label="$t('sub_city')"
                 class="input-group--focused pr-4 pl-2"
                 v-model="newBranch.location.sub_city"
               ></v-text-field>
 
               <v-textarea
-                label="Discribe Branch Location"
+                :label="$t('buildingAndRoomNo')"
                 class="pr-4 pl-2"
                 v-model="newBranch.location.buildingAndRoomNo"
               ></v-textarea>
@@ -224,7 +226,7 @@
                 class="c_selected_btn ml-0 text-capitalize"
                 type="submit"
                 v-bind:loading="loading"
-              >Submit</v-btn>
+              >{{ $t('submit') }}</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
