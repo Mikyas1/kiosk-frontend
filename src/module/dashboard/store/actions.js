@@ -2,6 +2,7 @@ import apiClient from "@/resources/apiClient";
 
 export default {
 
+    // FOR STORE INFORMATION
     update_store: ({ commit, }, data) => {
         return new Promise((resolve, reject) => {
             apiClient.dashboard.store_information
@@ -138,4 +139,18 @@ export default {
             });
         });
     },
+
+    // FOR INVENTORY
+    get_inventory: () => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.inventory
+            .get_inventory()
+            .then(response => {
+                resolve(response);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
+    }
 };

@@ -57,6 +57,11 @@ export default {
             add_branch(payload) {
                 return http.post(urls.add_branch, payload);
             }
+        },
+        inventory: {
+            get_inventory() {
+                return http.get(urls.get_inventory);
+            }
         }
     }
 }

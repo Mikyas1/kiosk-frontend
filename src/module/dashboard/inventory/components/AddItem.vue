@@ -1,10 +1,12 @@
 <template>
     <div>
         <v-card>
+
+        <v-container>
             <div primary-title>
-                <div class="headline pt-4 ml-4">Add a New Item.</div>
+                <div class="headline">Add a New Item.</div>
             </div>
-            <v-card-text>
+            <!-- <v-card-text>
                 <div class="ml-2">
                     <v-icon small color="primary">info</v-icon>The following Information is gone be displayed in your Contact Us page. Your customers might contact you through them.
                 </div>
@@ -69,7 +71,41 @@
 
                 </v-form>
 
-            </v-card-text>    
+            </v-card-text>     -->
+
+                <v-layout row  wrap>
+                    <v-flex xs12 md6>
+                        <v-btn style="height: 400px" outline block class="primary">
+                            1
+                        </v-btn>
+                    </v-flex>
+                    <v-flex xs12 md6>
+                        <v-btn style="height: 400px" outline block class="primary">
+                            2
+                        </v-btn>
+                    </v-flex>
+                </v-layout>
+
+                <v-layout row  wrap>
+                    <v-flex xs12 md12>
+                        <v-btn style="height: 200px" outline block class="primary">
+                            3
+                        </v-btn>
+                    </v-flex>
+                </v-layout>
+
+                <v-layout row  wrap>
+                    <v-flex xs12 md12>
+                        <v-btn style="height: 200px" outline block class="primary">
+                            4
+                        </v-btn>
+                    </v-flex>
+                </v-layout>
+                
+            </v-container>
+
+
+
         </v-card>
     </div>
 </template>
@@ -114,6 +150,15 @@ export default {
         closeDialog() {
             this.$emit('closeDialog');
         }
+    },
+    created() {
+        this.$store.dispatch("dashboard/get_inventory")
+        .then(response=>{
+            console.log(response);
+        })
+        .catch(e=> {
+            console.log(e);
+        })
     }
 }
 </script>

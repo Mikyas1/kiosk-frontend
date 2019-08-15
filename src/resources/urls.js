@@ -27,6 +27,9 @@ const urls = {
     delete_branch: '/kiosks/branch/delete?branchId=',
     update_branch:'/kiosks/branch/update/',
 
+    // FOR INVENTORY
+    get_inventory: '/inventory/addItem/',
+
 }
 
 export default urls;

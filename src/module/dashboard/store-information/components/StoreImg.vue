@@ -9,7 +9,7 @@
           >{{ $t('store_picture_info_detail') }}</div>
 
           <div v-if="imageString != ''">
-            <!-- <v-img
+            <v-img
                 src="https://picsum.photos/510/300?random"
                 :lazy-src="require('@/assets/loading.png')"
                 max-height="155"
@@ -17,7 +17,7 @@
                 width="255"
                 position=""
             >
-            </v-img> -->
+            </v-img>
           </div>
           <div v-else>
               <p><v-icon small color="primary">info</v-icon>{{ $t('no_store_image') }}</p>
