@@ -4,7 +4,7 @@
 
         <v-container>
             <div primary-title>
-                <div class="headline">Add a New Item.</div>
+                <div class="headline mb-3">Add a New Item.</div>
             </div>
             <!-- <v-card-text>
                 <div class="ml-2">
@@ -75,22 +75,69 @@
 
                 <v-layout row  wrap>
                     <v-flex xs12 md6>
-                        <v-btn style="height: 400px" outline block class="primary">
-                            1
-                        </v-btn>
+                        <v-card flat class="ma-2 px-4 py-4 c-card">
+                            <h2 class="font-weight-regular mb-3">1: Basic Item info</h2>
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur earum officia deserunt, corporis reprehenderit nisi atque eligendi dolor! Ratione ipsum, ducimus molestias nam corporis expedita porro est consequuntur quam sit?</p>
+                            <v-form ref="add" v-on:submit.prevent="addItem">
+                                <v-text-field
+                                    label="* Item Name"
+                                    class="input-group--focused pr-4 pl-2 mt-2"
+                                ></v-text-field>
+
+                                <v-text-field
+                                    label="* Category"
+                                    class="input-group--focused pr-4 pl-2 mt-2"
+                                ></v-text-field>
+
+                                <v-text-field
+                                    label="* Conditon"
+                                    class="input-group--focused pr-4 pl-2 mt-2"
+                                ></v-text-field>
+
+                                <v-text-field
+                                    label="* Price"
+                                    class="input-group--focused pr-4 pl-2 mt-2"
+                                ></v-text-field>
+
+                                <v-text-field
+                                    label="* Brand"
+                                    class="input-group--focused pr-4 pl-2 mt-2"
+                                ></v-text-field>
+
+                                <v-text-field
+                                    label="* Branch"
+                                    class="input-group--focused pr-4 pl-2 mt-2"
+                                ></v-text-field>
+
+                        </v-form>
+                        </v-card>
                     </v-flex>
                     <v-flex xs12 md6>
-                        <v-btn style="height: 400px" outline block class="primary">
-                            2
-                        </v-btn>
+                        <v-card flat height="450" class="ma-2 px-4 py-4 c-card">
+                            <h2 class="font-weight-regular mb-3">2: Item Features</h2>
+                            category: {{ category }}
+                            <br/>
+                            tags: {{tags}}
+                            <v-text-field
+                                label="* Features"
+                                class="input-group--focused pr-4 pl-2 mt-2"
+                            ></v-text-field>
+                        </v-card>
                     </v-flex>
                 </v-layout>
 
                 <v-layout row  wrap>
-                    <v-flex xs12 md12>
-                        <v-btn style="height: 200px" outline block class="primary">
-                            3
-                        </v-btn>
+                    <v-flex xs12 md10>
+                        <v-card flat height="480" class="mx-2 mt-3 px-4 py-4 c-card mb-4">
+                        <h2 class="font-weight-regular">3: Item Description</h2>
+                        <p class="pa-3">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque labore architecto laboriosam omnis fugit nam error provident repellendus eum debitis, odio sit laborum facere, culpa molestiae eaque sequi. Pariatur, possimus?</p>
+                            <quill-editor
+                                class="quill"
+                                v-bind:content="tempStoreDescription"
+                                v-bind:options="editorOptionOne"
+                                v-model="tempStoreDescription"
+                            ></quill-editor>
+                        </v-card>
                     </v-flex>
                 </v-layout>
 
@@ -99,6 +146,15 @@
                         <v-btn style="height: 200px" outline block class="primary">
                             4
                         </v-btn>
+                        <v-btn
+                        flat
+                        dark
+                        class="c_selected_btn ml-0 text-capitalize"
+                        >{{ $t('submit') }}</v-btn>
+                        <v-btn
+                        flat
+                        class="warning text-capitalize"
+                        >{{ $t('remove') }}</v-btn>
                     </v-flex>
                 </v-layout>
                 
@@ -111,16 +167,51 @@
 </template>
 
 <script>
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+import { quillEditor } from "vue-quill-editor";
+
 import VueUploadMultipleImage from 'vue-upload-multiple-image'
 
 export default {
     name: 'AddItem',
     components: {
-        VueUploadMultipleImage
+        VueUploadMultipleImage,
+        quillEditor
     },
     data(){
         return {
+            tempStoreDescription: null,
+
+            editorOptionOne: {
+                placeholder:
+                "Item Description!!",
+                modules: {
+                toolbar: [
+                    ["bold", "italic", "underline", "strike"],
+                    ["blockquote"],
+                    [{ header: 1 }, { header: 2 }],
+                    [{ list: "ordered" }, { list: "bullet" }],
+                    [{ indent: "+1" }],
+                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                    [{ color: [] }],
+                    [{ font: [] }],
+                    [{ align: [] }]
+                ]
+                }
+            },
             images: []
+        }
+    },
+    props:{
+        category: {
+            type: Object,
+            required: true
+        },
+        tags: {
+            type: Object,
+            required: true
         }
     },
     methods: {
@@ -152,17 +243,18 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch("dashboard/get_inventory")
-        .then(response=>{
-            console.log(response);
-        })
-        .catch(e=> {
-            console.log(e);
-        })
+        // console.log(this.tags)
+        console.log(this.category)
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+.quill {
+  height: 270px;
+}
+.c-card {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 4px;
+}
 </style>

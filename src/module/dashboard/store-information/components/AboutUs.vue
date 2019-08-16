@@ -2,7 +2,6 @@
   <!-- ABOUT US -->
   <v-flex class="xs12 sm12 md8">
     <v-card
-      height="940"
       class="my-4"
       v-bind:class="$vuetify.breakpoint.xsOnly && 'mx-1' || 'ml-4 mr-2'"
     >
@@ -52,7 +51,6 @@ import { quillEditor } from "vue-quill-editor";
 
 import StoreImg from "./StoreImg"
 
-import apiClient from "@/resources/apiClient";
 import { getErrorMessage } from "@/resources/helper";
 
 import { mapGetters } from "vuex";

@@ -3,9 +3,12 @@
     <v-container class="c-body pa-0" fluid="true">
       <Navbar parent="inventory" icon="widgets" />
 
+      <!-- LOADER -->
+      <v-progress-linear v-if="loading" v-bind:indeterminate="true" class="my-0"></v-progress-linear>
+
       <v-card class="mx-4 mb-5 mt-4 " min-height="305">
  
-      <v-layout row wrap>
+      <v-layout v-if="show" row wrap>
         <!-- <v-flex sm12>
           <h3>Complex Table</h3>
         </v-flex> -->
@@ -39,7 +42,12 @@
 
             <!-- ADD ITEM DIALOG -->
             <v-dialog max-width="98%" v-model="addDialog">
-                <AddItem @closeDialog="addDialog = !addDialog"></AddItem>
+                <AddItem 
+                  @closeDialog="addDialog = !addDialog"
+                  :category="category"
+                  :tags="tags"
+                >
+                </AddItem>
             </v-dialog>
 
             <v-divider></v-divider>
@@ -103,6 +111,9 @@
           </v-card>
         </v-flex>
       </v-layout>
+      <v-layout v-else>
+        Loading faild.
+      </v-layout>
 
       </v-card>
 
@@ -117,6 +128,8 @@
 
 import Navbar from '@/components/BodyNav'
 import AddItem from '../components/AddItem'
+
+import { getErrorMessage } from "@/resources/helper";
 
 export default {
   name: 'inventory',
@@ -294,10 +307,30 @@ export default {
           },
         ]
       },
+      loading: false,
+      category: null,
+      tags: null,
+      show: false,
     }
   },
   created() {
       this.$store.commit('dashboard/SET_ACTIVE_PAGE', 'inventory');
+      this.loading = true;
+      this.$store.dispatch("dashboard/get_inventory")
+      .then(response=> {
+        this.category = response.data.category;
+        this.tags = response.data.tags;
+        this.loading = false;
+        this.show = true;
+      })
+      .catch(error=> {
+        this.$store.commit("SET_SNACKBAR", {
+              message: getErrorMessage(error),
+              value: true,
+              status: "error"
+            });
+        this.loading = false;
+      })
   }
 }
 </script>
