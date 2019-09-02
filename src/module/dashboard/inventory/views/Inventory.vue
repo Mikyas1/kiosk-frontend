@@ -28,27 +28,29 @@
               hide-details
               class="ml-2"
               ></v-text-field>
+
+            <v-dialog max-width="98%" v-model="addDialog">
               <v-btn 
                   fab
                   dark
                   class="secondary_1 white--text mt-5 c-btn"
-                  @click="openAddDialog"
+                  slot="activator"
                 >
                 <v-icon>
                     add
                 </v-icon>
               </v-btn>
-            </v-toolbar>
 
-            <!-- ADD ITEM DIALOG -->
-            <v-dialog max-width="98%" v-model="addDialog">
-                <AddItem 
-                  @closeDialog="addDialog = !addDialog"
+              <!-- ADD ITEM DIALOG -->
+                <AddItem
+                  v-on:closeDialog="addDialog = !addDialog"
                   :category="category"
                   :tags="tags"
                 >
                 </AddItem>
             </v-dialog>
+
+          </v-toolbar>
 
             <v-divider></v-divider>
 
@@ -112,7 +114,8 @@
         </v-flex>
       </v-layout>
       <v-layout v-else>
-        Loading faild.
+        <p v-if="error">Loading faild!!</p>
+        <p v-else>Loadding...</p>
       </v-layout>
 
       </v-card>
@@ -311,6 +314,7 @@ export default {
       category: null,
       tags: null,
       show: false,
+      error: false,
     }
   },
   created() {
@@ -330,6 +334,7 @@ export default {
               status: "error"
             });
         this.loading = false;
+        this.error = true;
       })
   }
 }

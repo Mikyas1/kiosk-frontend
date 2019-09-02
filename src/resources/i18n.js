@@ -89,7 +89,7 @@ const messages = {
         delete_store: "Delete Store",
         delete_store_info: "Deleting your store will remove all your inventory, your web-site, all your store information, all your orders and more.",
         delete_store_info_prompt: "Are your sure, you want to delete your store?",
-        cancle: "Cancel",
+        cancle: "Cancle",
         
         // BRANCHES
         branch: "Branches",
@@ -124,7 +124,7 @@ const messages = {
 
         // FOOTER
         // footer_message: "በኪዎስክ አለም ፀሀይ አትጠልቅም",
-        footer_message: "በኪዮስክ አለም ፀሀይ አትጠልቅም",
+        footer_message: "በኪዮስክ አለም አትጠልቅም ፀሀይ",
         footer: "ኪዮስክ ኢቲ",
 
         // BODY NAV

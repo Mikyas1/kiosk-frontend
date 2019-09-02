@@ -22,4 +22,8 @@ const urlify = function (storeName) {
   return storeName.toLowerCase().trim().replace(/ /g, '-').replace(/'|;|!|@|#|$|%|^|&|_|=|:|"|<|>/g, '');
 }
 
-export { getErrorMessage, urlify };
+const capitalize = function (string) {
+  return string && string[0].toUpperCase() + string.slice(1).toLowerCase();
+}
+
+export { getErrorMessage, urlify, capitalize };

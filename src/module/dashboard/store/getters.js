@@ -26,4 +26,7 @@ export default {
       return ""
     }
   },
+  storeCategory: state => {
+    return state.storeInfo.categories.map(x => x.name);
+  },
 };

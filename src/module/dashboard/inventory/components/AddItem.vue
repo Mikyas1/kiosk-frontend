@@ -76,40 +76,10 @@
                 <v-layout row  wrap>
                     <v-flex xs12 md6>
                         <v-card flat class="ma-2 px-4 py-4 c-card">
-                            <h2 class="font-weight-regular mb-3">1: Basic Item info</h2>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur earum officia deserunt, corporis reprehenderit nisi atque eligendi dolor! Ratione ipsum, ducimus molestias nam corporis expedita porro est consequuntur quam sit?</p>
-                            <v-form ref="add" v-on:submit.prevent="addItem">
-                                <v-text-field
-                                    label="* Item Name"
-                                    class="input-group--focused pr-4 pl-2 mt-2"
-                                ></v-text-field>
-
-                                <v-text-field
-                                    label="* Category"
-                                    class="input-group--focused pr-4 pl-2 mt-2"
-                                ></v-text-field>
-
-                                <v-text-field
-                                    label="* Conditon"
-                                    class="input-group--focused pr-4 pl-2 mt-2"
-                                ></v-text-field>
-
-                                <v-text-field
-                                    label="* Price"
-                                    class="input-group--focused pr-4 pl-2 mt-2"
-                                ></v-text-field>
-
-                                <v-text-field
-                                    label="* Brand"
-                                    class="input-group--focused pr-4 pl-2 mt-2"
-                                ></v-text-field>
-
-                                <v-text-field
-                                    label="* Branch"
-                                    class="input-group--focused pr-4 pl-2 mt-2"
-                                ></v-text-field>
-
-                        </v-form>
+                            <BasicItemInfo
+                                :category="category"
+                                :tags="tags"
+                            ></BasicItemInfo>
                         </v-card>
                     </v-flex>
                     <v-flex xs12 md6>
@@ -147,14 +117,15 @@
                             4
                         </v-btn>
                         <v-btn
-                        flat
-                        dark
-                        class="c_selected_btn ml-0 text-capitalize"
+                            flat
+                            dark
+                            class="c_selected_btn ml-0 text-capitalize"
                         >{{ $t('submit') }}</v-btn>
                         <v-btn
-                        flat
-                        class="warning text-capitalize"
-                        >{{ $t('remove') }}</v-btn>
+                            flat
+                            class="warning text-capitalize"
+                            v-on:click="closeDialog"
+                        >{{ $t('cancle') }}</v-btn>
                     </v-flex>
                 </v-layout>
                 
@@ -172,13 +143,16 @@ import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import { quillEditor } from "vue-quill-editor";
 
-import VueUploadMultipleImage from 'vue-upload-multiple-image'
+import VueUploadMultipleImage from 'vue-upload-multiple-image';
+
+import BasicItemInfo from './BasicItemInfo'
 
 export default {
     name: 'AddItem',
     components: {
         VueUploadMultipleImage,
-        quillEditor
+        quillEditor,
+        BasicItemInfo
     },
     data(){
         return {

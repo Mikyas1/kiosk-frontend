@@ -127,7 +127,7 @@
                       prepend-icon="email"
                     ></v-text-field>
                     <v-btn type="submit" color="primary">continue</v-btn>
-                    <v-btn class="ml-5" flat v-on:click="step = 1">{{ $t('cancel') }}</v-btn>
+                    <v-btn class="ml-5" flat v-on:click="step = 1">{{ $t('cancle') }}</v-btn>
                   </v-form>
                 </v-stepper-content>
 
@@ -146,7 +146,7 @@
                       ></v-text-field>
                       <div class="mt-5">
                         <v-btn type="submit" color="primary">continue</v-btn>
-                        <v-btn class="ml-5" flat v-on:click="step = 2">{{ $t('cancel') }}</v-btn>
+                        <v-btn class="ml-5" flat v-on:click="step = 2">{{ $t('cancles') }}</v-btn>
                       </div>
                     </v-form>
                   </v-card>
