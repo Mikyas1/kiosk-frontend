@@ -59,11 +59,10 @@
               <v-data-table
                 :headers="get_table_header"
                 :search="search"
-                :items="complex.items"
+                :items="items"
                 :rows-per-page-items="[10,25,50,{text:'All','value':-1}]"
                 class="elevation-1 c-table"
                 item-key="id"
-                v-model="complex.selected"
                 disable-initial-sort
                 :dark="false"
                 >
@@ -78,18 +77,18 @@
                     </td> -->
                     <td v-on:click="edit(props.item.name)">
                       <v-avatar size="38">
-                        <img :src="require('@/assets/alienware.jpg')" height="32" width="32" alt="">
+                        <img :src="props.item.images.name" height="32" width="32" alt="">
                       </v-avatar> 
                       <!-- <img src="./alienware.jpg" height="50" width="60"> -->
                        <!-- <v-img :src="require('@/assets/alienware.jpg')" height="60" width="60"></v-img> -->
                     </td>
                     <td  v-on:click="edit(props.item.name)">{{ reduceText(props.item.name) }}</td>
                     <td  v-on:click="edit(props.item.name)">{{ props.item.price }} ETB</td>
-                    <td  v-on:click="edit(props.item.name)">
+                    <!-- <td  v-on:click="edit(props.item.name)">
                       <div v-for="branch in props.item.branch" :key="branch">
                         {{ branch }}
                       </div>
-                    </td>
+                    </td> -->
                     <td v-if="$vuetify.breakpoint.smAndUp" v-on:click="edit(props.item.name)">{{ props.item.quantity }}</td>
                     <td v-if="$vuetify.breakpoint.smAndUp">
                       <v-btn v-on:click="edit(props.item.name)" depressed outline icon fab dark color="primary" small>
@@ -115,7 +114,7 @@
       </v-layout>
       <v-layout v-else>
         <p v-if="error">Loading faild!!</p>
-        <p v-else>Loadding...</p>
+        <p v-else>Loading...</p>
       </v-layout>
 
       </v-card>
@@ -161,9 +160,9 @@ export default {
   computed: {
     get_table_header(){
       if(!this.$vuetify.breakpoint.smAndUp) {
-        return this.complex.headers.slice(1,5)
+        return this.headers.slice(1,5)
       } else {
-        return this.complex.headers
+        return this.headers
       }
     }
   },
@@ -171,9 +170,8 @@ export default {
     return {
       search: '',
       addDialog: false,
-      complex: {
-        selected: [],
-        headers: [
+      items: [],
+      headers: [
           {
             text: 'Image',
             value: 'image'
@@ -186,10 +184,10 @@ export default {
             text: 'Price',
             value: 'price'
           },
-          {
-            text: 'Branch',
-            value: 'branch'
-          },
+          // {
+          //   text: 'Branch',
+          //   value: 'branch'
+          // },
           {
             text: 'Quantity',
             value: 'quantity'
@@ -199,117 +197,16 @@ export default {
             value: ''
           },
         ],
-        items: [
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch', '2nd branch', '3rd branch', '4th branch'],
-            'id': 1
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch'],
-            'id': 2
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch'],
-            'id': 3
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch'],
-            'id': 4
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch'],
-            'id': 5
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch'],
-            'id': 6
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch'],
-            'id': 7
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch'],
-            'id': 8
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch'],
-            'id': 9
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'branch': ['Main Branch'],
-            'id': 10
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'id': 11
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'id': 12
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'id': 13
-          },
-          {
-            'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
-            'image': '@/assets/alienware.jpg',
-            'price': 749,
-            'quantity': 4,
-            'id': 14
-          },
-        ]
-      },
+        // items: [
+          // {
+          //   'name': 'Alienware 1900R 34.1", Curved Gaming Monitor LED-Lit, WQHD 3440 x 1440p Resolution',
+          //   'image': '@/assets/alienware.jpg',
+          //   'price': 749,
+          //   'quantity': 4,
+          //   'branch': ['Main Branch', '2nd branch', '3rd branch', '4th branch'],
+          //   'id': 1
+          // },
+        // ],
       loading: false,
       category: null,
       tags: null,
@@ -320,7 +217,8 @@ export default {
   created() {
       this.$store.commit('dashboard/SET_ACTIVE_PAGE', 'inventory');
       this.loading = true;
-      this.$store.dispatch("dashboard/get_inventory")
+      // this should be performed when users want to add item
+      this.$store.dispatch("dashboard/get_store_tag")
       .then(response=> {
         this.category = response.data.category;
         this.tags = response.data.tags;
@@ -328,6 +226,20 @@ export default {
         this.show = true;
       })
       .catch(error=> {
+        this.$store.commit("SET_SNACKBAR", {
+              message: getErrorMessage(error),
+              value: true,
+              status: "error"
+            });
+        this.loading = false;
+        this.error = true;
+      })
+
+      this.$store.dispatch("dashboard/get_inventory")
+      .then(response => {
+        this.items = response;
+      })
+      .catch(error => {
         this.$store.commit("SET_SNACKBAR", {
               message: getErrorMessage(error),
               value: true,

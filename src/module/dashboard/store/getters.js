@@ -20,8 +20,8 @@ export default {
   },
   branchs: state => state.storeInfo.branches,
   storeImage: state => {
-    if(state.storeInfo.storeProfile[0]){
-      return state.storeInfo.storeProfile[0].path
+    if(state.storeInfo.storeImage[0]){
+      return state.storeInfo.storeImage[0].path
     } else {
       return ""
     }

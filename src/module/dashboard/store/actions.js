@@ -131,8 +131,8 @@ export default {
             .update_store_img(data)
             .then(response => {
                 // update store profile
-                // commit("EDIT_BRANCH", response.data);
-                resolve({ results: response });
+                commit("SET_STORE_IMAGE", response.data[0]);
+                resolve(response.data[0]);
             })
             .catch(e => {
                 reject(e);
@@ -141,10 +141,10 @@ export default {
     },
 
     // FOR INVENTORY
-    get_inventory: () => {
+    get_store_tag: () => {
         return new Promise((resolve, reject) => {
             apiClient.dashboard.inventory
-            .get_inventory()
+            .get_store_tag()
             .then(response => {
                 resolve(response);
             })
@@ -152,5 +152,32 @@ export default {
                 reject(e);
             })
         })
-    }
+    },
+
+    get_inventory: () => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.inventory
+            .get_inventory()
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
+    },
+    add_item: ({ commit, }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.inventory
+            .add_item(data)
+            .then(response => {
+                // update inventory
+                // commit("SET_STORE_IMAGE", response.data[0]);
+                resolve(response);
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    },
 };

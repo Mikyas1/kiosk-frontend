@@ -28,7 +28,9 @@ const urls = {
     update_branch:'/kiosks/branch/update/',
 
     // FOR INVENTORY
-    get_inventory: '/inventory/addItem/',
+    get_inventory: '/inventory/getItems/',
+    get_store_tag: '/inventory/getStoreTag/',
+    add_item: '/inventory/add-item/',
 
 }
 

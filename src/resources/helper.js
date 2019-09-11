@@ -26,4 +26,8 @@ const capitalize = function (string) {
   return string && string[0].toUpperCase() + string.slice(1).toLowerCase();
 }
 
-export { getErrorMessage, urlify, capitalize };
+const getLastElement = function (array) {
+  return array[array.length - 1];
+}
+
+export { getErrorMessage, urlify, capitalize, getLastElement };

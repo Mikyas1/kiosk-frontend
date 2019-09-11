@@ -10,15 +10,17 @@
 
           <div v-if="imageString != ''">
             <v-img
-                src="https://picsum.photos/510/300?random"
+                :src="imageString"
+                crossorigin="anonymous"
                 :lazy-src="require('@/assets/loading.png')"
                 max-height="155"
                 aspect-ratio="1.7"
                 width="255"
                 position=""
             >
-            </v-img>
+            </v-img>  
           </div>
+
           <div v-else>
               <p><v-icon small color="primary">info</v-icon>{{ $t('no_store_image') }}</p>
           </div>

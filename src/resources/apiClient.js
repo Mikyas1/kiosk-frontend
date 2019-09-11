@@ -61,6 +61,12 @@ export default {
         inventory: {
             get_inventory() {
                 return http.get(urls.get_inventory);
+            },
+            get_store_tag() {
+                return http.get(urls.get_store_tag);
+            },
+            add_item(payload) {
+                return http.post(urls.add_item, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
             }
         }
     }

@@ -55,5 +55,8 @@ export default {
         x => x.id == data.id
       );
       state.storeInfo.branches[index] = data;
+    },
+    SET_STORE_IMAGE: (state, path) => {
+      state.storeInfo.storeImage.push({"path": path})
     }
-  };
+};
