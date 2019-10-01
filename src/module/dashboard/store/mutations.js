@@ -8,6 +8,7 @@ export default {
     RESET: (state, data) => {
       state.storeInfo = data;
       state.active = data;
+      state.storeTags = data;
     },
     SET_STORE_DESCRIPTION: (state, data) => {
       state.storeInfo.description = data;
@@ -58,5 +59,15 @@ export default {
     },
     SET_STORE_IMAGE: (state, path) => {
       state.storeInfo.storeImage.push({"path": path})
+    },
+    SET_STORE_TAGS: (state, data) => {
+      state.storeTags = data;
+    },
+    SET_STORE_TOKEN: (state, data) => {
+      if (data.type == 'ADD') {
+        state.storeInfo.token = state.storeInfo.token + data.data;
+      } else if(data.type == 'SUB'){
+        state.storeInfo.token = state.storeInfo.token - data.data;
+      }
     }
 };

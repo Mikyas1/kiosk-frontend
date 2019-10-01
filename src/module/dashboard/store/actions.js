@@ -141,11 +141,12 @@ export default {
     },
 
     // FOR INVENTORY
-    get_store_tag: () => {
+    get_store_tag: ({ commit, },) => {
         return new Promise((resolve, reject) => {
             apiClient.dashboard.inventory
             .get_store_tag()
             .then(response => {
+                commit("SET_STORE_TAGS", response.data);
                 resolve(response);
             })
             .catch(e => {
@@ -171,13 +172,25 @@ export default {
             apiClient.dashboard.inventory
             .add_item(data)
             .then(response => {
-                // update inventory
-                // commit("SET_STORE_IMAGE", response.data[0]);
-                resolve(response);
+                // update store token
+                commit("SET_STORE_TOKEN", {type: 'SUB', data: response.data.token});
+                resolve(response.data); 
             })
             .catch(e => {
                 reject(e);
             });
         });
     },
+    delete_item: ({ commit, }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.inventory
+            .delete_item(id)
+            .then(response => {
+                resolve(response.data)
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
+    }
 };

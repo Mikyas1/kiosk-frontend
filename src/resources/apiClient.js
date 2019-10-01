@@ -67,6 +67,9 @@ export default {
             },
             add_item(payload) {
                 return http.post(urls.add_item, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
+            },
+            delete_item(item_id) {
+                return http.delete(urls.delete_item + item_id);
             }
         }
     }

@@ -1,11 +1,21 @@
 <template>
   <div>
     <v-card>
+      <p class="px-4 py-4 c-card mb-4">
+        To go back to the privious page press <strong class="primary--text">ESC</strong> or click on the cancle button at the bottom of this form. 
+        Please fill the provided form carefully and to the extent of your knowledge truthfully. 
+        When you add an item with a token value that token value will be substracted from your store tokens.
+      </p>
       <v-container>
         <div primary-title>
-          <div class="headline mb-3">Add a New Item.</div>
+          <div class="headline mb-3">Add a New Item. You have {{ storeToken }} Tokens</div>
         </div>
-        <BasicItemInfo :category="category" :tags="tags" @basicItemInfo="getbasicItemInfo"></BasicItemInfo>
+        <BasicItemInfo 
+          :category="category" 
+          :tags="tags" 
+          @basicItemInfo="getbasicItemInfo"
+          @clearFormHandler="setClearFormHandler"  
+        ></BasicItemInfo>
 
         <v-layout row wrap>
           <v-flex xs12 md12>
@@ -31,8 +41,50 @@
                 <strong>.jpg</strong>.
               </p>
               <v-card flat class="c-card">
+                <v-layout row wrap class="mb-2">
+                  <v-flex xs5 md2 class="mr-0">
+                    <!-- main image -->
+                    <v-btn
+                      raised
+                      dark
+                      class="c_selected_btn text-capitalize c-image-btn"
+                      @click="onMainPickFile"
+                    >
+                      <span v-if="!mainImage">
+                        + Click to
+                        <br />Add Main Photo
+                      </span>
+                      <span v-else>
+                        Change Main Photo
+                      </span>
+                    </v-btn>
+                    <input
+                      type="file"
+                      style="display: none;"
+                      ref="mainImage"
+                      accept="image/*"
+                      @change="onMainFilePicked"
+                    />
+                  </v-flex>
+                  <v-flex v-if="mainImage" xs5 md2 class="mt-2 mx-1 mb-1">
+                    <v-img
+                      :src="mainImageUrl"
+                      crossorigin="anonymous"
+                      :lazy-src="require('@/assets/loading.png')"
+                      max-height="110"
+                      max-width="170"
+                      aspect-ratio="1.7"
+                      width="255"
+                      position
+                    ></v-img>
+                  </v-flex>
+                </v-layout>
+
+                <div style="border-top: 1px solid rgba(0,0,0,.1);"></div>
+
                 <v-layout row wrap>
                   <v-flex xs5 md2 class="mr-0">
+                    <!-- list images -->
                     <v-btn
                       raised
                       dark
@@ -41,7 +93,7 @@
                     >
                       <span v-if="viewImages.length == 0">
                         + Click to
-                        <br />add photos
+                        <br />add photos List
                       </span>
                       <span v-else>
                         Change Photo
@@ -75,7 +127,6 @@
             </v-card>
           </v-flex>
 
-          {{ addBasicInfo }}
           <v-btn 
             flat 
             raised 
@@ -136,12 +187,17 @@ export default {
       images: [],
       viewImages: [],
       addBasicInfo: null,
-      submitBtn: false
+      mainImage: null,
+      mainImageUrl: null,
+      submitBtn: false,
+      // clearFormHandlerFn
+      fnClearFormHandler: null
     };
   },
   computed: {
     ...mapGetters({
-      imageString: "dashboard/storeImage"
+      imageString: "dashboard/storeImage",
+      storeToken: "dashboard/storeToken"
     })
   },
   props: {
@@ -167,16 +223,21 @@ export default {
     onPickFile() {
       this.$refs.fileInput.click();
     },
+    onMainPickFile() {
+      this.$refs.mainImage.click();
+    },
     onFilePicked(event) {
       const files = event.target.files;
       this.images = [];
       this.viewImages = [];
       var index = 0;
       for (var file of files) {
-        if (index === 5) {
+        if (index === 4) {
           break;
         }
-        if (file.name.substr(file.name.indexOf(".") + 1) == "jpg") {
+        // if (file.name.substr(file.name.indexOf(".") + 1) == "jpg") {
+          // pass all images
+          if (true){
           // this.images.push(file.name);
           // console.log(window.URL.createObjectURL(file))
           this.images.push(file);
@@ -185,12 +246,34 @@ export default {
         }
       }
     },
+    onMainFilePicked(event) {
+      const file = event.target.files[0];
+      // if (file.name.substr(file.name.indexOf(".") + 1) == "jpg") {
+        if (true) {
+        this.mainImage = file;
+        this.mainImageUrl = window.URL.createObjectURL(file);
+      }
+    },
     // to submit the item
     addItem(){
-        let formData = new FormData();
-        // 
-        // work on validation
-        // 
+      let formData = new FormData();
+      // 
+      // work on validation
+      try {
+        var features = {}
+        // console.log(this.addBasicInfo.addedField)
+        for (var feature of this.addBasicInfo.addedField) {
+          if (feature.field != "" && feature.label) {
+            features[feature.label] = feature.field;
+          }
+        }
+        for(var key in this.addBasicInfo.features){
+          if(this.addBasicInfo.features.hasOwnProperty(key) && this.addBasicInfo.features[key] != "") {
+            features[key] = this.addBasicInfo.features[key]
+          }
+        }
+        const blobFeature = new Blob([JSON.stringify(features)], {type: 'application/json'});
+        formData.append("features", blobFeature)
         formData.append("name", this.addBasicInfo.name);
         formData.append("price", this.addBasicInfo.price);
         formData.append("category", getLastElement(this.addBasicInfo.category));
@@ -198,33 +281,57 @@ export default {
         formData.append("condition", this.addBasicInfo.condition);
         formData.append("brand", this.addBasicInfo.brand);
         formData.append("description", this.tempStoreDescription);
-        formData.append("features", null)
         formData.append("token", this.addBasicInfo.priorityVal);
+        // the main image
+        formData.append("mainImage", this.mainImage);
         for (var image of this.images){
             formData.append("image", image);
         }
+        formData.append("posted", this.addBasicInfo.posted);
+        formData.append("branch", 2);
 
-        this.submitBtn = true;
-        this.$store
-          .dispatch("dashboard/add_item", formData)
+      } catch(err) {
+        this.$store.commit("SET_SNACKBAR", {
+            message: 'Please fill out the form properly.',
+            value: true,
+            status: "error"
+        });
+        return;
+      }
 
-            .then(() => {
-                this.$store.commit("SET_SNACKBAR", {
-                    message: "Successfully added an Item!",
-                    value: true,
-                    status: "success"
-                });
-                this.submitBtn = false;
-            })
+      this.submitBtn = true;
+      this.$store
+        .dispatch("dashboard/add_item", formData)
 
-            .catch(error => {
-                this.$store.commit("SET_SNACKBAR", {
-                    message: getErrorMessage(error),
-                    value: true,
-                    status: "error"
-                });
-                this.submitBtn = false;
+        .then((response) => {
+            this.$store.commit("SET_SNACKBAR", {
+                message: "Successfully added an Item!",
+                value: true,
+                status: "success"
             });
+            this.submitBtn = false;
+            this.$emit('newItem', response);
+            this.closeDialog()
+            this.images = [];
+            this.viewImages = [];
+            this.mainImage = null;
+            this.mainImageUrl = null;
+            this.tempStoreDescription = null;
+            this.fnClearFormHandler();
+        })
+
+        .catch(error => {
+            console.log(error)
+            this.$store.commit("SET_SNACKBAR", {
+                message: getErrorMessage(error),
+                value: true,
+                status: "error"
+            });
+            this.submitBtn = false;
+        });
+    },
+    setClearFormHandler(fn){
+      this.fnClearFormHandler = fn;
     }
   },
   created() {

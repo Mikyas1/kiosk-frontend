@@ -50,6 +50,7 @@
             </v-list-tile>
 
             <v-dialog max-width="600px" v-model="editDialog">
+              <div slot="activator"></div>
               <v-card>
                 <div primary-title>
                   <div class="headline pt-4 ml-4">{{ $t('edit_branch') }}</div>
@@ -129,7 +130,7 @@
                     <v-btn
                       flat
                       dark
-                      class="warning ml-0 text-capitalize"
+                      class="error ml-0 text-capitalize"
                       v-bind:loading="loading"
                       v-on:click="removeBranch(branchEditing.id)"
                     >{{ $t('remove') }}</v-btn>

@@ -31,6 +31,14 @@
       <!-- SPACER TO SEPARATE HORIZONTALLY -->
       <v-spacer></v-spacer>
 
+      <!-- TOKEN VALUE -->
+      <div class="hidden-sm-and-down">
+        <v-icon>monetization_on</v-icon>
+        <router-link ripple router v-bind:to='"/app/packages"' class="white--text c-token">
+        {{ storeToken }} ETB
+        </router-link>
+      </div>
+
       <!-- USER INFO -->
       <v-menu bottom offset-y>
         <v-btn
@@ -41,11 +49,13 @@
         >
           <div class="c-btn-div">
             <v-avatar class="mr-2" size="30px">
-              <img src="../assets/avatar/man_4.jpg" alt="Michael Wang"/>
+              <v-icon>person_outline</v-icon>
             </v-avatar>
             <span class="subheading text-capitalize white--text hidden-sm-and-up" v-if="!drawer">{{ fullName }}</span>
             <span class="subheading text-capitalize white--text hidden-sm-and-down">{{ fullName }} </span>
-            <v-icon>expand_more</v-icon>
+            <v-avatar class="mr-2" size="30px">
+               <v-icon>expand_more</v-icon>
+            </v-avatar>
           </div>  
         </v-btn>
         <v-list>
@@ -179,6 +189,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
   export default {
     data: () => ({
       bottomNav: 'recent',
@@ -208,10 +220,12 @@
       home: '',
     }),
     computed: {
+      ...mapGetters({
+        storeToken: "dashboard/storeToken",
+        owner: "dashboard/owner",
+      }),
       fullName() {
-        let owner = this.$store.getters['dashboard/owner'];
-        return owner.firtName + ' ' + owner.lastName 
-        // return "Mikyas Alemayehu"
+        return this.owner.firtName + ' ' + this.owner.lastName;
       }
     },
     methods: {
@@ -272,5 +286,11 @@
 }
 .drawer-icon {
   margin-left: 0px !important;
+}
+.c-token{
+  text-decoration: none;
+}
+.c-token:hover {
+  text-decoration: underline !important;
 }
 </style>

@@ -7,7 +7,8 @@ export default {
     state: {
         // WHICH PAGE IS ACTIVE
         active: null,
-        storeInfo: null
+        storeInfo: null,
+        storeTags: null,
     },
     getters,
     actions,

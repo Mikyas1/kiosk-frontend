@@ -4,7 +4,18 @@
       <v-card flat class="ma-2 px-4 py-4 c-card">
         <div>
           <h2 class="font-weight-regular mb-3">1: Basic Item info</h2>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur earum officia deserunt, corporis reprehenderit nisi atque eligendi dolor! Ratione ipsum, ducimus molestias nam corporis expedita porro est consequuntur quam sit?</p>
+          <p>
+            <v-icon small color="warning">info</v-icon>
+            Listing Priority is a value you put that will be <strong>directly subtracted</strong> from your token ({{ storeToken }}).
+            When items are listed for buyers they will appear in a descending order of this Priority value. 
+            Items with bigger priority value will be listed first and with lower prioritiy value will be listed last.
+          </p>
+
+          <p>
+            <v-icon small color="primary">info</v-icon>
+            Item with Priority Value graterthan 10 can be posted on <strong>50K+ (users) telegram channel for free</strong>. 
+            If you put more than 10 Priority Values for your item, be sure to check on <strong>"post on social-media"</strong> below to post for free. 
+          </p>
 
           <v-form ref="basic">
             <v-text-field
@@ -60,7 +71,7 @@
             </div>
 
             <!-- branch -->
-            <!-- <v-select
+            <v-select
                     class="input-group--focused pr-4 pl-2 mt-2"
                     v-model="newItem.branchs"
                     :items="allBranchs"
@@ -69,9 +80,9 @@
                     label="* Branchs"
                     multiple
                     chips
-                    hint="At which branch will this new item exist."
+                    hint="At which branch will this item exist."
                     persistent-hint
-            ></v-select>-->
+            ></v-select>
 
             <v-text-field
               label="* Quantity"
@@ -82,6 +93,7 @@
             <v-text-field
               label="* Price"
               class="input-group--focused pr-4 pl-2 mt-2"
+              hint=" - All price must be in Ethiopian Birr (ETB)"
               v-model="newItem.price"
             ></v-text-field>
 
@@ -89,12 +101,20 @@
               v-model="newItem.priorityVal"
               thumb-label="always"
               label="Listing Priority"
-              :max="10"
+              :max="avaliableTokens"
               :min="1"
               always-dirty
               class="input-group--focused pr-4 pl-2 mt-4 pt-2"
+              @change="watchChangeSlider"
             ></v-slider>
+            <p class="list-priority">- listing priority (item token) is used to give listing prioriyt to items. Items with higher listing priority will get higher probability of being found by buyers.</p>
 
+            <v-checkbox
+            v-if="newItem.priorityVal > 9"
+            v-model="newItem.posted"
+            :label="'Post on Social-media'"
+            >
+            </v-checkbox>
           </v-form>
         </div>
       </v-card>
@@ -109,7 +129,7 @@
           <v-form ref="featuer">
             <div v-if="newItem.category">
               <p
-                v-if="features.length > 0"
+                v-if="features != {}"
               >Leave out the fields you don't want to specify and they will not be included as your product feature.</p>
               <v-layout v-for="(item, key, index) in features" :key="index" row wrap>
                 <v-flex xs3 md3 class="pt-4">{{ key }}</v-flex>
@@ -151,7 +171,7 @@
                 </v-btn>
               </v-flex>
             </v-layout>
-
+            
             <v-btn
               flat
               dark
@@ -162,6 +182,7 @@
         </v-card>
       </div>
     </v-flex>
+    
   </v-layout>
 </template>
 
@@ -178,14 +199,15 @@ export default {
       newItem: {
         name: "",
         category: null,
-        // branchs: [],
+        branchs: [],
         quantity: null,
         price: null,
         condition: null,
         brand: null,
         priorityVal: 1,
         features: {},
-        addedField: []
+        addedField: [],
+        posted: false,
       },
       features: {},
       inputRules: [
@@ -208,8 +230,16 @@ export default {
   computed: {
     ...mapGetters({
       sellerCategory: "dashboard/storeCategory",
-      branchs: "dashboard/branchs"
+      branchs: "dashboard/branchs",
+      storeToken: "dashboard/storeToken",
     }),
+    avaliableTokens() {
+      if (this.storeToken > 20) {
+        return 20;
+      } else {
+        return this.storeToken;
+      }
+    },
     subRootCategories() {
       return this.category[this.rootCategory].map(x => {
         return {
@@ -243,6 +273,11 @@ export default {
     }
   },
   methods: {
+    watchChangeSlider(x){
+      if(x < 10) {
+        this.newItem.posted = false;
+      }
+    },
     categoryListDisp(catList) {
       var dispCat = "";
       // return catList.length;
@@ -270,6 +305,7 @@ export default {
       this.newItem.addedField.splice(index, 1);
     },
     changeCategoryFeature() {
+      this.features = {};
       for (var i of [
         ...this.tags.Feature[getLastElement(this.newItem.category)]
       ]) {
@@ -277,11 +313,25 @@ export default {
       }
     },
     setFeatures(e, key) {
-      console.log(e, key);
+      // console.log(e, key);
       var newFeatures = { ...this.newItem.features };
       newFeatures[key] = e;
       this.newItem.features = { ...newFeatures };
-      console.log(this.newItem.features[key]);
+      // console.log(this.newItem.features[key]);
+    },
+    clearForm() {
+      this.newItem = {
+        name: "",
+        category: null,
+        // branchs: [],
+        quantity: null,
+        price: null,
+        condition: null,
+        brand: null,
+        priorityVal: 1,
+        features: {},
+        addedField: []
+      };
     }
   },
   watch: {
@@ -291,6 +341,9 @@ export default {
         this.$emit("basicItemInfo", this.newItem);
       }
     }
+  },
+  created() {
+    this.$emit('clearFormHandler', this.clearForm);
   }
 };
 </script>
@@ -300,5 +353,11 @@ export default {
 .c-card {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
+}
+.list-priority {
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: -22px;
+  font-size: .87em;
+  padding-left: 2%;
 }
 </style>

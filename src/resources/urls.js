@@ -31,6 +31,8 @@ const urls = {
     get_inventory: '/inventory/getItems/',
     get_store_tag: '/inventory/getStoreTag/',
     add_item: '/inventory/add-item/',
+    delete_item: '/inventory/deleteItem/',
+    update_item_data: '/inventory/updateItemData'
 
 }
 

@@ -29,4 +29,6 @@ export default {
   storeCategory: state => {
     return state.storeInfo.categories.map(x => x.name);
   },
+  storeTags: state => state.storeTags,
+  storeToken: state => state.storeInfo.token,
 };
