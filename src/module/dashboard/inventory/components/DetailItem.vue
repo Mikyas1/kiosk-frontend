@@ -1,57 +1,124 @@
 <template>
   <div>
-    <!-- <v-layout row wrap>
-      <v-flex xs-3>
-        <v-img
-          :src="item.images[0].path"
-          crossorigin="anonymous"
-          :lazy-src="require('@/assets/loading.png')"
-          max-height="110"
-          max-width="170"
-          aspect-ratio="1.7"
-          width="255"
-          position
-        ></v-img>
+    <div primary-title>
+      <div class="headline mb-3 ml-4 pt-4">Item Detail - <span class="c_selected_btn--text">{{ item.name }}</span></div>
+    </div>
+
+    <v-layout row wrap>
+      <v-flex md5>
+        <div class="c-card pt-1 pb-4 pl-2 ml-3 mb-3" 
+        :class="{' mr-3': $vuetify.breakpoint.smAndDown}"
+        >
+        <div primary-title>
+          <div class="headline mb-3 ml-2">Item Photos</div>
+        </div>
+        <v-layout row wrap>
+          <v-flex xs-3 class="mt-2 mx-2 mb-1">
+            <v-img
+              :src="getMainImageHere(item).path"
+              crossorigin="anonymous"
+              :lazy-src="require('@/assets/loading.png')"
+              max-height="500"
+              max-width="1000"
+              aspect-ratio="1.7"
+              width="255"
+              contain
+              position
+            ></v-img>
+          </v-flex>
+        </v-layout>
+
+        <v-layout row wrap class="mt-4">
+          <v-flex v-for="image in getListImageHere(item)" :key="image.id" md2 class="mt-2 mx-3 mb-1">
+            <v-img
+              :src="image.path"
+              crossorigin="anonymous"
+              :lazy-src="require('@/assets/loading.png')"
+              max-height="50"
+              max-width="90"
+              aspect-ratio="1.7"
+              contain
+              width="255"
+              position
+            ></v-img>
+          </v-flex>
+        </v-layout>
+        </div>
       </v-flex>
 
-      <v-flex xs-9>
-        <v-layout row>
-          <v-flex>{{ item.name }}</v-flex>
+      <v-flex md7>
+        <div class="c-card pt-1 pb-4 pl-2 ml-3 mr-3">
+        <v-layout row wrap>
+          <v-flex xs-9>
+            <div class="pt-1 pl-2">
+              <div primary-title>
+                <div class="headline mb-2">Item information</div>
+              </div>
+              <div class="ml-2">
+                <span class="c-detail-name">Name: </span><span class="c_selected_btn--text">{{ item.name }}</span>
+                <br>
+                <span class="c-detail-name">Price: </span><span class="c_selected_btn--text">{{ item.price }} ETB</span>
+                <br>
+                <span class="c-detail-name">Quantity: </span><span class="c_selected_btn--text">{{ item.quantity }}x</span>
+                <br>
+                <span class="c-detail-name">Category: </span><span class="c_selected_btn--text">{{ getCategory }}</span>
+                <br>
+                <span class="c-detail-name">Condition: </span><span class="c_selected_btn--text">{{ item.condition }}</span> 
+                <br>
+                <span class="c-detail-name">Brand: </span><span class="c_selected_btn--text">{{ item.brand }}</span>
+                <br>
+                <span class="c-detail-name">Listing Priority: </span><span class="c_selected_btn--text">{{ item.token }}</span>
+              </div>
+              <div v-if="getFeatureLength">
+                <div primary-title>
+                  <div class="headline mt-3 mb-2">Item features</div>
+                </div>
+                <div class="ml-2" v-for="feature in item.features" :key="feature.id">
+                  <span class="c-detail-name">{{feature.name}}: </span><span class="orange--text">{{feature.value}}</span>
+                </div>
+              </div>
+              <div primary-title>
+                <div class="headline mt-3 mb-2" v-if="getItemDescription">Item description</div>
+              </div>
+              <div class="ml-2" v-html="getItemDescription"></div>
+              <div v-if="getBranch.length > 0">
+                <div primary-title>
+                  <div class="headline mt-3 mb-2">Item location</div>
+                </div>
+                <div class="ml-2">
+                  <span class="c-detail-name">Branch Name: </span><span class="orange--text">{{getBranch[0].branchName}}</span>
+                  <br>
+                  <span class="c-detail-name">Country: </span><span class="orange--text">{{getBranch[0].location.country}}</span>
+                  <br>
+                  <span class="c-detail-name">Region: </span><span class="orange--text">{{getBranch[0].location.region}}</span>
+                  <br>
+                  <span class="c-detail-name">City: </span><span class="orange--text">{{getBranch[0].location.city}}</span>
+                  <br>
+                  <span class="c-detail-name">Sub City: </span><span class="orange--text">{{getBranch[0].location.sub_city}}</span>
+                  <br>
+                  <span class="c-detail-name">Description: </span><span class="orange--text">{{getBranch[0].location.buildingAndRoomNo}}</span>
+                </div>  
+              </div>
+            </div>
+          </v-flex>
         </v-layout>
-        <v-layout row>
-          <v-flex>{{ item.price }} ETB</v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex>{{ item.quantity }}x</v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex>{{ item.category.name }}</v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex>{{ item.condition }}</v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex>{{ item.brand }}</v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex>{{ item.token }}</v-flex>
-        </v-layout>
+        </div>
       </v-flex>
     </v-layout>
-    <v-layout row v-if="item.description != null">
-      <p>{{item.description}}</p>
-    </v-layout>
-    <v-layout row v-for="feature in item.features" :key="feature.id">
-      <v-flex>{{feature.name}}</v-flex>
-      <v-flex>{{feature.value}}</v-flex>
-    </v-layout> -->
-    <v-card>
-      {{ item }}
-    </v-card>
+    <v-btn 
+      flat 
+      class="c_selected_btn text-capitalize white--text my-4 ml-3" 
+      v-on:click="closeDialog"
+    >
+      Close
+    </v-btn>
   </div>
 </template>
 
 <script>
+import { getMainImage } from "@/resources/helper";
+import { getListImage } from "@/resources/helper";
+
 export default {
   name: "DetailItem",
   props: {
@@ -59,9 +126,58 @@ export default {
       type: Object,
       required: true
     }
+  },
+  methods: {
+    getMainImageHere(item) {
+      return getMainImage(item);
+    },
+    getListImageHere(item) {
+      return getListImage(item);
+    },
+    closeDialog() {
+      this.$emit("closeDialog");
+    }
+  },
+  computed: {
+    getCategory() {
+      if (this.item.category) {
+        return this.item.category.name;
+      } else {
+        return "";
+      }
+    },
+    getFeatureLength() {
+      if (this.item.features) {
+        return this.item.features.length > 0;
+      } else {
+        return false;
+      }
+    },
+    getBranch() {
+      if (this.item.branch) {
+        return this.item.branch;
+      } else {
+        return [];
+      }
+    },
+    getItemDescription() {
+      if (this.item.description) {
+        return this.item.description;
+      } else {
+        return false;
+      }
+    }
   }
 };
 </script>
 
 <style scoped>
+.c-card {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.c-detail-name {
+  font-weight: 400;
+  font-size: 1.23em;
+}
 </style>

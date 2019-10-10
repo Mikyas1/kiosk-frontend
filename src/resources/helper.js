@@ -30,4 +30,20 @@ const getLastElement = function (array) {
   return array[array.length - 1];
 }
 
-export { getErrorMessage, urlify, capitalize, getLastElement };
+const getMainImage = function (item) {
+  if (item.images) {
+    return item.images.filter(x => x.isMain == true)[0];
+  } else {
+    return {path: ""};
+  }
+}
+
+const getListImage = function (item) {
+  if (item.images) {
+    return item.images.filter(x => x.isMain == false);
+  } else {
+    return [];
+  }
+}
+
+export { getErrorMessage, urlify, capitalize, getLastElement, getMainImage, getListImage };

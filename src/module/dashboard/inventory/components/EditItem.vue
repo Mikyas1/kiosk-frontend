@@ -5,17 +5,18 @@
         To go back to the privious page press
         <strong class="primary--text">ESC</strong> or click on the cancle button at the bottom of this form. 
         Use the form bellow to Update your Item. you have to <strong>resubmit a new listing priority</strong> to update your item.
+        To edit item photos use the bottom section of this page.
       </p>
       <v-container>
         <div primary-title>
-          <div class="headline mb-3">Edit Item - {{ item.name }}.</div>
+          <div class="headline mb-3">Edit Item Detail.</div>
         </div>
         <v-layout row wrap>
           <v-flex xs12 md6>
             <v-card flat class="ma-2 px-4 py-4 c-card">
               <div>
                 <h2 class="font-weight-regular mb-3">1: Basic Item info</h2>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur earum officia deserunt, corporis reprehenderit nisi atque eligendi dolor! Ratione ipsum, ducimus molestias nam corporis expedita porro est consequuntur quam sit?</p>
+                <p>Editing items is computationally intensive task. That is why we request you to resubmit the priority value when editing an item.</p>
 
                 <v-form ref="basic">
                   <v-text-field
@@ -86,7 +87,7 @@
               <v-card flat class="ma-2 px-4 py-4 c-card">
                 <h2 class="font-weight-regular mb-3">2: Item Features</h2>
                 <p>Click on the "Add Field" button below to add new feature field.</p>
-                <v-form ref="featuer">
+                <v-form ref="feature">
                     <v-layout v-for="feature in item.features" :key="feature.id" row wrap>
                         <v-flex xs3 md3 class="pt-4">{{ feature.name }}</v-flex>
                         <v-flex xs9 md9>
@@ -154,9 +155,156 @@
           </v-flex>
         </v-layout>
 
+        <p class="ml-4"><v-icon small color="c_selected_btn">info</v-icon> If you update any item information above, use the button bellow to submit.</p>
+        <v-btn 
+          flat 
+          raised 
+          dark 
+          class="c_selected_btn ml-4 mb-5 text-capitalize"
+          v-bind:loading="editDataBtn"
+          v-on:click="submitEdit"
+          >
+            Edit item data
+        </v-btn>
+         
+
+
+
+      <!-- EDIT ITEM IMAGE -->
+
+      <v-layout row wrap>
+          <v-flex xs12 md12>
+            <v-card flat class="mx-2 mt-3 px-4 py-4 c-card mb-4">
+              <h2 class="font-weight-regular">4: Edit Item Images</h2>
+              <p class="pa-3">
+                Upload up to 5 photos that show your item in multiple views (such as front, side, back and close-up). 
+                Use white background for a better image result. All images must be
+                <strong>.jpg</strong>. Main photo will be included in your item listing 
+                and it is the one that will be posted to social media.
+              </p>
+              <v-card flat class="c-card">
+                <h2 class="font-weight-regular ml-2">Main Photo:</h2>
+                <v-layout row wrap class="mb-2">
+                  <v-flex v-if="getMainImageHere(item).path" xs5 md2 class="mt-2 mx-2 mb-1">
+                    <EditImage
+                      v-bind:image="getMainImageHere(item)"
+                      v-bind:main="true"
+                      v-bind:itemId="item.id"
+                      v-bind:imageList="getListImageHere(item)"
+                      v-on:removeImage="removeImage"
+                    >
+                  </EditImage>
+                  </v-flex>
+                </v-layout>
+
+                <div style="border-top: 1px solid rgba(0,0,0,.1);"></div>
+                <h2 class="font-weight-regular ml-2">List Photos:</h2>
+
+                <v-layout row wrap>
+
+                  <v-flex 
+                    v-if="getListImageHere(item).length < 4"
+                    xs5 md2 class="mt-2 mx-2 mb-1">
+                    <!-- main image -->
+                    <v-btn
+                      raised
+                      dark
+                      class="c_selected_btn text-capitalize c-image-btn"
+                      v-on:click="AddImageDialog=!AddImageDialog"
+                    >
+                      <span>
+                        + Click to
+                        <br />Add More Photos
+                      </span>
+                    </v-btn>
+                  </v-flex>
+
+
+                  <v-flex v-for="image in getListImageHere(item)" :key="image.id" xs5 md2 class="mt-2 mx-2 mb-1">
+                    <EditImage
+                      v-bind:image="image"
+                      v-bind:main="false"
+                      v-bind:itemId="item.id"
+                      v-on:removeImage="removeImage"
+                    >
+                    </EditImage>
+                  </v-flex>
+                </v-layout>
+              </v-card>
+            </v-card>
+          </v-flex>
+
+        </v-layout>
+
+        <v-btn flat class="warning text-capitalize" v-on:click="closeDialog">Close This Form</v-btn>
+
+        <v-dialog v-model="AddImageDialog" max-width="60%">
+          
+          <div slot="activator"></div>
+          
+
+          <v-card flat class="c-card">
+             <h2 class="font-weight-regular ml-2">List Photos: Max {{ allowedUploadImages }}</h2>
+
+                <v-layout row wrap>
+                  <v-flex xs5 md2 class="mr-5">
+                    <!-- list images -->
+                    <v-btn
+                      raised
+                      dark
+                      class="c_selected_btn text-capitalize c-image-btn"
+                      @click="onPickFile"
+                    >
+                      <span v-if="viewImages.length == 0">
+                        + Click to
+                        <br />add photos List
+                      </span>
+                      <span v-else>
+                        Change Photo
+                        <br />list
+                      </span>
+                    </v-btn>
+                    <input
+                      type="file"
+                      style="display: none;"
+                      ref="fileInput"
+                      accept="image/*"
+                      multiple
+                      @change="onFilePicked"
+                    />
+                  </v-flex>
+
+                  <v-flex v-for="image in viewImages" :key="image" xs5 md2 class="mt-2 mx-2 mb-1">
+                    <v-img
+                      :src="image"
+                      crossorigin="anonymous"
+                      :lazy-src="require('@/assets/loading.png')"
+                      max-height="90"
+                      max-width="140"
+                      aspect-ratio="1.7"
+                      contain
+                      width="255"
+                      position
+                    ></v-img>
+                  </v-flex>
+                </v-layout>
+                <v-btn
+                  v-if="viewImages.length != 0"
+                  flat 
+                  raised 
+                  dark 
+                  class="c_selected_btn my-2 text-capitalize"
+                  v-bind:loading="uploadImageBtn"
+                  v-on:click="uploadNewImages"
+                  >
+                    Upload Photo list
+                </v-btn>
+                <v-btn flat class="warning text-capitalize" v-on:click="AddImageDialog=!AddImageDialog">Cancle</v-btn>
+              </v-card>
+        </v-dialog>
+
+
       </v-container>
-      {{ item }}
-      {{ addedField }}
     </v-card>
   </div>
 </template>
@@ -168,10 +316,17 @@ import "quill/dist/quill.bubble.css";
 import { quillEditor } from "vue-quill-editor";
 import { mapGetters } from "vuex";
 
+import { getMainImage } from "@/resources/helper";
+import { getListImage } from "@/resources/helper";
+import { getErrorMessage } from "@/resources/helper";
+
+import EditImage from './EditImage'
+
 export default {
   name: "DetailItem",
   components: {
     quillEditor,
+    EditImage
   },
   props: {
     item: {
@@ -199,10 +354,11 @@ export default {
           ]
         }
       },
-      //   inputRules: [
-      //         v => v.length >= 1 || "Minimum length is 1 characters"
-      //         // 'Required',
-      //     ],
+      editDataBtn: false,
+      AddImageDialog: false,
+      images: [],
+      viewImages: [],
+      uploadImageBtn: false,
     };
   },
   computed: {
@@ -231,6 +387,11 @@ export default {
       } else {
         return this.storeToken;
       }
+    },
+    allowedUploadImages() {
+      if(this.item.images) {
+        return 5 - this.item.images.length;
+      }
     }
   },
   methods:{
@@ -240,9 +401,135 @@ export default {
     removeField(index) {
       this.addedField.splice(index, 1);
     },
+    closeDialog() {
+      this.$emit("closeDialog");
+    },
+    getMainImageHere(item) {
+      return getMainImage(item);
+    },
+    getListImageHere(item) {
+      return getListImage(item);
+    },
+    submitEdit() {
+      this.editDataBtn = true;
+      var description = "";
+      if (this.item.description != null) {
+        description = this.item.description;
+      }
+      var data = {
+        name: this.item.name,
+        brand: this.item.brand,
+        price: this.item.price,
+        itemId: this.item.id,
+        description: description,
+        condition: this.item.condition,
+        quantity: this.item.quantity,
+        category: this.item.category.name,
+        token: this.item.token,
+        newBranch: null,
+        deleteBranch: null,
+      };
+      var features = {};
+      for (var itemFeature of this.item.features) {
+        features[itemFeature.name] = itemFeature.value;
+      }      
+      for(var feature of this.addedField) {
+        features[feature.label] = feature.field;
+      }
+      data.features = [features];
+      
+      // SEND TO SERVER
+      this.$store.dispatch('dashboard/update_item_data', data)
+      .then(response => {
+        this.$store.commit("SET_SNACKBAR", {
+            message: "Successfully Edited Item " + data.name,
+            value: true,
+            status: "success"
+        });
+        this.$emit('editItemSuc', response);
+        this.closeDialog();
+        this.editDataBtn = false;
+      })
+      .catch(e => {
+        this.$store.commit("SET_SNACKBAR", {
+            message: getErrorMessage(e),
+            value: true,
+            status: "error"
+        });
+        this.editDataBtn = false;
+      })
+    },
+    resetFeatures() {
+      this.addedField = [];
+      this.images = [];
+      this.viewImages = [];
+    },
+    removeImage(data) {
+      if (data.replaceImageId == null) {
+        this.item.images = this.item.images.filter(x => x.id != data.imageId);
+        this.$emit("removeImage", { itemId: this.item.id, imageId: data.imageId, replaceImageId: null });
+      } else {
+        this.item.images = this.item.images.filter(x => x.id != data.imageId);
+        var index = this.item.images.findIndex(x => x.id == data.replaceImageId);
+        if (index != -1) {
+          this.item.images[index].isMain = true;
+        }
+        this.$emit("removeImage", { itemId: this.item.id, imageId: data.imageId, replaceImageId: data.replaceImageId });
+      }
+    },
+    onPickFile() {
+      this.$refs.fileInput.click();
+    },
+    onFilePicked(event) {
+      const files = event.target.files;
+      this.images = [];
+      this.viewImages = [];
+      var index = 0;
+      for (var file of files) {
+        if (index === this.allowedUploadImages) {
+          break;
+        }
+          if (true){
+          this.images.push(file);
+          this.viewImages.push(window.URL.createObjectURL(file));
+          index++;
+        }
+      }
+    },
+    uploadNewImages() {
+      this.uploadImageBtn = true;
+      let formData = new FormData();
+      for (var image of this.images){
+        formData.append("image", image);
+      }
+      formData.append("itemId", this.item.id);
+      this.$store
+        .dispatch("dashboard/upload_item_image", formData)
+        .then((response) => {
+          this.$store.commit("SET_SNACKBAR", {
+            message: "Successfully Uploaded a Photo list!",
+            value: true,
+            status: "success"
+          });
+          this.images = [];
+          this.viewImages = [];
+          this.uploadImageBtn = false;
+          this.AddImageDialog =! this.AddImageDialog;
+          this.item.images = response;
+          this.$emit("updateImageList", {data: response, itemId: this.item.id});
+        })
+        .catch(error => {
+          this.$store.commit("SET_SNACKBAR", {
+              message: getErrorMessage(error),
+              value: true,
+              status: "error"
+          });
+          this.uploadImageBtn = false;
+        });
+    }
   },
   created() {
-      
+      this.$emit('resetFeaturesHandler', this.resetFeatures);
   }
 };
 </script>

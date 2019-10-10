@@ -5,5 +5,8 @@ export default [
     path: "/",
     name: "home",
     component: Home,
+    meta: {
+        requiresVisitor: true,
+    },
   },
 ];

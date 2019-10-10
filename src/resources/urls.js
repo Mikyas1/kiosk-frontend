@@ -32,7 +32,12 @@ const urls = {
     get_store_tag: '/inventory/getStoreTag/',
     add_item: '/inventory/add-item/',
     delete_item: '/inventory/deleteItem/',
-    update_item_data: '/inventory/updateItemData'
+    update_item_data: '/inventory/updateItemData',
+    delete_item_image: '/inventory/deleteItemImage',
+    upload_item_image: '/inventory/uploadItemImage',
+
+    // FOR PACKAGE
+    buy_tokens: '/inventory/buyTokens',
 
 }
 

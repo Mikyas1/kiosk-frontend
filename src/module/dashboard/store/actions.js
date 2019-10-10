@@ -154,7 +154,6 @@ export default {
             })
         })
     },
-
     get_inventory: () => {
         return new Promise((resolve, reject) => {
             apiClient.dashboard.inventory
@@ -186,7 +185,64 @@ export default {
             apiClient.dashboard.inventory
             .delete_item(id)
             .then(response => {
-                resolve(response.data)
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
+    },
+    update_item_data: ({ commit, }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.inventory
+            .update_item_data(data)
+            .then(response => {
+                // commit or change item
+                commit("SET_STORE_TOKEN", {type: 'SUB', data: response.data.token});
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
+    },
+    delete_item_image: ({ commit, }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.inventory
+            .delete_item_image(data)
+            .then(response => {
+                // commit or change item
+                // commit("SET_STORE_TOKEN", {type: 'SUB', data: response.data.token});
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
+    },
+    upload_item_image: ({ commit, }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.inventory
+            .upload_item_image(data)
+            .then(response => {
+                // commit or change item
+                // commit("SET_STORE_TOKEN", {type: 'SUB', data: response.data.token});
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
+    },
+
+    // PACKAGES
+    buy_tokens: ({ commit, }) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.packages
+            .buy_tokens()
+            .then(response => {
+                commit("SET_STORE_TOKEN", {type: 'SET', data: response.data})
+                resolve(response.data);
             })
             .catch(e => {
                 reject(e);

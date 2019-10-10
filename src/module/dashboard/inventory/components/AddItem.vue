@@ -37,10 +37,13 @@
             <v-card flat class="mx-2 mt-3 px-4 py-4 c-card mb-4">
               <h2 class="font-weight-regular">4: Add Item Images</h2>
               <p class="pa-3">
-                Upload up to 5 photos that show your item in multiple views (such as front, side, back and close-up). Use white background for a better image result. All images must be
-                <strong>.jpg</strong>.
+                Upload up to 5 photos that show your item in multiple views (such as front, side, back and close-up). 
+                Use white background for a better image result. All images must be
+                <strong>.jpg</strong>. Main photo will be included in your item listing 
+                and it is the one that will be posted to social media.
               </p>
               <v-card flat class="c-card">
+                <h2 class="font-weight-regular ml-2">Main Photo:</h2>
                 <v-layout row wrap class="mb-2">
                   <v-flex xs5 md2 class="mr-0">
                     <!-- main image -->
@@ -74,6 +77,7 @@
                       max-height="110"
                       max-width="170"
                       aspect-ratio="1.7"
+                      contain
                       width="255"
                       position
                     ></v-img>
@@ -81,6 +85,7 @@
                 </v-layout>
 
                 <div style="border-top: 1px solid rgba(0,0,0,.1);"></div>
+                <h2 class="font-weight-regular ml-2">List Photos:</h2>
 
                 <v-layout row wrap>
                   <v-flex xs5 md2 class="mr-0">
@@ -118,6 +123,7 @@
                       max-height="110"
                       max-width="170"
                       aspect-ratio="1.7"
+                      contain
                       width="255"
                       position
                     ></v-img>
@@ -191,7 +197,7 @@ export default {
       mainImageUrl: null,
       submitBtn: false,
       // clearFormHandlerFn
-      fnClearFormHandler: null
+      fnClearFormHandler: null,
     };
   },
   computed: {
@@ -280,7 +286,11 @@ export default {
         formData.append("quantity", this.addBasicInfo.quantity);
         formData.append("condition", this.addBasicInfo.condition);
         formData.append("brand", this.addBasicInfo.brand);
-        formData.append("description", this.tempStoreDescription);
+        if (this.tempStoreDescription != null) {
+          formData.append("description", this.tempStoreDescription);
+        } else {
+          formData.append("description", "");
+        }
         formData.append("token", this.addBasicInfo.priorityVal);
         // the main image
         formData.append("mainImage", this.mainImage);
@@ -288,7 +298,7 @@ export default {
             formData.append("image", image);
         }
         formData.append("posted", this.addBasicInfo.posted);
-        formData.append("branch", 2);
+        formData.append("branch", this.addBasicInfo.branchs);
 
       } catch(err) {
         this.$store.commit("SET_SNACKBAR", {
@@ -321,7 +331,6 @@ export default {
         })
 
         .catch(error => {
-            console.log(error)
             this.$store.commit("SET_SNACKBAR", {
                 message: getErrorMessage(error),
                 value: true,

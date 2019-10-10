@@ -68,6 +68,8 @@ export default {
         state.storeInfo.token = state.storeInfo.token + data.data;
       } else if(data.type == 'SUB'){
         state.storeInfo.token = state.storeInfo.token - data.data;
+      } else if(data.type == 'SET') {
+        state.storeInfo.token = data.data;
       }
     }
 };

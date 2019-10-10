@@ -17,7 +17,8 @@
             <!-- TABLE TOOLBAR -->
             <v-toolbar flat color="white">
               <h2 class="mr-3 primary--text subheading font-weight-light" style="min-width: 100px">
-                <v-icon class="primary--text">widgets</v-icon> {{ items.length }} Items
+                <v-icon class="primary--text">widgets</v-icon> {{ items.length }} 
+                <span v-if="$vuetify.breakpoint.smAndUp">Different</span> Items
               </h2>
               <v-text-field
               flat
@@ -63,6 +64,7 @@
             <v-card-text flat class="pa-0">
               
               <v-data-table
+                v-if="renderTable"
                 :headers="get_table_header"
                 :search="search"
                 :items="items"
@@ -85,7 +87,7 @@
                       <!-- <v-avatar size="38">
                         <img :src="props.item.images[0].path" height="62" width="62" alt="">
                       </v-avatar>  -->
-                      <img class="mt-1" :src="getMainImage(props.item).path" height="50" width="60">
+                      <img class="mt-1" :src="getMainImageHere(props.item).path" height="50" width="60">
                        <!-- <v-img :src="require('@/assets/alienware.jpg')" height="60" width="60"></v-img> -->
                     </td>
                     <td  v-on:click="openDetail(props.item)">{{ reduceText(props.item.name) }}</td>
@@ -95,10 +97,55 @@
                         {{ branch }}
                       </div>
                     </td> -->
-                    <td v-if="$vuetify.breakpoint.smAndUp" v-on:click="openDetail(props.item)">{{ props.item.quantity }}</td>
+                    <td v-on:click="openDetail(props.item)">{{ props.item.quantity }}</td>
                     <td v-on:click="openDetail(props.item)">{{ props.item.token }}</td>
-                    <td v-if="$vuetify.breakpoint.smAndUp">
+                    <td>
                       
+
+                      <v-layout v-if="$vuetify.breakpoint.smAndDown">
+                        <v-flex>
+                           <v-btn 
+                              v-on:click="edit(props.item)"
+                              depressed
+                              outline
+                              icon
+                              fab
+                              dark
+                              color="primary"
+                              small>
+                                <v-icon>post_add</v-icon>
+                            </v-btn>
+                        </v-flex>
+                        <v-flex>
+                          <v-btn 
+                            v-on:click="edit(props.item)"
+                            depressed
+                            outline
+                            icon
+                            fab
+                            dark
+                            color="primary"
+                            small>
+                              <v-icon>edit</v-icon>
+                          </v-btn>
+                        </v-flex>
+                        <v-flex>
+                          <v-btn
+                            depressed 
+                            outline 
+                            icon 
+                            fab 
+                            dark
+                            color="pink" 
+                            small
+                            v-on:click="openDelete(props.item)"
+                          >
+                            <v-icon>delete</v-icon>
+                          </v-btn>
+                        </v-flex>
+                      </v-layout>
+
+                    <div v-if="$vuetify.breakpoint.smAndUp">
                       <v-btn 
                         v-on:click="edit(props.item)"
                         depressed
@@ -110,7 +157,6 @@
                         small>
                           <v-icon>post_add</v-icon>
                       </v-btn>
-
                       <v-btn 
                         v-on:click="edit(props.item)"
                         depressed
@@ -122,7 +168,6 @@
                         small>
                           <v-icon>edit</v-icon>
                       </v-btn>
-
                       <v-btn
                         depressed 
                         outline 
@@ -135,7 +180,7 @@
                       >
                         <v-icon>delete</v-icon>
                       </v-btn>
-
+                    </div>
                     </td>
                   </template>
 
@@ -170,16 +215,26 @@
       <!-- EDIT DIALOG -->
       <v-dialog v-model="editDialog" fullscreen>
         <div slot="activator"></div>
-        <EditItem :item="editItem">
+        <EditItem 
+          :item="editItem" 
+          v-on:closeDialog="editDialog = !editDialog"
+          @editItemSuc="editItemFn"
+          @resetFeaturesHandler="resetFeatures"
+          @removeImage="removeImage"
+          @updateImageList="updateImageList"
+        >
         </EditItem>
       </v-dialog>
 
       <!-- Dynamic dialog -->
       <!-- DETAIL DIALOG -->
-      <v-dialog v-model="detailDialog" max-width="75%">
+      <v-dialog v-model="detailDialog" max-width="70%">
         <div slot="activator"></div>
         <v-card>
-          <DetailItem :item="detailItem">
+          <DetailItem 
+            :item="detailItem"
+            @closeDialog="detailDialog=!detailDialog"  
+          >
           </DetailItem>
         </v-card>
       </v-dialog>
@@ -197,7 +252,36 @@
                 Deleting your item will remove it from your item listings. And it will not be found on your website. The tokens of this item will not be returned even if you delete the item.
             </div>
             <p>
-              {{ detailItem }}
+              <v-layout row wrap>
+                <v-flex md4 class="mt-1 ml-3">
+                  <v-img
+                    :src="getMainImageHere(detailItem).path"
+                    crossorigin="anonymous"
+                    :lazy-src="require('@/assets/loading.png')"
+                    max-height="200"
+                    max-width="200"
+                    aspect-ratio="1.7"
+                    width="255"
+                    contain
+                    position
+                  ></v-img>
+                </v-flex>
+                <v-flex md7 class="">
+                  <span class="c-detail-name">Name: </span><span class="c_selected_btn--text">{{ detailItem.name }}</span>
+                  <br>
+                  <span class="c-detail-name">Price: </span><span class="c_selected_btn--text">{{ detailItem.price }} ETB</span>
+                  <br>
+                  <span class="c-detail-name">Quantity: </span><span class="c_selected_btn--text">{{ detailItem.quantity }}x</span>
+                  <br>
+                  <span class="c-detail-name">Condition: </span><span class="c_selected_btn--text">{{ detailItem.condition }}</span> 
+                  <br>
+                  <span class="c-detail-name">Brand: </span><span class="c_selected_btn--text">{{ detailItem.brand }}</span>
+                  <br>
+                  <span class="c-detail-name">Listing Priority: </span><span class="c_selected_btn--text">{{ detailItem.token }}</span>
+                </v-flex>
+              </v-layout>
+              
+                
             </p>
             <div class="ml-0 mb-2 mt-4">
               <v-icon small color="warning">warning</v-icon>
@@ -219,7 +303,7 @@
         </v-card>
       </v-dialog>
 
-      <!-- NO TOKEN TO ADD ITEM -->
+      <!-- NO TOKEN DIALOG -->
         <v-dialog v-model="noEnoughTokenDialog" max-width="60%">
           
           <div slot="activator"></div>
@@ -243,7 +327,7 @@
 
       <!-- SPACER -->
       <div style="height: 65px"></div>
-
+      
     </v-container>
 
 </template>
@@ -257,6 +341,7 @@ import EditItem from '../components/EditItem'
 import LowTokenWarn from '../components/LowTokenWarn'
 
 import { getErrorMessage } from "@/resources/helper";
+import { getMainImage } from "@/resources/helper";
 
 export default {
   name: 'inventory',
@@ -287,6 +372,7 @@ export default {
       noEnoughTokenDialog: false,
       noEnoughTokenDialogMessage: '',
       items: [],
+      renderTable: true,
       headers: [
           {
             text: 'Image',
@@ -322,6 +408,8 @@ export default {
       tags: {},
       show: false,
       error: false,
+      // fnClearFeatureHandler
+      fnClearFeatureHandler: null,
     }
   },
   
@@ -334,7 +422,7 @@ export default {
     }),
     get_table_header(){
       if(!this.$vuetify.breakpoint.smAndUp) {
-        return this.headers.slice(1,5);
+        return this.headers;
       } else {
         return this.headers;
       }
@@ -391,9 +479,6 @@ export default {
       this.deleteDialog = true;
       this.detailItem = item;
     },
-    delet(y){
-      alert(y)
-    },
     reduceText(text) {
       if(text.length < 41) {
         return text;
@@ -428,8 +513,41 @@ export default {
     addItem(newItem) {
       this.items.push(newItem);
     },
-    getMainImage(item) {
-      return item.images.filter(x => x.isMain == true)[0];
+    getMainImageHere(item){
+      return getMainImage(item);
+    },
+    editItemFn(editData) {
+      let index = this.items.findIndex(x => x.id == editData.id);
+      console.log(index);
+      this.items[index] = null;
+      this.items[index] = editData;
+      this.forceRerenderTable();
+    },
+    forceRerenderTable() {
+      this.renderTable = false;
+      this.$nextTick(() => {
+        this.renderTable = true;
+      });
+    },
+    resetFeatures(fn) {
+      this.fnClearFeatureHandler = fn;
+    },
+    removeImage(data) {
+      if (data.replaceImageId == null) {
+        var item = this.items.filter(x => x.id == data.itemId)[0];
+        item.images = item.images.filter(x => x.id != data.imageId);
+      } else {
+        var item = this.items.filter(x => x.id == data.itemId)[0];
+        item.images = item.images.filter(x => x.id != data.imageId);
+        var index = item.images.findIndex(x => x.id == data.replaceImageId);
+        if (index != -1) {
+          item.images[index].isMain = true;
+        }
+      }
+    },
+    updateImageList(data) {
+      var item = this.items.filter(x => x.id == data.itemId)[0];
+      item.images = data.data;
     }
   },
 
@@ -451,6 +569,11 @@ export default {
       this.loading = false;
       this.error = true;
     })
+  },
+  watch: {
+    editDialog: function(val) {
+      this.fnClearFeatureHandler();
+    }
   }
 }
 </script>

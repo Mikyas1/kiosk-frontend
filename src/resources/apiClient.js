@@ -70,7 +70,21 @@ export default {
             },
             delete_item(item_id) {
                 return http.delete(urls.delete_item + item_id);
+            },
+            update_item_data(data) {
+                return http.put(urls.update_item_data, data);
+            },
+            delete_item_image(data) {
+                return http.delete(urls.delete_item_image, {data: data});
+            },
+            upload_item_image(payload) {
+                return http.put(urls.upload_item_image, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
             }
+        },
+        packages: {
+            buy_tokens() {
+                return http.put(urls.buy_tokens);
+            },
         }
     }
 }
