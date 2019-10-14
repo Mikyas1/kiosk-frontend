@@ -83,22 +83,22 @@
                         v-model="props.selected"
                       ></v-checkbox>
                     </td> -->
-                    <td v-on:click="openDetail(props.item)">
+                    <td class="c-point" v-on:click="openDetail(props.item)">
                       <!-- <v-avatar size="38">
                         <img :src="props.item.images[0].path" height="62" width="62" alt="">
                       </v-avatar>  -->
                       <img class="mt-1" :src="getMainImageHere(props.item).path" height="50" width="60">
                        <!-- <v-img :src="require('@/assets/alienware.jpg')" height="60" width="60"></v-img> -->
                     </td>
-                    <td  v-on:click="openDetail(props.item)">{{ reduceText(props.item.name) }}</td>
-                    <td  v-on:click="openDetail(props.item)">{{ props.item.price }} ETB</td>
+                    <td class="c-point" v-on:click="openDetail(props.item)">{{ reduceText(props.item.name) }}</td>
+                    <td class="c-point" v-on:click="openDetail(props.item)">{{ props.item.price }} ETB</td>
                     <!-- <td  v-on:click="openDetail(props.item)">
                       <div v-for="branch in props.item.branch" :key="branch">
                         {{ branch }}
                       </div>
                     </td> -->
-                    <td v-on:click="openDetail(props.item)">{{ props.item.quantity }}</td>
-                    <td v-on:click="openDetail(props.item)">{{ props.item.token }}</td>
+                    <td class="c-point" v-on:click="openDetail(props.item)">{{ props.item.quantity }}</td>
+                    <td class="c-point" v-on:click="openDetail(props.item)">{{ props.item.token }}</td>
                     <td>
                       
 
@@ -216,7 +216,8 @@
       <v-dialog v-model="editDialog" fullscreen>
         <div slot="activator"></div>
         <EditItem 
-          :item="editItem" 
+          :item="editItem"
+          :branch="editItemBranch"
           v-on:closeDialog="editDialog = !editDialog"
           @editItemSuc="editItemFn"
           @resetFeaturesHandler="resetFeatures"
@@ -364,7 +365,8 @@ export default {
       detailItem: {},
       // for edit dialog
       editDialog: false,
-      editItem: {},      
+      editItem: {},
+      editItemBranch: [],      
       // for delete dialog
       deleteDialog: false,
       deleteBtn: false,
@@ -466,6 +468,7 @@ export default {
       if(this.storeToken > 0) {
         this.editDialog = true;
         this.editItem = JSON.parse(JSON.stringify(item));
+        this.editItemBranch = this.editItem.branch;
       } else {
         this.noEnoughTokenDialog = !this.noEnoughTokenDialog;
         this.noEnoughTokenDialogMessage = 'Edit';
@@ -581,5 +584,8 @@ export default {
 <style scoped>
 .c-table {
   box-shadow: none !important;
+}
+.c-point:hover {
+  cursor: pointer;
 }
 </style>

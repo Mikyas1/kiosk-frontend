@@ -303,7 +303,6 @@
               </v-card>
         </v-dialog>
 
-
       </v-container>
     </v-card>
   </div>
@@ -331,6 +330,10 @@ export default {
   props: {
     item: {
       type: Object,
+      required: true
+    },
+    branch: {
+      type: Array,
       required: true
     }
   },
@@ -416,6 +419,16 @@ export default {
       if (this.item.description != null) {
         description = this.item.description;
       }
+      if (this.item.branch.length < 1) {
+        this.editDataBtn = false;
+        this.$store.commit("SET_SNACKBAR", {
+            message: "You Have to sellect at list one branch.",
+            value: true,
+            status: "error"
+        });
+        return;
+      }
+      var branch = this.composeBranch();
       var data = {
         name: this.item.name,
         brand: this.item.brand,
@@ -426,8 +439,8 @@ export default {
         quantity: this.item.quantity,
         category: this.item.category.name,
         token: this.item.token,
-        newBranch: null,
-        deleteBranch: null,
+        newBranch: branch.newBranch,
+        deleteBranch: branch.deleteBranch,
       };
       var features = {};
       for (var itemFeature of this.item.features) {
@@ -526,6 +539,42 @@ export default {
           });
           this.uploadImageBtn = false;
         });
+    },
+    composeBranch() {
+      var data = {
+        newBranch: null,
+        deleteBranch: null
+      };
+      // try {
+      //   var newbranch = [];
+      //   for(var y of this.branch){
+      //     newbranch.push(...this.item.branch.filter(x => {
+      //       if (x.id == undefined && x != y.id) {
+      //         return x;
+      //       }
+      //     }));
+      //   }
+      //   data.newBranch = newbranch;
+        
+      //   var deleteBranch = [];
+      //   if (this.item.branch[0].id == undefined) {
+      //     for(var y of this.branch) {
+      //       if (this.item.branch.findIndex(x => {x == y.id}) == -1) {
+      //         deleteBranch.push(y.id);
+      //       }
+      //     }
+      //   }
+      //   data.deleteBranch = deleteBranch;
+
+      // }catch(err){}
+      if (this.item.branch[0].id == undefined) {
+        data.newBranch = this.item.branch;
+      } else {
+        data.newBranch = this.item.branch.map(x => x.id);
+      }
+      data.deleteBranch = this.branch.map(x => x.id);
+
+      return data;
     }
   },
   created() {

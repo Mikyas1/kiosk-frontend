@@ -77,28 +77,33 @@
                   <span class="c-detail-name">{{feature.name}}: </span><span class="orange--text">{{feature.value}}</span>
                 </div>
               </div>
-              <div primary-title>
-                <div class="headline mt-3 mb-2" v-if="getItemDescription">Item description</div>
-              </div>
-              <div class="ml-2" v-html="getItemDescription"></div>
-              <div v-if="getBranch.length > 0">
+              <div v-if="getItemDescription">
                 <div primary-title>
-                  <div class="headline mt-3 mb-2">Item location</div>
+                  <div class="headline mt-3 mb-2">Item description</div>
                 </div>
-                <div class="ml-2">
-                  <span class="c-detail-name">Branch Name: </span><span class="orange--text">{{getBranch[0].branchName}}</span>
-                  <br>
-                  <span class="c-detail-name">Country: </span><span class="orange--text">{{getBranch[0].location.country}}</span>
-                  <br>
-                  <span class="c-detail-name">Region: </span><span class="orange--text">{{getBranch[0].location.region}}</span>
-                  <br>
-                  <span class="c-detail-name">City: </span><span class="orange--text">{{getBranch[0].location.city}}</span>
-                  <br>
-                  <span class="c-detail-name">Sub City: </span><span class="orange--text">{{getBranch[0].location.sub_city}}</span>
-                  <br>
-                  <span class="c-detail-name">Description: </span><span class="orange--text">{{getBranch[0].location.buildingAndRoomNo}}</span>
-                </div>  
+                <div class="ml-2" v-html="getItemDescription"></div>
               </div>
+                <div 
+                  v-for="(branch, index) in getBranch"
+                  :key="branch.id"
+                  class="ml-2 mb-2">
+                  <div primary-title>
+                    <div class="headline mt-3 mb-2">Item location ({{ index }})</div>
+                  </div>
+                    <span class="c-detail-name">Branch Name: </span><span class="orange--text">{{branch.branchName}}</span>
+                    <br>
+                    <span class="c-detail-name">Country: </span><span class="orange--text">{{branch.location.country}}</span>
+                    <br>
+                    <span class="c-detail-name">Region: </span><span class="orange--text">{{branch.location.region}}</span>
+                    <br>
+                    <span class="c-detail-name">City: </span><span class="orange--text">{{branch.location.city}}</span>
+                    <br>
+                    <span class="c-detail-name">Sub City: </span><span class="orange--text">{{branch.location.sub_city}}</span>
+                    <br>
+                    <span class="c-detail-name">Description: </span><span class="orange--text">{{branch.location.buildingAndRoomNo}}</span>
+                    <br>
+                    <span class="c-detail-name">Phone no: </span><span class="orange--text">{{branch.phones[0].phoneNumber}}</span>
+                </div>
             </div>
           </v-flex>
         </v-layout>
