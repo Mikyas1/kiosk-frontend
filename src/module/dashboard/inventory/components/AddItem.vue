@@ -298,8 +298,15 @@ export default {
             formData.append("image", image);
         }
         formData.append("posted", this.addBasicInfo.posted);
-        formData.append("branch", this.addBasicInfo.branchs);
-
+        if(this.addBasicInfo.branchs.findIndex(x => x == 'main') != -1) {
+          if (this.addBasicInfo.branchs.filter(x => x != 'main').length > 0) {
+            formData.append("branch", this.addBasicInfo.branchs.filter(x => x != 'main'));
+          }
+          formData.append("onMainBranch", true);
+        } else {
+          formData.append("branch", this.addBasicInfo.branchs);
+          formData.append("onMainBranch", false);
+        }
       } catch(err) {
         this.$store.commit("SET_SNACKBAR", {
             message: 'Please fill out the form properly.',

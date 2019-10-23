@@ -74,6 +74,7 @@
                       :label="$t('branch_phone_no')"
                       class="input-group--focused pr-4 pl-2"
                       v-model="branchEditing.phones[0].phoneNumber"
+                      type="number"
                     ></v-text-field>
 
                     <v-subheader>{{ $t('branch_location') }}</v-subheader>

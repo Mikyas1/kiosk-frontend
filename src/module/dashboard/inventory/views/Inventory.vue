@@ -6,13 +6,16 @@
       <!-- LOADER -->
       <v-progress-linear v-if="loading" v-bind:indeterminate="true" class="my-0"></v-progress-linear>
 
-      <v-card class="mx-4 mb-5 mt-4" min-height="305">
+      <v-card 
+        class="mb-5 mt-4" min-height="305"
+        v-bind:class="$vuetify.breakpoint.xsOnly && 'mx-1' || 'mx-4'"
+        >
  
       <v-layout v-if="show" row wrap>
         <!-- <v-flex sm12>
           <h3>Complex Table</h3>
         </v-flex> -->
-        <v-flex lg12>
+        <v-flex class="xs12">
           <v-card flat>
             <!-- TABLE TOOLBAR -->
             <v-toolbar flat color="white">
@@ -229,7 +232,7 @@
 
       <!-- Dynamic dialog -->
       <!-- DETAIL DIALOG -->
-      <v-dialog v-model="detailDialog" max-width="70%">
+      <v-dialog v-model="detailDialog" fullscreen>
         <div slot="activator"></div>
         <v-card>
           <DetailItem 
@@ -241,7 +244,9 @@
       </v-dialog>
 
       <!-- DELETE DIALOG -->
-      <v-dialog v-model="deleteDialog" max-width="70%">
+      <v-dialog v-model="deleteDialog"
+      v-bind:max-width="$vuetify.breakpoint.xsOnly && '100%' || '70%'"
+      >
       <div slot="activator"></div>
       <v-card>
           <div primary-title>

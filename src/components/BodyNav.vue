@@ -17,7 +17,7 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn 
-          class="secondary_1 white--text text-capitalize font-weight-light" 
+          class="secondary_1 white--text text-capitalize"
           href="http://localhost:8080" 
           flat
           target="_blank"

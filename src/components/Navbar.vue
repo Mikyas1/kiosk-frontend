@@ -197,7 +197,7 @@ import { mapGetters } from "vuex";
       drawer: true,
       links: [
         { icon: 'dashboard', text: 'dashboard', route: '/app/dashboard', name: 'dashboard', notif: 0, notif_val: 0 },
-        { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs', name: 'ordersAndFaqs', notif: 1, notif_val: 3 },
+        // { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs', name: 'ordersAndFaqs', notif: 1, notif_val: 3 },
         { icon: 'widgets', text: 'Inventory', route: '/app/inventory', name: 'inventory', notif: 0, notif_val: 0 },
         { icon: 'brush', text: 'Edit Web-Site', route: '/app/edit-site', name: 'editSite', notif: 0, notif_val: 0 },
         { icon: 'store', text: 'Store Information', route: '/app/store-information',name: 'storeInformation', notif: 0, notif_val: 0 },
@@ -206,7 +206,7 @@ import { mapGetters } from "vuex";
       menus: [
         // { icon: 'dashboard', text: 'Setting', route: '/profile' },
         { icon: 'dashboard', text: 'Dashboard', route: '/app/dashboard', name: 'dashboard' },
-        { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs', name: 'ordersAndFaqs' },
+        // { icon: 'notifications', text: 'Orders and FAQs', route: '/app/orders-faqs', name: 'ordersAndFaqs' },
         { icon: 'widgets', text: 'Inventory', route: '/app/inventory', name: 'inventory' },
         { icon: 'brush', text: 'Edit Web-Site', route: '/app/edit-site', name: 'editSite' },
         { icon: 'store', text: 'Store Information', route: '/app/store-information', name: 'storeInformation' },

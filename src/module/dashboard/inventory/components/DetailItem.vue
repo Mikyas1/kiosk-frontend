@@ -81,7 +81,7 @@
                 <div primary-title>
                   <div class="headline mt-3 mb-2">Item description</div>
                 </div>
-                <div class="ml-2" v-html="getItemDescription"></div>
+                <div class="ml-2 mr-3 px-3 py-3 c-card" v-html="getItemDescription"></div>
               </div>
                 <div 
                   v-for="(branch, index) in getBranch"
@@ -112,10 +112,17 @@
     </v-layout>
     <v-btn 
       flat 
-      class="c_selected_btn text-capitalize white--text my-4 ml-3" 
+      class="warning text-capitalize white--text my-4 ml-4" 
       v-on:click="closeDialog"
     >
       Close
+    </v-btn>
+    <v-btn 
+      flat 
+      class="c_selected_btn text-capitalize white--text my-4 ml-3" 
+      v-on:click="print"
+    >
+      Print
     </v-btn>
   </div>
 </template>
@@ -141,6 +148,9 @@ export default {
     },
     closeDialog() {
       this.$emit("closeDialog");
+    },
+    print() {
+      window.print();
     }
   },
   computed: {

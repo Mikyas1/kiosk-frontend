@@ -308,8 +308,21 @@ export default {
 
             .then(response => {
               // REGISTER AND AUTHENCATE THE USER
+              // quick fix
+              var regdata = {
+                "email": this.signUpData.email,
+                "firstName": this.signUpData.firstName,
+                "lastName": this.signUpData.lastName,
+                "storeUrl": this.signUpData.storeUrl,
+                "storeName": this.signUpData.storeName,
+                "categories": this.signUpData.categories,
+                "registeredBy": "EMAIL",
+                "password": this.signUpData.password,
+                "confirmPassword": this.signUpData.confirmPassword
+              }
+
               this.$store
-                .dispatch("auth/register", this.signUpData)
+                .dispatch("auth/register", regdata)
 
                 .then(() => {
                   //   console.log(response);

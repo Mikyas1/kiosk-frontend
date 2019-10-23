@@ -332,6 +332,7 @@ export default {
         features: {},
         addedField: []
       };
+      this.rootCategory = null;
     }
   },
   watch: {

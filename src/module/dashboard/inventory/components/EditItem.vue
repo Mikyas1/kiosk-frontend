@@ -543,30 +543,9 @@ export default {
     composeBranch() {
       var data = {
         newBranch: null,
-        deleteBranch: null
+        deleteBranch: null,
+        onMainBranch: null,
       };
-      // try {
-      //   var newbranch = [];
-      //   for(var y of this.branch){
-      //     newbranch.push(...this.item.branch.filter(x => {
-      //       if (x.id == undefined && x != y.id) {
-      //         return x;
-      //       }
-      //     }));
-      //   }
-      //   data.newBranch = newbranch;
-        
-      //   var deleteBranch = [];
-      //   if (this.item.branch[0].id == undefined) {
-      //     for(var y of this.branch) {
-      //       if (this.item.branch.findIndex(x => {x == y.id}) == -1) {
-      //         deleteBranch.push(y.id);
-      //       }
-      //     }
-      //   }
-      //   data.deleteBranch = deleteBranch;
-
-      // }catch(err){}
       if (this.item.branch[0].id == undefined) {
         data.newBranch = this.item.branch;
       } else {

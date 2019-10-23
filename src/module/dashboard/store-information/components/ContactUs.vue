@@ -75,7 +75,7 @@
           <v-text-field 
             :label="$t('add_store_phone')"
             class="input-group--focused pr-4 pl-2"
-            type="numver"
+            type="number"
             v-model="phone">
           </v-text-field>
 

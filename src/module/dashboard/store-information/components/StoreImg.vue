@@ -17,6 +17,7 @@
                 aspect-ratio="1.7"
                 width="255"
                 position=""
+                contain
             >
             </v-img>  
           </div>
