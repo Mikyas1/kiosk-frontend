@@ -88,6 +88,7 @@
               label="* Quantity"
               class="input-group--focused pr-4 pl-2 mt-2"
               v-model="newItem.quantity"
+              type="number"
             ></v-text-field>
 
             <v-text-field
@@ -95,6 +96,7 @@
               class="input-group--focused pr-4 pl-2 mt-2"
               hint=" - All price must be in Ethiopian Birr (ETB)"
               v-model="newItem.price"
+              type="number"
             ></v-text-field>
 
             <v-slider

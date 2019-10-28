@@ -19,7 +19,11 @@
           <v-card flat>
             <!-- TABLE TOOLBAR -->
             <v-toolbar flat color="white">
-              <h2 class="mr-3 primary--text subheading font-weight-light" style="min-width: 100px">
+              <h2 
+                class="primary--text subheading font-weight-light px-0" 
+                style="min-width: 85px"
+                v-bind:class="$vuetify.breakpoint.xsOnly && 'mr-0' || 'mr-3'"
+              >
                 <v-icon class="primary--text">widgets</v-icon> {{ items.length }} 
                 <span v-if="$vuetify.breakpoint.smAndUp">Different</span> Items
               </h2>
@@ -30,7 +34,7 @@
               placeholder="Search Items..."
               v-model="search"
               hide-details
-              class="ml-2"
+              v-bind:class="$vuetify.breakpoint.xsOnly && 'mr-0' || 'ml-2'"
               ></v-text-field>
 
               <v-btn 
@@ -310,7 +314,9 @@
       </v-dialog>
 
       <!-- NO TOKEN DIALOG -->
-        <v-dialog v-model="noEnoughTokenDialog" max-width="60%">
+        <v-dialog v-model="noEnoughTokenDialog"
+          v-bind:max-width="$vuetify.breakpoint.xsOnly && '100%' || '60%'"
+        >
           
           <div slot="activator"></div>
           

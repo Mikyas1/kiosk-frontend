@@ -26,7 +26,9 @@
     </v-flex>
 
     <!-- DELETE ITEM DIALOG -->
-    <v-dialog v-model="deleteItemDialog" max-width="70%">
+    <v-dialog v-model="deleteItemDialog" 
+      v-bind:max-width="$vuetify.breakpoint.xsOnly && '100%' || '70%'"
+    >
       <div slot="activator"></div>
 
       <v-card v-if="!main">

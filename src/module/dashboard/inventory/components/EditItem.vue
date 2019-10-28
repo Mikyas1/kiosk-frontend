@@ -238,7 +238,9 @@
 
         <v-btn flat class="warning text-capitalize" v-on:click="closeDialog">Close This Form</v-btn>
 
-        <v-dialog v-model="AddImageDialog" max-width="60%">
+        <v-dialog v-model="AddImageDialog" 
+          v-bind:max-width="$vuetify.breakpoint.xsOnly && '100%' || '60%'"        
+        >
           
           <div slot="activator"></div>
           
@@ -247,7 +249,7 @@
              <h2 class="font-weight-regular ml-2">List Photos: Max {{ allowedUploadImages }}</h2>
 
                 <v-layout row wrap>
-                  <v-flex xs5 md2 class="mr-5">
+                  <v-flex xs12 md2 class="mr-5">
                     <!-- list images -->
                     <v-btn
                       raised
@@ -274,7 +276,7 @@
                     />
                   </v-flex>
 
-                  <v-flex v-for="image in viewImages" :key="image" xs5 md2 class="mt-2 mx-2 mb-1">
+                  <v-flex v-for="image in viewImages" :key="image" xs12 md2 class="mt-2 mx-2 mb-1">
                     <v-img
                       :src="image"
                       crossorigin="anonymous"
@@ -312,6 +314,7 @@
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+import imageCompression from 'browser-image-compression';
 import { quillEditor } from "vue-quill-editor";
 import { mapGetters } from "vuex";
 
@@ -503,8 +506,21 @@ export default {
           break;
         }
           if (true){
-          this.images.push(file);
-          this.viewImages.push(window.URL.createObjectURL(file));
+            var options = {
+              maxSizeMb: 1,
+              maxWidthOrHeight: 720,
+              useWebWorker: true
+            }
+            imageCompression(file, options)
+            .then(compressedFile => {
+              // console.log('compressedFile instanceof Blob', compressedFile instanceof Blob);
+              // console.log(`compressedFile size ${compressedFile.size /1024 /1024} MB`);
+              this.images.push(compressedFile);
+              this.viewImages.push(window.URL.createObjectURL(compressedFile));
+            })
+            .catch(error => {
+              console.log(error.message);
+            })
           index++;
         }
       }

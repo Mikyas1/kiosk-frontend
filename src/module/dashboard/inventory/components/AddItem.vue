@@ -45,7 +45,7 @@
               <v-card flat class="c-card">
                 <h2 class="font-weight-regular ml-2">Main Photo:</h2>
                 <v-layout row wrap class="mb-2">
-                  <v-flex xs5 md2 class="mr-0">
+                  <v-flex xs12 md2 class="mr-0">
                     <!-- main image -->
                     <v-btn
                       raised
@@ -69,7 +69,7 @@
                       @change="onMainFilePicked"
                     />
                   </v-flex>
-                  <v-flex v-if="mainImage" xs5 md2 class="mt-2 mx-1 mb-1">
+                  <v-flex v-if="mainImage" xs12 md2 class="mt-2 mx-1 mb-1">
                     <v-img
                       :src="mainImageUrl"
                       crossorigin="anonymous"
@@ -88,7 +88,7 @@
                 <h2 class="font-weight-regular ml-2">List Photos:</h2>
 
                 <v-layout row wrap>
-                  <v-flex xs5 md2 class="mr-0">
+                  <v-flex xs12 md2 class="mr-0">
                     <!-- list images -->
                     <v-btn
                       raised
@@ -115,19 +115,19 @@
                     />
                   </v-flex>
 
-                  <v-flex v-for="image in viewImages" :key="image" xs5 md2 class="mt-2 mx-1 mb-1">
-                    <v-img
-                      :src="image"
-                      crossorigin="anonymous"
-                      :lazy-src="require('@/assets/loading.png')"
-                      max-height="110"
-                      max-width="170"
-                      aspect-ratio="1.7"
-                      contain
-                      width="255"
-                      position
-                    ></v-img>
-                  </v-flex>
+                    <v-flex v-for="image in viewImages" :key="image" xs md2 class="mt-2 mx-1 mb-1">
+                      <v-img
+                        :src="image"
+                        crossorigin="anonymous"
+                        :lazy-src="require('@/assets/loading.png')"
+                        max-height="110"
+                        max-width="170"
+                        aspect-ratio="1.7"
+                        contain
+                        width="255"
+                        position
+                      ></v-img>
+                    </v-flex>
                 </v-layout>
               </v-card>
             </v-card>
@@ -155,6 +155,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import { quillEditor } from "vue-quill-editor";
+import imageCompression from 'browser-image-compression';
 import { mapGetters } from "vuex";
 
 import VueUploadMultipleImage from "vue-upload-multiple-image";
@@ -242,12 +243,27 @@ export default {
           break;
         }
         // if (file.name.substr(file.name.indexOf(".") + 1) == "jpg") {
-          // pass all images
-          if (true){
+        // pass all images
+        if (true){
           // this.images.push(file.name);
           // console.log(window.URL.createObjectURL(file))
-          this.images.push(file);
-          this.viewImages.push(window.URL.createObjectURL(file));
+          // console.log('OriginalFile instanceof Blob', file instanceof Blob);
+          // console.log(`OriginalFile size ${file.size / 1024 /1024 } MB`);
+          var options = {
+            maxSizeMb: 1,
+            maxWidthOrHeight: 720,
+            useWebWorker: true
+          }
+          imageCompression(file, options)
+          .then(compressedFile => {
+            // console.log('compressedFile instanceof Blob', compressedFile instanceof Blob);
+            // console.log(`compressedFile size ${compressedFile.size /1024 /1024} MB`);
+            this.images.push(compressedFile);
+            this.viewImages.push(window.URL.createObjectURL(compressedFile));
+          })
+          .catch(error => {
+            console.log(error.message);
+          })
           index++;
         }
       }
@@ -256,8 +272,25 @@ export default {
       const file = event.target.files[0];
       // if (file.name.substr(file.name.indexOf(".") + 1) == "jpg") {
         if (true) {
-        this.mainImage = file;
-        this.mainImageUrl = window.URL.createObjectURL(file);
+          console.log('OriginalFile instanceof Blob', file instanceof Blob);
+          console.log(`OriginalFile size ${file.size / 1024 /1024 } MB`);
+          var options = {
+            maxSizeMb: 1,
+            maxWidthOrHeight: 720,
+            useWebWorker: true
+          }
+          imageCompression(file, options)
+          .then(compressedFile => {
+            console.log('compressedFile instanceof Blob', compressedFile instanceof Blob);
+            console.log(`compressedFile size ${compressedFile.size /1024 /1024} MB`);
+            this.mainImage = compressedFile;
+            this.mainImageUrl = window.URL.createObjectURL(compressedFile);
+          })
+          .catch(error => {
+            console.log(error.message);
+          })
+          // this.mainImage = file;
+          // this.mainImageUrl = window.URL.createObjectURL(file);
       }
     },
     // to submit the item
@@ -279,40 +312,102 @@ export default {
           }
         }
         const blobFeature = new Blob([JSON.stringify(features)], {type: 'application/json'});
-        formData.append("features", blobFeature)
-        formData.append("name", this.addBasicInfo.name);
-        formData.append("price", this.addBasicInfo.price);
-        formData.append("category", getLastElement(this.addBasicInfo.category));
-        formData.append("quantity", this.addBasicInfo.quantity);
-        formData.append("condition", this.addBasicInfo.condition);
-        formData.append("brand", this.addBasicInfo.brand);
+        
+        // FEATURES
+        formData.append("features", blobFeature);
+        
+        // ITEM NAME
+        if (this.addBasicInfo.name == "") {
+          this.showError('Please provide item name.')
+          return;
+        } else {
+          formData.append("name", this.addBasicInfo.name);
+        }
+        
+        // ITEM PRICE
+        if(this.addBasicInfo.price == null) {
+          this.showError('Please provide item price.')
+          return;
+        } else {
+          formData.append("price", this.addBasicInfo.price);
+        }
+      
+        // ITEM CATEGORY
+        if(this.addBasicInfo.category == null) {
+          this.showError('Please provide item category.')
+          return;
+        } else {
+          formData.append("category", getLastElement(this.addBasicInfo.category));
+        }
+        
+        // ITEM QUANTITY
+        if(this.addBasicInfo.quantity == null) {
+          this.showError('Please provide item Quantity.')
+          return;
+        } else {
+          formData.append("quantity", this.addBasicInfo.quantity);
+        }
+        
+        // ITEM CONDITION
+        if(this.addBasicInfo.condition == null) {
+          this.showError('Please provide item Condition.')
+          return;
+        } else {
+          formData.append("condition", this.addBasicInfo.condition);
+        }
+        
+        // ITEM BRAND
+        if(this.addBasicInfo.brand == null) {
+          this.showError('Please provide item Brand.')
+          return;
+        } else {
+          formData.append("brand", this.addBasicInfo.brand);
+        }
+        
+        // ITEM DESCRIPTION
         if (this.tempStoreDescription != null) {
           formData.append("description", this.tempStoreDescription);
         } else {
           formData.append("description", "");
         }
+
+        // ITME TOKEN
         formData.append("token", this.addBasicInfo.priorityVal);
-        // the main image
-        formData.append("mainImage", this.mainImage);
+
+        // THE MAIN IMAGE
+        if(this.mainImage == null) {
+          this.showError('Please provide Main image.')
+          return;
+        } else {
+          formData.append("mainImage", this.mainImage);
+        }
+        
+        // LIST IMAGES
         for (var image of this.images){
             formData.append("image", image);
         }
+
+        // ITEM POSTED
         formData.append("posted", this.addBasicInfo.posted);
-        if(this.addBasicInfo.branchs.findIndex(x => x == 'main') != -1) {
-          if (this.addBasicInfo.branchs.filter(x => x != 'main').length > 0) {
-            formData.append("branch", this.addBasicInfo.branchs.filter(x => x != 'main'));
-          }
-          formData.append("onMainBranch", true);
+
+        // ITEM BRANCH
+        if(this.addBasicInfo.branchs.length < 1) {
+          this.showError('Please select at list one branch')
+          return;
         } else {
-          formData.append("branch", this.addBasicInfo.branchs);
-          formData.append("onMainBranch", false);
+          if(this.addBasicInfo.branchs.findIndex(x => x == 'main') != -1) {
+            if (this.addBasicInfo.branchs.filter(x => x != 'main').length > 0) {
+              formData.append("branch", this.addBasicInfo.branchs.filter(x => x != 'main'));
+            }
+            formData.append("onMainBranch", true);
+          } else {
+            formData.append("branch", this.addBasicInfo.branchs);
+            formData.append("onMainBranch", false);
+          }
         }
+      
       } catch(err) {
-        this.$store.commit("SET_SNACKBAR", {
-            message: 'Please fill out the form properly.',
-            value: true,
-            status: "error"
-        });
+        this.showError();
         return;
       }
 
@@ -348,6 +443,14 @@ export default {
     },
     setClearFormHandler(fn){
       this.fnClearFormHandler = fn;
+    },
+    showError(message) {
+      var mess = message || 'Please fill out the form properly.';
+      this.$store.commit("SET_SNACKBAR", {
+        message: mess,
+        value: true,
+        status: "error"
+      });
     }
   },
   created() {

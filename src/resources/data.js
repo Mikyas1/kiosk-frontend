@@ -15,8 +15,14 @@ const packages = [
 //     return (limit) ? Items.slice(0, limit) : Items;
 //   };
 
+const location = {
+    countries: ["Ethiopia"],
+    regions: ["Oromia", "Amhara", "Tigray", "Addis Ababa"]
+}
+
 export {
     packages,
+    location,
     // getUser,
     // getUserById
 };

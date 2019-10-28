@@ -240,6 +240,7 @@
 <script>
 import apiClient from "@/resources/apiClient";
 import { getErrorMessage } from "@/resources/helper";
+import { location } from "@/resources/data";
 
 import { mapGetters } from "vuex";
 
@@ -248,7 +249,13 @@ export default {
   computed: {
     ...mapGetters({
       branches: "dashboard/branchs"
-    })
+    }),
+    countries() {
+      return location.countries;
+    },
+    regions() {
+      return location.regions;
+    }
   },
   data() {
     return {
@@ -293,10 +300,6 @@ export default {
           longitude: ""
         }
       },
-
-      countries: ["Ethiopia"],
-
-      regions: ["Oromia", "Amhara", "Tigray", "Addis Ababa"],
 
       inputRules: [v => v.length >= 3 || "Minimum length is 3 characters"],
 

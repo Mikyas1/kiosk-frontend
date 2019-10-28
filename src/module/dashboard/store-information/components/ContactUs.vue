@@ -145,6 +145,7 @@
 
 <script>
 import { getErrorMessage } from "@/resources/helper";
+import { location } from "@/resources/data";
 
 import { mapGetters } from "vuex";
 
@@ -154,15 +155,10 @@ export default {
 
   data() {
     return {
-      countries: ["Ethiopia"],
-
-      regions: ["Oromia", "Amhara", "Tigray", "Addis Ababa"],
 
       locationInformation: {},
       email: "",
       phone: "",
-      // emails: [],
-      // phones: [],
 
       // Rules for Inputs
       inputRules: [
@@ -181,7 +177,13 @@ export default {
   computed: {
     ...mapGetters({
       contactUs: "dashboard/contactUs"
-    })
+    }),
+    regions() {
+      return location.regions;
+    },
+    countries() {
+      return location.countries;
+    }
   },
 
   methods: {
@@ -194,8 +196,9 @@ export default {
           type: "location"
         }
 
-        this.uploadStoreInfo(data, "Successfully uploaded location");
-        this.loading = false;
+        this.uploadStoreInfo(data, "Successfully uploaded location").then(() => {
+          this.loading = false;
+        });
       } else {
         return;
       }
@@ -221,11 +224,10 @@ export default {
           this.loadingEmail = true;
 
           this.uploadStoreInfo(data, "Successfully added Email").then(() => {
-            // this.emails.push(response.data)
+            this.loadingEmail = false;
+            this.email = "";
           });
 
-          this.loadingEmail = false;
-          this.email = "";
         } else {
           return;
         }
@@ -273,12 +275,10 @@ export default {
 
           this.uploadStoreInfo(data, "Successfully added Phone Number").then(
             response => {
-              // this.phones.push(response.data);
+              this.loadingPhone = false;
+              this.phone = "";
             }
           );
-
-          this.loadingPhone = false;
-          this.phone = "";
         } else {
           return;
         }

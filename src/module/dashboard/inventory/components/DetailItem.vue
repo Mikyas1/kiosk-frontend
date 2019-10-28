@@ -88,7 +88,7 @@
                   :key="branch.id"
                   class="ml-2 mb-2">
                   <div primary-title>
-                    <div class="headline mt-3 mb-2">Item location ({{ index }})</div>
+                    <div class="headline mt-3 mb-2">Item location ({{ index + 1 }})</div>
                   </div>
                     <span class="c-detail-name">Branch Name: </span><span class="orange--text">{{branch.branchName}}</span>
                     <br>
@@ -109,21 +109,23 @@
         </v-layout>
         </div>
       </v-flex>
+      <v-flex xs12 offset-md8 offset-lg10 class="mt-2">
+        <!-- <v-btn 
+          flat 
+          class="warning text-capitalize white--text my-4 ml-4"
+          v-on:click="print"
+        >
+          Print
+        </v-btn> -->
+        <v-btn
+          flat 
+          class="c_selected_btn text-capitalize white--text my-4 ml-3" 
+          v-on:click="closeDialog"
+        >
+          Close
+        </v-btn>
+      </v-flex>
     </v-layout>
-    <v-btn 
-      flat 
-      class="warning text-capitalize white--text my-4 ml-4" 
-      v-on:click="closeDialog"
-    >
-      Close
-    </v-btn>
-    <v-btn 
-      flat 
-      class="c_selected_btn text-capitalize white--text my-4 ml-3" 
-      v-on:click="print"
-    >
-      Print
-    </v-btn>
   </div>
 </template>
 
@@ -149,9 +151,9 @@ export default {
     closeDialog() {
       this.$emit("closeDialog");
     },
-    print() {
-      window.print();
-    }
+    // print() {
+    //   window.print();
+    // }
   },
   computed: {
     getCategory() {
@@ -188,8 +190,8 @@ export default {
 
 <style scoped>
 .c-card {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  /* border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px; */
 }
 .c-detail-name {
   font-weight: 400;

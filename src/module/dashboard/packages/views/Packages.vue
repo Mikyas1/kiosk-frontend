@@ -59,7 +59,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import Navbar from '@/components/BodyNav'
+import Navbar from '@/components/BodyNav';
 import { packages } from "@/resources/data";
 
 export default {

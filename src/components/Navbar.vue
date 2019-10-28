@@ -32,10 +32,10 @@
       <v-spacer></v-spacer>
 
       <!-- TOKEN VALUE -->
-      <div class="hidden-sm-and-down">
+      <div class="">
         <v-icon>monetization_on</v-icon>
         <router-link ripple router v-bind:to='"/app/packages"' class="white--text c-token">
-        {{ storeToken }} ETB
+        {{ storeToken }} <span class="hidden-sm-and-down">Tokens</span>
         </router-link>
       </div>
 
@@ -48,13 +48,14 @@
           slot="activator"
         >
           <div class="c-btn-div">
-            <v-avatar class="mr-2" size="30px">
+            <v-avatar class="mr-2 hidden-sm-and-down" size="30px">
               <v-icon>person_outline</v-icon>
             </v-avatar>
-            <span class="subheading text-capitalize white--text hidden-sm-and-up" v-if="!drawer">{{ fullName }}</span>
+            <!-- <span class="subheading text-capitalize white--text hidden-sm-and-up" v-if="!drawer">{{ fullName }}</span> -->
             <span class="subheading text-capitalize white--text hidden-sm-and-down">{{ fullName }} </span>
             <v-avatar class="mr-2" size="30px">
                <v-icon>expand_more</v-icon>
+               <v-icon class="hidden-md-and-up">person_outline</v-icon>
             </v-avatar>
           </div>  
         </v-btn>
