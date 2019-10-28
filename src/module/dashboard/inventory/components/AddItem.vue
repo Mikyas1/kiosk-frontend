@@ -272,8 +272,8 @@ export default {
       const file = event.target.files[0];
       // if (file.name.substr(file.name.indexOf(".") + 1) == "jpg") {
         if (true) {
-          console.log('OriginalFile instanceof Blob', file instanceof Blob);
-          console.log(`OriginalFile size ${file.size / 1024 /1024 } MB`);
+          // console.log('OriginalFile instanceof Blob', file instanceof Blob);
+          // console.log(`OriginalFile size ${file.size / 1024 /1024 } MB`);
           var options = {
             maxSizeMb: 1,
             maxWidthOrHeight: 720,
@@ -281,8 +281,8 @@ export default {
           }
           imageCompression(file, options)
           .then(compressedFile => {
-            console.log('compressedFile instanceof Blob', compressedFile instanceof Blob);
-            console.log(`compressedFile size ${compressedFile.size /1024 /1024} MB`);
+            // console.log('compressedFile instanceof Blob', compressedFile instanceof Blob);
+            // console.log(`compressedFile size ${compressedFile.size /1024 /1024} MB`);
             this.mainImage = compressedFile;
             this.mainImageUrl = window.URL.createObjectURL(compressedFile);
           })

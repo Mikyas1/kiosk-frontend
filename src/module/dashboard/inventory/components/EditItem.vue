@@ -513,8 +513,6 @@ export default {
             }
             imageCompression(file, options)
             .then(compressedFile => {
-              // console.log('compressedFile instanceof Blob', compressedFile instanceof Blob);
-              // console.log(`compressedFile size ${compressedFile.size /1024 /1024} MB`);
               this.images.push(compressedFile);
               this.viewImages.push(window.URL.createObjectURL(compressedFile));
             })

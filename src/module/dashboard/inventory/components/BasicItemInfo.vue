@@ -332,7 +332,8 @@ export default {
         brand: null,
         priorityVal: 1,
         features: {},
-        addedField: []
+        addedField: [],
+        posted: false
       };
       this.rootCategory = null;
     }

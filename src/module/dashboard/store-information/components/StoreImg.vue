@@ -55,6 +55,7 @@
 
 <script>
 import apiClient from "@/resources/apiClient";
+import imageCompression from 'browser-image-compression';
 import { getErrorMessage } from "@/resources/helper";
 
 import { mapGetters } from "vuex";
@@ -88,19 +89,28 @@ export default {
             message: "please choose an image",
             value: true,
             status: "error"
-            });
-            return;
+          });
+          return;
         }
 
-        this.image = files[0];
+        var storeImage = files[0];
 
         this.imageBtn = true;
 
-        let formData = new FormData();
-        formData.append("file", this.image);
+        var options = {
+          maxSizeMb: 1,
+          maxWidthOrHeight: 720,
+          useWebWorker: true
+        }
 
-        this.$store
-          .dispatch("dashboard/update_image", formData)
+        imageCompression(storeImage, options)
+        
+        .then(compressedFile => {
+          let formData = new FormData();
+          formData.append("file", compressedFile);
+
+          this.$store
+            .dispatch("dashboard/update_image", formData)
 
             .then(() => {
                 this.$store.commit("SET_SNACKBAR", {
@@ -119,7 +129,18 @@ export default {
                 });
                 this.imageBtn = false;
             });
-        }
+        })
+
+        .catch(error => {
+          this.$store.commit("SET_SNACKBAR", {
+            message: "Please choose a proper image file.",
+            value: true,
+            status: "error"
+          });
+          this.imageBtn = false;
+        })
+
+      }
     }
 }
 </script>
