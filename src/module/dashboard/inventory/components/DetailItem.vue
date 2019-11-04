@@ -6,11 +6,11 @@
 
     <v-layout row wrap>
       <v-flex md5>
-        <div class="c-card pt-1 pb-4 pl-2 ml-3 mb-3" 
+        <div class="pt-1 pb-4 pl-2 ml-3 mb-3" 
         :class="{' mr-3': $vuetify.breakpoint.smAndDown}"
         >
         <div primary-title>
-          <div class="headline mb-3 ml-2">Item Photos</div>
+          <div class="headline mb-3 ml-2 c-underline">Item Photos</div>
         </div>
         <v-layout row wrap>
           <v-flex xs-3 class="mt-2 mx-2 mb-1">
@@ -47,12 +47,13 @@
       </v-flex>
 
       <v-flex md7>
-        <div class="c-card pt-1 pb-4 pl-2 ml-3 mr-3">
+        <div class="pt-1 pb-4 pl-2 ml-3 mr-3" 
+        :class="{'pl-4 c-hl': $vuetify.breakpoint.smAndUp}">
         <v-layout row wrap>
           <v-flex xs-9>
             <div class="pt-1 pl-2">
               <div primary-title>
-                <div class="headline mb-2">Item information</div>
+                <div class="headline mb-2 c-underline">Item information</div>
               </div>
               <div class="ml-2">
                 <span class="c-detail-name">Name: </span><span class="c_selected_btn--text">{{ item.name }}</span>
@@ -71,7 +72,7 @@
               </div>
               <div v-if="getFeatureLength">
                 <div primary-title>
-                  <div class="headline mt-3 mb-2">Item features</div>
+                  <div class="headline mt-3 mb-2 c-underline">Item features</div>
                 </div>
                 <div class="ml-2" v-for="feature in item.features" :key="feature.id">
                   <span class="c-detail-name">{{feature.name}}: </span><span class="orange--text">{{feature.value}}</span>
@@ -79,7 +80,7 @@
               </div>
               <div v-if="getItemDescription">
                 <div primary-title>
-                  <div class="headline mt-3 mb-2">Item description</div>
+                  <div class="headline mt-3 mb-2 c-underline">Item description</div>
                 </div>
                 <div class="ml-2 mr-3 px-3 py-3 c-card" v-html="getItemDescription"></div>
               </div>
@@ -88,7 +89,7 @@
                   :key="branch.id"
                   class="ml-2 mb-2">
                   <div primary-title>
-                    <div class="headline mt-3 mb-2">Item location ({{ index + 1 }})</div>
+                    <div class="headline mt-3 mb-2 c-underline">Item location ({{ index + 1 }})</div>
                   </div>
                     <span class="c-detail-name">Branch Name: </span><span class="orange--text">{{branch.branchName}}</span>
                     <br>
@@ -190,11 +191,17 @@ export default {
 
 <style scoped>
 .c-card {
-  /* border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 4px; */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 }
 .c-detail-name {
   font-weight: 400;
   font-size: 1.23em;
+}
+.c-hl {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+.c-underline {
+  text-decoration: underline;
 }
 </style>

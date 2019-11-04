@@ -226,7 +226,9 @@ export default {
           this.uploadStoreInfo(data, "Successfully added Email").then(() => {
             this.loadingEmail = false;
             this.email = "";
-          });
+          }) .catch(() => {
+            this.loadingEmail = false;
+          })
 
         } else {
           return;
@@ -278,7 +280,9 @@ export default {
               this.loadingPhone = false;
               this.phone = "";
             }
-          );
+          ) .catch(() => {
+            this.loadingPhone = false;
+          })
         } else {
           return;
         }
