@@ -18,7 +18,7 @@
         <v-spacer></v-spacer>
         <v-btn 
           class="secondary_1 white--text text-capitalize"
-          href="http://localhost:8080" 
+          href="http://198.251.64.103/store" 
           flat
           target="_blank"
         >

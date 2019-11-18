@@ -6,47 +6,78 @@
           <v-flex xs12 sm8 md4 lg4>
             <v-card class="elevation-1 pa-3" height="360">
               <v-card-text>
-                <v-subheader
-                  class="mb-3 c_text_1--text"
-                  v-bind:class="$vuetify.breakpoint.xsOnly && 'title ml-4' || 'display-1 ml-5'"
-                >
-                  <span>Login</span>
-                </v-subheader>
-
+                <v-layout align-center justify-center>
+                  <v-flex xs6>
+                    <v-subheader
+                      align-center
+                      class="c_text_1--text"
+                      v-bind:class="$vuetify.breakpoint.xsOnly && 'headline' || 'mb-3 display-1'"
+                    >
+                      <span>Login</span>
+                    </v-subheader>
+                  </v-flex>
+                </v-layout>
+                
                 <v-form v-on:submit.prevent="login" ref="login">
-                  <v-text-field
-                    label="Store Url"
-                    type="text"
-                    v-model="logData.url"
-                    prepend-icon="language"
-                    v-bind:rules="[(v) => v.length > 3 || 'Minimum length is 3 characters' ]"
-                  ></v-text-field>
-                  <v-text-field
-                    label="* Password"
-                    prepend-icon="lock"
-                    :type="'password'"
-                    v-model="logData.password"
-                    v-bind:rules="[(v) => v.length > 7 || 'Password must be at list 8 characters long' ]"
-                  ></v-text-field>
-                  <v-layout row wrap class="mt-4">
-                    <v-flex xs6 md6>
-                      <v-btn type="submit" class="c-btn" block color="primary">Login</v-btn>
+                  <v-layout row wrap>
+                    <v-flex xs11>
+                      <v-text-field
+                        label="Store Url"
+                        type="text"
+                        v-model="logData.url"
+                        prepend-icon="language"
+                        v-bind:rules="[(v) => v.length > 2 || 'Minimum length is 3 characters' ]"
+                      ></v-text-field>
                     </v-flex>
-                    <v-flex xs6 md6 class="mt-3">
+                  </v-layout>
+                  <v-layout row wrap>
+                    <v-flex xs10>
+                      <v-text-field
+                        label="Password"
+                        prepend-icon="lock"
+                        :type="getPasswordFieldType"
+                        v-model="logData.password"
+                        v-bind:rules="[(v) => v.length > 7 || 'Password must be at list 8 characters long' ]"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs2>
+                      <v-btn flat small fab class="mt-3" v-on:click="showpass=!showpass">
+                        <v-icon v-if="!showpass">visibility</v-icon>
+                        <v-icon v-else>visibility_off</v-icon>
+                      </v-btn>
+                      <!-- <v-icon>visibility</v-icon> -->
+                    </v-flex>
+                  </v-layout>
+                  <v-layout row wrap class="mt-3" justify-end>
+                    <v-flex xs8 md6>
+                      <v-btn
+                        type="submit" 
+                        class="c-btn align-end text-capitalize" 
+                        v-bind:loading="loginbtn"
+                        block color="primary">
+                          Login
+                        </v-btn>
+                    </v-flex>
+                  </v-layout>
+                  <v-layout 
+                      row 
+                      wrap
+                      v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
+                     justify-center>
+                    <v-flex xs10 md8 lg6>
                       <router-link
                         router
                         v-bind:to="{ name: 'register' }"
                         flat
-                        class="white"
-                      >Register
-                      </router-link>
-                    </v-flex>
-                    <v-flex xs6 md6 class="mt-3">
+                        class="auth-links"
+                      >New here
+                      </router-link> 
+                       | 
                       <router-link
                         router
-                        v-bind:to="{ name: 'register' }"
+                        v-bind:to="{ name: 'forgot' }"
                         flat
-                        class="white"
+                        class="auth-links"
                       >Forgot password
                       </router-link>
                     </v-flex>
@@ -77,36 +108,65 @@ export default {
     logData: {
       url: "",
       password: ""
-    }
+    },
+    loginbtn: false,
+    showpass: false
   }),
 
   methods: {
 
     login() {
       if (this.$refs.login.validate()) {
-      this.$store
-        .dispatch("auth/login", this.logData)
+        this.loginbtn = true;
+        
+        // TRIM INPUT
+        var data = {
+          url: this.logData.url.trim(),
+          password: this.logData.password
+        }
 
-        .then(() => {
-          // console.log(response);
-          this.$router.push({ name: "dashboard" });
-          this.$store.commit("SET_SNACKBAR", {
-            message: "Successfully logged in. Wellcome back!!",
-            value: true,
-            status: "success"
-          });
+        this.$store
+          .dispatch("auth/login", data)
+
+          .then(() => {
+            // console.log(response);
+            this.loginbtn = false;
+            this.$router.push({ name: "dashboard" });
+            this.$store.commit("SET_SNACKBAR", {
+              message: "Successfully logged in. Wellcome back!!",
+              value: true,
+              status: "success"
+            });
         })
 
         .catch(error => {
           // FOR TESTING PURPOSES
           // console.log(error);
-          this.$store.commit("SET_SNACKBAR", {
+          this.loginbtn = false;
+          if (error.response.status == 401) {
+            this.$store.commit("SET_SNACKBAR", {
+              message: "Store Url and Password don't match!",
+              value: true,
+              status: "error"
+            });
+          } else {
+            this.$store.commit("SET_SNACKBAR", {
               message: getErrorMessage(error),
               value: true,
               status: "error"
             });
+          }
         });
+      }
     }
+  },
+  computed: {
+    getPasswordFieldType() {
+      if (this.showpass) {
+        return 'text'
+      } else {
+        return 'password'
+      }
     }
   }
 };
@@ -127,5 +187,11 @@ export default {
 }
 .c-btn {
   width: 150px;
+}
+.auth-links {
+  text-decoration: none;
+}
+.auth-links:hover {
+  text-decoration: underline;
 }
 </style>

@@ -1,20 +1,29 @@
 import apiClient from "@/resources/apiClient";
+import axios from "axios";
 
 export default {
     
   login: ({ commit, state }, data) => {
     return new Promise((resolve, reject) => {
-      apiClient.auth.login(data)
-        .then(response => {
+      // apiClient.auth.login(data)
+      //   .then(response => {
+      //     commit("SET_TOKEN", response.data.token);
+      //     commit("dashboard/SET_STORE_INFO", response.data.store, { root: true });
+      //     resolve({ results: response });
+      //   })
+      //   .catch(e => {
+      //     reject(e);
+        // });
+        var baseURL = process.env.VUE_APP_API_URL;
+        axios.post(baseURL + "kiosks/login", data)
+        .then(response=>{
           commit("SET_TOKEN", response.data.token);
-          // commit("SET_OWNER", response.data.store.owner);
-          // commit("SET_STORE_ID", response.data.store.storeId);
           commit("dashboard/SET_STORE_INFO", response.data.store, { root: true });
           resolve({ results: response });
         })
-        .catch(e => {
+        .catch(e=> {
           reject(e);
-        });
+        })
     });
   },
     

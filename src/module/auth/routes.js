@@ -1,6 +1,7 @@
 import Login from "./views/Login";
 import Register from "./views/Register";
 import LogOut from "./views/Logout";
+import Forgot from "./views/Forgot";
 
 export default [
     { 
@@ -15,6 +16,14 @@ export default [
         path: '/register',
         name: 'register',
         component: Register,
+        meta: {
+            requiresVisitor: true,
+        },
+    },
+    {
+        path: '/forgot',
+        name: 'forgot',
+        component: Forgot,
         meta: {
             requiresVisitor: true,
         },

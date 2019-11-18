@@ -2,10 +2,11 @@
   <div id="register-page">
     <v-content id="register" class="primary">
       <v-container fluid fill-height class="c-container">
-        <v-layout align-center justify-center>
+        <v-layout justify-center>
           <v-flex xs12 sm10 md10 lg4>
+            <v-card flat height="300">
             <v-stepper v-model="step">
-              <v-stepper-items height="300">
+              <v-stepper-items>
                 <!-- STEPPER ONE -->
                 <v-stepper-content step="1">
                   <v-subheader
@@ -13,13 +14,24 @@
                     v-bind:class="$vuetify.breakpoint.xsOnly && 'title ml-4' || 'display-1 ml-5'"
                   >
                     <!-- <span>Create Store</span> -->
-                    <span>{{ $t("signup") }}</span>
+                    
+                    <v-layout align-center justify-center>
+                      <v-flex xs10 md9>
+                        <v-subheader
+                          align-center
+                          class="c_text_1--text"
+                          v-bind:class="$vuetify.breakpoint.xsOnly && 'headline' || 'display-1'"
+                        >
+                          <span>{{ $t("signup") }}</span>
+                        </v-subheader>
+                      </v-flex>
+                    </v-layout>
                   </v-subheader>
 
-                  <v-card flat height="300">
+                  <!-- <v-card flat height="300"> -->
                     <v-form class="pr-2" v-on:submit.prevent="goNext" ref="gonext">
                       <v-text-field
-                        class="mt-4"
+                        class="mt-2"
                         label="* Store Name"
                         v-model="signUpData.storeName"
                         prepend-icon="store"
@@ -51,30 +63,65 @@
                         </div>
                       </v-flex>
 
-                      <v-btn
-                        color="primary"
-                        type="submit"
-                        :loading="loadingOne || !loadCata"
-                        class="text-capitalize"
-                      >continue</v-btn>
+                      <v-layout row wrap class="mt-3" justify-end>
+                        <v-flex xs8 md6>
+                          <v-btn
+                            color="primary c-btn"
+                            type="submit"
+                            :loading="loadingOne || !loadCata"
+                            class="text-capitalize"
+                          >
+                            continue
+                          </v-btn>
+                        </v-flex>
+                      </v-layout>
 
-                      <v-btn
-                        class="ml-5 text-capitalize"
-                        flat
-                        router
-                        v-bind:to="{ name: 'login'}"
-                      >login</v-btn>
+                      <v-layout 
+                        row 
+                        wrap
+                        v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
+                        justify-center>
+                        <v-flex xs8 md8 lg6>
+                          <router-link
+                            router
+                            v-bind:to="{ name: 'login' }"
+                            flat
+                            class="auth-links"
+                          >Login
+                          </router-link> 
+                          | 
+                          <router-link
+                            router
+                            v-bind:to="{ name: 'forgot' }"
+                            flat
+                            class="auth-links"
+                          >Forgot password
+                          </router-link>
+                        </v-flex>
+                      </v-layout>
+
                     </v-form>
-                  </v-card>
+                  <!-- </v-card> -->
                 </v-stepper-content>
 
                 <!-- STEPPER TWO -->
                 <v-stepper-content step="2">
-                  <v-subheader class="display-1 mb-3 ml-5 c_text_1--text">
-                    <span>Create Profile</span>
+                  <v-subheader class="display-1 c_text_1--text">
+                    
+                    <v-layout align-center justify-center>
+                      <v-flex xs11>
+                        <v-subheader
+                          align-center
+                          class="c_text_1--text"
+                          v-bind:class="$vuetify.breakpoint.xsOnly && 'headline' || 'display-1'"
+                        >
+                          <span>Create Profile</span>
+                        </v-subheader>
+                      </v-flex>
+                    </v-layout>
                   </v-subheader>
 
-                  <v-card flat height="300">
+                  <!-- <v-card flat height="300"> -->
                     <v-form class="pr-2" v-on:submit.prevent="confirm" ref="confirm">
                       <v-text-field
                         label="* First Name"
@@ -88,9 +135,13 @@
                         prepend-icon="person_outline"
                         v-bind:rules="inputRules"
                       ></v-text-field>
-                      <v-layout align-center justify-center class="mb-3 ml-3 mt-3">
+                      <v-layout align-center justify-center class="mb-3 ml-3 mt-3"
+                        v-bind:class="$vuetify.breakpoint.xsOnly && 'ml-0' || 'ml-3'"
+                      >
                         <v-flex>
-                          <div class="title pl-5 grey--text">
+                          <div class="title grey--text"
+                            v-bind:class="$vuetify.breakpoint.xsOnly && 'pl-0' || 'pl-5'"
+                          >
                             <span
                               class="auth-choose"
                               v-bind:class="{'active-auth-choose': showPhone}"
@@ -123,24 +174,80 @@
                         v-model="signUpData.email"
                         prepend-icon="email"
                       ></v-text-field>
-                      <v-btn type="submit" color="primary">continue</v-btn>
-                      <v-btn class="ml-5" flat v-on:click="step = 1">{{ $t('cancle') }}</v-btn>
+
+                      <v-layout row wrap justify-end
+                        v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-0' || 'mt-3'"
+                      >
+                        <v-flex xs5 md>
+                          <v-btn class="text-capitalize" flat v-on:click="step = 1"
+                          >
+                            Back
+                          </v-btn>
+                        </v-flex>
+                        <v-flex xs7 md6>
+                          <v-btn
+                            color="primary c-btn"
+                            type="submit"
+                            :loading="loadingTwo"
+                            class="text-capitalize"
+                          >
+                            continue
+                          </v-btn>
+                        </v-flex>
+                      </v-layout>
+                      
+                      <v-layout 
+                        row 
+                        wrap
+                        v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
+                        justify-center>
+                        <v-flex xs8 md8 lg6>
+                          <router-link
+                            router
+                            v-bind:to="{ name: 'login' }"
+                            flat
+                            class="auth-links"
+                          >Login
+                          </router-link> 
+                          | 
+                          <router-link
+                            router
+                            v-bind:to="{ name: 'forgot' }"
+                            flat
+                            class="auth-links"
+                          >Forgot password
+                          </router-link>
+                        </v-flex>
+                      </v-layout>
+
                     </v-form>
-                  </v-card>
+                  <!-- </v-card> -->
                 </v-stepper-content>
 
                 <!-- STEPPER THREE -->
                 <v-stepper-content step="3">
-                  <v-subheader class="display-1 mb-3 ml-5 c_text_1--text">
-                    <span>Confirm Code</span>
+                  <v-subheader class="display-1 mb-3 c_text_1--text">
+                    
+                    <v-layout align-center justify-center>
+                      <v-flex xs9>
+                        <v-subheader
+                          align-center
+                          class="c_text_1--text"
+                          v-bind:class="$vuetify.breakpoint.xsOnly && 'headline' || 'display-1'"
+                        >
+                         <span>Confirm Code</span>
+                        </v-subheader>
+                      </v-flex>
+                    </v-layout>
                   </v-subheader>
 
-                  <v-card flat height="300">
+                  <!-- <v-card flat height="300"> -->
                     <v-form class="pr-2" v-on:submit.prevent="register" ref="register">
                       <v-text-field
                         label="* Confirm"
                         v-model="code"
                         prepend-icon="check"
+                        type="number"
                         v-bind:rules="[(v) => v.length > 3 || 'Code must be 4 digits' ]"
                       ></v-text-field>
                       <v-text-field
@@ -164,16 +271,61 @@
                         <span class="error--text">Password doesn't match.</span>
                       </p>
                       <div class="mt-3">
-                        <v-btn type="submit" color="primary">continue</v-btn>
-                        <v-btn class="ml-5" flat v-on:click="step = 2">{{ $t('cancles') }}</v-btn>
+                        
+                        <v-layout row wrap justify-end
+                          v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-0' || 'mt-3'"
+                        >
+                          <v-flex xs5 md>
+                            <v-btn class="text-capitalize" flat v-on:click="step = 2"
+                            >
+                              Back
+                            </v-btn>
+                          </v-flex>
+                          <v-flex xs7 md6>
+                            <v-btn
+                              color="primary c-btn"
+                              type="submit"
+                              :loading="loadingThree"
+                              class="text-capitalize"
+                            >
+                              continue
+                            </v-btn>
+                          </v-flex>
+                        </v-layout>
+
+                        <v-layout 
+                          row 
+                          wrap
+                          v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
+                          justify-center>
+                          <v-flex xs8 md8 lg6>
+                            <router-link
+                              router
+                              v-bind:to="{ name: 'login' }"
+                              flat
+                              class="auth-links"
+                            >Login
+                            </router-link> 
+                            | 
+                            <router-link
+                              router
+                              v-bind:to="{ name: 'forgot' }"
+                              flat
+                              class="auth-links"
+                            >Forgot password
+                            </router-link>
+                          </v-flex>
+                        </v-layout>
+
                       </div>
                     </v-form>
-                  </v-card>
+                  <!-- </v-card> -->
                 </v-stepper-content>
               </v-stepper-items>
             </v-stepper>
 
             <AuthFooter />
+            </v-card>
           </v-flex>
         </v-layout>
       </v-container>
@@ -307,6 +459,7 @@ export default {
             .validateCode(this.code)
 
             .then(response => {
+          
               // REGISTER AND AUTHENCATE THE USER
               // quick fix
               var regdata = {
@@ -374,7 +527,7 @@ export default {
 
         if (this.signUpData.chosen == 0) {
           apiClient.auth
-            .validatePhone(this.signUpData.phoneNumber)
+            .validatePhone(this.signUpData.phoneNumber.trim())
 
             .then(response => {
               alert(response.data);
@@ -397,10 +550,17 @@ export default {
             });
         } else if (this.signUpData.chosen == 1) {
           apiClient.auth
-            .validateEmail(this.signUpData.email)
+            .validateEmail(this.signUpData.email.trim())
 
             .then(response => {
               // alert(response.data);
+
+              this.$store.commit("SET_SNACKBAR", {
+                message:
+                  "We have send a 4 digit confirmation code to " + this.signUpData.email,
+                value: true,
+                status: "success"
+              });
 
               this.loadingTwo = false;
 
@@ -437,7 +597,7 @@ export default {
 
         // CHECK FOR STORE URL UNIQUENESS
         apiClient.auth
-          .validateUrl(this.signUpData.storeUrl)
+          .validateUrl(this.signUpData.storeUrl.trim())
 
           .then(() => {
             // console.log(response);
@@ -508,9 +668,15 @@ export default {
 <style scoped>
 #register {
   /* background: url("../../../assets/login_1.jpg"); */
-  background: 1e88e5;
+  background: #1e88e5;
   background-size: cover;
   height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  z-index: 0;
 }
 .auth-choose:hover {
   cursor: pointer;
@@ -523,5 +689,25 @@ export default {
 }
 .circular-progress {
   margin-left: 45% !important;
+}
+.c-container {
+  padding-top: 115px;
+}
+.c-btn {
+  width: 150px;
+}
+.auth-links {
+  text-decoration: none;
+}
+.auth-links:hover {
+  text-decoration: underline;
+}
+@media (max-width: 824px) {
+  #register {
+    height: 110vh;
+  }
+  .c-container {
+    padding-top: 27px;
+  }
 }
 </style>
