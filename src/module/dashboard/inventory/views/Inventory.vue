@@ -480,6 +480,12 @@ export default {
         this.editDialog = true;
         this.editItem = JSON.parse(JSON.stringify(item));
         this.editItemBranch = this.editItem.branch;
+        if (this.editItem.isOnMainBranch) {
+          this.editItem.branch.push({
+            branchName: "Main Branch",
+            id: "main"
+          });
+        }
       } else {
         this.noEnoughTokenDialog = !this.noEnoughTokenDialog;
         this.noEnoughTokenDialogMessage = 'Edit';
@@ -532,7 +538,7 @@ export default {
     },
     editItemFn(editData) {
       let index = this.items.findIndex(x => x.id == editData.id);
-      console.log(index);
+      // console.log(index);
       this.items[index] = null;
       this.items[index] = editData;
       this.forceRerenderTable();

@@ -84,12 +84,57 @@
                 </div>
                 <div class="ml-2 mr-3 px-3 py-3 c-card" v-html="getItemDescription"></div>
               </div>
+                <div v-if="item.isOnMainBranch" class="ml-2 mb-2">
+                  <div primary-title>
+                    <div class="headline mt-3 mb-2 c-underline">Item on Main Branch</div>
+                  </div>
+                    <span class="c-detail-name">Branch Name: </span><span class="orange--text">Main branch</span>
+                    <br>
+                    <div v-if="storeInfo.location.country">
+                      <span class="c-detail-name">Country: </span><span class="orange--text">{{storeInfo.location.country}}</span>
+                      <br>
+                    </div>
+                    <div v-if="storeInfo.location.region">
+                      <span class="c-detail-name">Region: </span><span class="orange--text">{{storeInfo.location.region}}</span>
+                      <br>
+                    </div>
+                    <div v-if="storeInfo.location.city">
+                      <span class="c-detail-name">City: </span><span class="orange--text">{{storeInfo.location.city}}</span>
+                      <br>
+                    </div>
+                    <div v-if="storeInfo.location.sub_city">
+                      <span class="c-detail-name">Sub City: </span><span class="orange--text">{{storeInfo.location.sub_city}}</span>
+                      <br>
+                    </div>
+                    <div v-if="storeInfo.location.buildingAndRoomNo">
+                      <span class="c-detail-name">Description: </span><span class="orange--text">{{storeInfo.location.buildingAndRoomNo}}</span>
+                      <br>
+                    </div>
+                    <div v-for="(phone_no, index) in storeInfo.phones" :key="phone_no">
+                      <span class="c-detail-name">Phone no ({{ index + 1}}): </span><span class="orange--text">{{phone_no.phoneNumber}}</span>
+                      <br>
+                    </div>
+                    <div v-for="(email, index) in storeInfo.emails" :key="email">
+                      <span class="c-detail-name">Email ({{ index + 1}}): </span><span class="orange--text">{{email.email}}</span>
+                      <br>
+                    </div>
+                    <div v-if="!storeInfo.location.country || !storeInfo.location.region || !storeInfo.location.city">
+                      <p class="my-3 ml-1"><v-icon small color="primary">info</v-icon>Please add more information about your store location, so interested buyers can contact you.</p>
+                      <v-btn
+                        flat
+                        class="c_selected_btn text-capitalize white--text mb-3" 
+                        v-on:click="moveToStorInfo"
+                      >
+                        Edit Store Info
+                      </v-btn>
+                    </div>
+                </div>
                 <div 
                   v-for="(branch, index) in getBranch"
                   :key="branch.id"
                   class="ml-2 mb-2">
                   <div primary-title>
-                    <div class="headline mt-3 mb-2 c-underline">Item location ({{ index + 1 }})</div>
+                    <div class="headline mt-3 mb-2 c-underline">On branch ({{ index + 1 }})</div>
                   </div>
                     <span class="c-detail-name">Branch Name: </span><span class="orange--text">{{branch.branchName}}</span>
                     <br>
@@ -133,6 +178,7 @@
 <script>
 import { getMainImage } from "@/resources/helper";
 import { getListImage } from "@/resources/helper";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DetailItem",
@@ -155,8 +201,14 @@ export default {
     // print() {
     //   window.print();
     // }
+    moveToStorInfo() {
+      this.$router.push({name: "storeInformation"});
+    }
   },
   computed: {
+    ...mapGetters({
+      storeInfo: "dashboard/storeInfo",
+    }),
     getCategory() {
       if (this.item.category) {
         return this.item.category.name;

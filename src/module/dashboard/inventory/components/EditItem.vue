@@ -29,12 +29,14 @@
                     label="* Condition"
                     class="input-group--focused pr-4 pl-2 mt-2"
                     v-model="item.condition"
+                    disabled
                   ></v-text-field>
 
                   <v-text-field
                     label="* Brand"
                     class="input-group--focused pr-4 pl-2 mt-2"
                     v-model="item.brand"
+                    disabled
                   ></v-text-field>
 
                   <!-- branch -->
@@ -55,6 +57,7 @@
                     label="* Quantity"
                     class="input-group--focused pr-4 pl-2 mt-2"
                     v-model="item.quantity"
+                    type="number"
                   ></v-text-field>
 
                   <v-text-field
@@ -62,6 +65,7 @@
                     class="input-group--focused pr-4 pl-2 mt-2"
                     hint=" - All price must be in Ethiopian Birr (ETB)"
                     v-model="item.price"
+                    type="number"
                   ></v-text-field>
 
                   <v-slider
@@ -304,7 +308,7 @@
                 <v-btn flat class="warning text-capitalize" v-on:click="AddImageDialog=!AddImageDialog">Cancle</v-btn>
               </v-card>
         </v-dialog>
-
+        
       </v-container>
     </v-card>
   </div>
@@ -431,6 +435,33 @@ export default {
         });
         return;
       }
+      if (this.item.name == '') {
+        this.editDataBtn = false;
+        this.$store.commit("SET_SNACKBAR", {
+            message: "Item name can't be empity.",
+            value: true,
+            status: "error"
+        });
+        return;
+      }
+      if (this.item.quantity == '') {
+        this.editDataBtn = false;
+        this.$store.commit("SET_SNACKBAR", {
+            message: "Item quantity can't be empity.",
+            value: true,
+            status: "error"
+        });
+        return;
+      }
+      if (this.item.price == '') {
+        this.editDataBtn = false;
+        this.$store.commit("SET_SNACKBAR", {
+            message: "Item price can't be empity.",
+            value: true,
+            status: "error"
+        });
+        return;
+      }
       var branch = this.composeBranch();
       var data = {
         name: this.item.name,
@@ -444,6 +475,7 @@ export default {
         token: this.item.token,
         newBranch: branch.newBranch,
         deleteBranch: branch.deleteBranch,
+        onMainBranch: branch.onMainBranch,
       };
       var features = {};
       for (var itemFeature of this.item.features) {
@@ -556,16 +588,41 @@ export default {
     },
     composeBranch() {
       var data = {
-        newBranch: null,
-        deleteBranch: null,
-        onMainBranch: null,
+        newBranch: [],
+        deleteBranch: [],
+        onMainBranch: false,
       };
+      const oldBranchs = this.branch.map(x => x.id).filter(x => !isNaN(x));
+      let newBranchs = [];
       if (this.item.branch[0].id == undefined) {
-        data.newBranch = this.item.branch;
+        if (this.item.branch.filter(x => x == 'main').length > 0) {
+          data.onMainBranch = true;
+        } else {
+          data.onMainBranch = false;
+        }
+        newBranchs = this.item.branch.filter(x => !isNaN(x));
       } else {
-        data.newBranch = this.item.branch.map(x => x.id);
+        if (this.item.branch.filter(x => x.id == 'main').length > 0) {
+          data.onMainBranch = true;
+        } else {
+          data.onMainBranch = false;
+        }
+        newBranchs = this.item.branch.map(x => x.id).filter(x => !isNaN(x));
       }
-      data.deleteBranch = this.branch.map(x => x.id);
+      
+      // proud of the code bellow
+      oldBranchs.forEach(old => {
+        if (newBranchs.findIndex(x => x == old) == -1) {
+          data.deleteBranch.push(old);
+        }
+      });
+
+      newBranchs.forEach(newB => {
+        if (oldBranchs.findIndex(x => x == newB) == -1) {
+          data.newBranch.push(newB);
+        }
+      })
+
 
       return data;
     }
