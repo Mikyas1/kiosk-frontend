@@ -31,7 +31,7 @@
                     color="c_selected_btn white--text text-capitalize c-btn my-2" 
                 >
                     <v-icon small class="mr-2">brush</v-icon>
-                    <span class="mr-2">Using This Theme</span>
+                    <span class="mr-2 text-capitalize">This Theme Selected</span>
                 </v-btn>
             </v-card-text>
         </v-card>

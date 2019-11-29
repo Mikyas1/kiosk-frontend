@@ -2,7 +2,9 @@
   <div>
     <v-card>
       <p class="px-4 py-4 c-card mb-4">
-        To go back to the privious page press <strong class="primary--text">ESC</strong> or click on the cancle button at the bottom of this form. 
+        To close this add item form
+        <!-- <strong class="primary--text">ESC</strong>  -->
+        click on the <strong class="primary--text"> Cancle </strong> button bellow.
         Please fill the provided form carefully and to the extent of your knowledge truthfully. 
         When you add an item with a token value that token value will be substracted from your store tokens.
       </p>

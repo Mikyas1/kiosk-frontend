@@ -2,14 +2,15 @@
   <div>
     <v-card>
       <p class="px-4 py-4 c-card mb-4">
-        To go back to the privious page press
-        <strong class="primary--text">ESC</strong> or click on the cancle button at the bottom of this form. 
+        To close this item edit form
+        <!-- <strong class="primary--text">ESC</strong> -->
+        click on the <strong class="primary--text"> Close This Form </strong> button bellow. 
         Use the form bellow to Update your Item. you have to <strong>resubmit a new listing priority</strong> to update your item.
         To edit item photos use the bottom section of this page.
       </p>
       <v-container>
         <div primary-title>
-          <div class="headline mb-3">Edit Item Detail.</div>
+          <div class="headline mb-3">Edit Item Detail. You have {{ storeToken }} Tokens</div>
         </div>
         <v-layout row wrap>
           <v-flex xs12 md6>

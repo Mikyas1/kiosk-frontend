@@ -4,7 +4,7 @@
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4 lg4>
-            <v-card class="elevation-1 pa-3" height="360">
+            <v-card class="elevation-1 pa-3" v-bind:height="$vuetify.breakpoint.smAndDown && 395 || 350">
               <v-card-text>
                 <v-layout align-center justify-center>
                   <v-flex xs6>
@@ -22,7 +22,7 @@
                   <v-layout row wrap>
                     <v-flex xs11>
                       <v-text-field
-                        label="Store Url"
+                        label="Store Url or Email or Phone no"
                         type="text"
                         v-model="logData.url"
                         prepend-icon="language"
@@ -48,13 +48,31 @@
                       <!-- <v-icon>visibility</v-icon> -->
                     </v-flex>
                   </v-layout>
-                  <v-layout row wrap class="mt-3" justify-end>
+                  <!-- Remember me and forgot password -->
+                  <v-layout row wrap>
+                    <v-flex xs12 md6>
+                      <v-checkbox
+                      label="Remember me"
+                      ></v-checkbox> 
+                    </v-flex>
+                    <v-flex v-if="$vuetify.breakpoint.mdAndUp" xs12 md6 class="mt-2">
+                      <v-btn
+                        type="submit" 
+                        class="c-btn align-end text-capitalize" 
+                        v-bind:loading="loginbtn"
+                        color="primary">
+                          Login
+                        </v-btn>
+                    </v-flex>
+                  </v-layout>
+
+                  <v-layout v-if="$vuetify.breakpoint.smAndDown" row wrap justify-end>
                     <v-flex xs8 md6>
                       <v-btn
                         type="submit" 
                         class="c-btn align-end text-capitalize" 
                         v-bind:loading="loginbtn"
-                        block color="primary">
+                        color="primary">
                           Login
                         </v-btn>
                     </v-flex>
@@ -62,7 +80,7 @@
                   <v-layout 
                       row 
                       wrap
-                      v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
+                      v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-3'"
                      justify-center>
                     <v-flex xs10 md8 lg6>
                       <router-link
@@ -120,10 +138,20 @@ export default {
         this.loginbtn = true;
         
         // TRIM INPUT
-        var data = {
-          url: this.logData.url.trim(),
-          password: this.logData.password
+        var inputType = this.checkInputType(this.logData.url.trim());
+
+        if (inputType === 'email') {
+          var data = {
+            email: this.logData.url,
+            password: this.logData.password
+          }
+        } else if (inputType === 'storeUrl') {
+          var data = {
+            url: this.logData.url,
+            password: this.logData.password
+          }
         }
+        
 
         this.$store
           .dispatch("auth/login", data)
@@ -158,7 +186,18 @@ export default {
           }
         });
       }
+    },
+    checkInputType(str) {
+      if (function(email){
+         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+         return re.test(String(email).toLowerCase());
+      }(str)) {
+        return 'email';
+      } else {
+        return 'storeUrl';
+      }
     }
+
   },
   computed: {
     getPasswordFieldType() {

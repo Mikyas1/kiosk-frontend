@@ -50,7 +50,7 @@
               </v-btn>
 
             <!-- GO TO ADD ITEM DIALOGS -->
-            <v-dialog v-model="addDialog" fullscreen>
+            <v-dialog v-model="addDialog" persistent fullscreen>
               
               <div slot="activator"></div>
               
@@ -220,7 +220,7 @@
 
       <!-- Dynamic dialog -->
       <!-- EDIT DIALOG -->
-      <v-dialog v-model="editDialog" fullscreen>
+      <v-dialog v-model="editDialog" persistent fullscreen>
         <div slot="activator"></div>
         <EditItem 
           :item="editItem"
@@ -236,7 +236,7 @@
 
       <!-- Dynamic dialog -->
       <!-- DETAIL DIALOG -->
-      <v-dialog v-model="detailDialog" fullscreen>
+      <v-dialog v-model="detailDialog" persistent fullscreen>
         <div slot="activator"></div>
         <v-card>
           <DetailItem 
