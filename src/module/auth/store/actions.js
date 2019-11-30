@@ -67,4 +67,31 @@ export default {
         });
     });
   },
+
+  forgetPassword: ({ commit, }, data) => {
+    return new Promise((resolve, reject) => {
+        // console.log(data);
+        apiClient.auth.forgetPassword(data)
+        .then(response => {
+            resolve(response);
+        })
+        .catch(e => {
+            reject(e);
+        });
+    });
+  },
+
+  updatePassword: ({ commit, }, data) => {
+    return new Promise((resolve, reject) => {
+        console.log(data);
+        apiClient.auth.updatePassword(data)
+        .then(response => {
+            resolve(response);
+        })
+        .catch(e => {
+            reject(e);
+        });
+    });
+  },
+
 }

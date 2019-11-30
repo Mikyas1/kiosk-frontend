@@ -82,7 +82,7 @@
                       wrap
                       v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-3'"
                      justify-center>
-                    <v-flex xs10 md8 lg6>
+                    <v-flex xs10 md9 lg8>
                       <router-link
                         router
                         v-bind:to="{ name: 'register' }"
@@ -96,7 +96,7 @@
                         v-bind:to="{ name: 'forgot' }"
                         flat
                         class="auth-links"
-                      >Forgot password
+                      >Forgot password?
                       </router-link>
                     </v-flex>
                   </v-layout>
@@ -142,12 +142,12 @@ export default {
 
         if (inputType === 'email') {
           var data = {
-            email: this.logData.url,
+            email: this.logData.url.trim(),
             password: this.logData.password
           }
         } else if (inputType === 'storeUrl') {
           var data = {
-            url: this.logData.url,
+            url: this.logData.url.trim(),
             password: this.logData.password
           }
         }

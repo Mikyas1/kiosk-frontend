@@ -21,8 +21,14 @@ export default {
         validateEmail(email) {
             return http.get(urls.validateEmail + email);
         },
-        getCategory(){
+        getCategory() {
             return http.get(urls.getCategory);
+        },
+        forgetPassword(payload) {
+            return http.post(urls.forgetPassword, payload);
+        },
+        updatePassword(payload) {
+            return http.post(urls.updatePassword, payload);
         }
     },
     dashboard: {

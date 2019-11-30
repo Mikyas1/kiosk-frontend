@@ -110,11 +110,11 @@
                       <span class="c-detail-name">Description: </span><span class="orange--text">{{storeInfo.location.buildingAndRoomNo}}</span>
                       <br>
                     </div>
-                    <div v-for="(phone_no, index) in storeInfo.phones" :key="phone_no">
+                    <div v-for="(phone_no, index) in storeInfo.phones" :key="phone_no.phoneNumber">
                       <span class="c-detail-name">Phone no ({{ index + 1}}): </span><span class="orange--text">{{phone_no.phoneNumber}}</span>
                       <br>
                     </div>
-                    <div v-for="(email, index) in storeInfo.emails" :key="email">
+                    <div v-for="(email, index) in storeInfo.emails" :key="email.email">
                       <span class="c-detail-name">Email ({{ index + 1}}): </span><span class="orange--text">{{email.email}}</span>
                       <br>
                     </div>

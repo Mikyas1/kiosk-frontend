@@ -4,86 +4,175 @@
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4 lg4>
-            <v-card class="elevation-1 pa-3" height="360">
-              <v-card-text>
-                <v-layout align-center justify-center>
-                  <v-flex xs10>
+            <v-card flat>
+              <v-stepper v-model="step">
+                <v-stepper-items>
+                  
+                  <!-- STEPPER ONE -->
+                  <v-stepper-content step="1">
                     <v-subheader
-                      align-center
-                      class="c_text_1--text"
-                      v-bind:class="$vuetify.breakpoint.xsOnly && 'mb-3 headline' || 'mb-3 display-1'"
+                      class="mb-3 c_text_1--text"
+                      v-bind:class="$vuetify.breakpoint.xsOnly && 'title ml-4' || 'display-1 ml-5'"
                     >
-                      <span>Reset Password</span>
+                      <!-- <span>Create Store</span> -->
+                      
+                      <v-layout align-center justify-center>
+                        <v-flex xs12>
+                          <v-subheader
+                            align-center
+                            class="c_text_1--text headline"
+                          >
+                            <span>Reset Password</span>
+                          </v-subheader>
+                        </v-flex>
+                      </v-layout>
                     </v-subheader>
-                  </v-flex>
-                </v-layout>
-                
-                <v-form v-on:submit.prevent="login" ref="login">
-                  <v-layout row wrap>
-                    <v-flex xs11>
+
+                    <v-form class="pr-2" v-on:submit.prevent="resetFirst" ref="email">
                       <v-text-field
-                        label="Store Url"
-                        type="text"
-                        v-model="logData.url"
-                        prepend-icon="language"
-                        v-bind:rules="[(v) => v.length > 2 || 'Minimum length is 3 characters' ]"
+                        class="mt-1"
+                        label="* Email"
+                        v-model="email"
+                        prepend-icon="email"
+                        v-bind:rules="emailRules"
                       ></v-text-field>
-                    </v-flex>
-                  </v-layout>
-                  <v-layout row wrap>
-                    <v-flex xs10>
-                      <v-text-field
-                        label="Password"
-                        prepend-icon="lock"
-                        :type="getPasswordFieldType"
-                        v-model="logData.password"
-                        v-bind:rules="[(v) => v.length > 7 || 'Password must be at list 8 characters long' ]"
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex xs2>
-                      <v-btn flat small fab class="mt-3" v-on:click="showpass=!showpass">
-                        <v-icon v-if="!showpass">visibility</v-icon>
-                        <v-icon v-else>visibility_off</v-icon>
-                      </v-btn>
-                      <!-- <v-icon>visibility</v-icon> -->
-                    </v-flex>
-                  </v-layout>
-                  <v-layout row wrap class="mt-3" justify-end>
-                    <v-flex xs8 md6>
-                      <v-btn
-                        type="submit" 
-                        class="c-btn align-end text-capitalize" 
-                        v-bind:loading="loginbtn"
-                        block color="primary">
-                          Reset Password
-                        </v-btn>
-                    </v-flex>
-                  </v-layout>
-                  <v-layout 
-                      row 
-                      wrap
-                      v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
-                     justify-center>
-                    <v-flex xs6 lg5>
-                      <router-link
-                        router
-                        v-bind:to="{ name: 'register' }"
-                        flat
-                        class="auth-links"
-                      >New here
-                      </router-link> 
-                       | 
-                      <router-link
-                        router
-                        v-bind:to="{ name: 'login' }"
-                        flat
-                        class="auth-links"
-                      >Log in
-                      </router-link>
-                    </v-flex>
-                  </v-layout>
-                </v-form>
-              </v-card-text>
+                    
+                      <v-layout row wrap class="mt-3" justify-end>
+                        <v-flex xs8 md6>
+                          <v-btn
+                            color="primary c-btn"
+                            type="submit"
+                            :loading="loadingEmail"
+                            class="text-capitalize"
+                          >
+                            continue
+                          </v-btn>
+                        </v-flex>
+                      </v-layout>
+
+                      </v-form>
+
+                      <v-layout 
+                        row 
+                        wrap
+                        v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
+                        justify-center>
+                        <v-flex xs6 md5 lg4>
+                          <router-link
+                            router
+                            v-bind:to="{ name: 'login' }"
+                            flat
+                            class="auth-links"
+                          >Login
+                          </router-link> 
+                          | 
+                          <router-link
+                            router
+                            v-bind:to="{ name: 'register' }"
+                            flat
+                            class="auth-links"
+                          >New here
+                          </router-link>
+                        </v-flex>
+                      </v-layout>
+
+                  </v-stepper-content>
+                  
+                   <!-- STEPPER THREE -->
+                  <v-stepper-content step="2">
+                    <v-subheader class="display-1 mb-3 c_text_1--text">
+                      
+                      <v-layout align-center justify-center>
+                        <v-flex xs9>
+                          <v-subheader
+                            align-center
+                            class="c_text_1--text headline"
+                          >
+                          <span>Reset Password</span>
+                          </v-subheader>
+                        </v-flex>
+                      </v-layout>
+                    </v-subheader>
+
+                      <v-form class="pr-2" v-on:submit.prevent="resetComplete" ref="reset">
+                        <v-text-field
+                          label="* Confirm"
+                          v-model="code"
+                          prepend-icon="check"
+                          type="number"
+                          v-bind:rules="[(v) => v.length > 3 || 'Code must be 4 digits' ]"
+                        ></v-text-field>
+                        <v-text-field
+                          label="* Password"
+                          prepend-icon="lock"
+                          :type="'password'"
+                          v-model="reset.password"
+                          v-bind:rules="[(v) => v.length > 7 || 'Password must be at list 8 characters long' ]"
+                        ></v-text-field>
+                        <v-text-field
+                          label="* Confirm Password"
+                          prepend-icon="lock"
+                          :type="'password'"
+                          v-model="reset.confirmPassword"
+                        ></v-text-field>
+                        <p
+                          class="ml-4"
+                          v-if="reset.password != reset.confirmPassword && reset.confirmPassword != ''"
+                        >
+                          <v-icon small color="error">warning</v-icon>
+                          <span class="error--text">Password doesn't match.</span>
+                        </p>
+                        <div class="mt-3">
+                          
+                          <v-layout row wrap class="mt-3" justify-end>
+                            <v-flex xs5 md>
+                              <v-btn class="text-capitalize" flat v-on:click="step = 1"
+                              >
+                                Back
+                              </v-btn>
+                            </v-flex>
+                            <v-flex xs7 md6>
+                              <v-btn
+                                color="primary c-btn"
+                                type="submit"
+                                :loading="loadingComplete"
+                                class="text-capitalize"
+                              >
+                                Reset
+                              </v-btn>
+                            </v-flex>
+                          </v-layout>
+
+                          <v-layout 
+                            row 
+                            wrap
+                            v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
+                            justify-center>
+                            <v-flex xs6 md5 lg4>
+                              <router-link
+                                router
+                                v-bind:to="{ name: 'login' }"
+                                flat
+                                class="auth-links"
+                              >Login
+                              </router-link> 
+                              | 
+                              <router-link
+                                router
+                                v-bind:to="{ name: 'register' }"
+                                flat
+                                class="auth-links"
+                              >New here
+                              </router-link>
+                            </v-flex>
+                          </v-layout>
+
+                        </div>
+                      </v-form>
+                  </v-stepper-content>
+
+                </v-stepper-items>
+              </v-stepper>
             </v-card>
 
             <AuthFooter />
@@ -104,72 +193,79 @@ export default {
     AuthFooter
   },
   data: () => ({
-    loading: false,
-    logData: {
-      url: "",
+    step: 1,
+    email: '',
+    loadingEmail: false,
+    loadingComplete: false,
+    code: "",
+    reset: {
+      confirmPassword: "",
       password: ""
     },
-    loginbtn: false,
-    showpass: false
+    emailRules: [v => v.match(/\S+@\S+\.\S+/) || "Invalid Email Address"]
   }),
 
   methods: {
-
-    login() {
-      if (this.$refs.login.validate()) {
-        this.loginbtn = true;
+    resetFirst() {
+      if(this.$refs.email.validate()) {
         
-        // TRIM INPUT
-        var data = {
-          url: this.logData.url.trim(),
-          password: this.logData.password
-        }
+        this.loadingEmail = true;
 
         this.$store
-          .dispatch("auth/login", data)
-
+          .dispatch("auth/forgetPassword", { email: this.email.trim() })
           .then(() => {
-            // console.log(response);
-            this.loginbtn = false;
-            this.$router.push({ name: "dashboard" });
-            this.$store.commit("SET_SNACKBAR", {
-              message: "Successfully logged in. Wellcome back!!",
-              value: true,
-              status: "success"
-            });
-        })
 
-        .catch(error => {
-          // FOR TESTING PURPOSES
-          // console.log(error);
-          this.loginbtn = false;
-          if (error.response.status == 401) {
             this.$store.commit("SET_SNACKBAR", {
-              message: "Store Url and Password don't match!",
-              value: true,
-              status: "error"
-            });
-          } else {
+                message:
+                  "We have send a 4 digit confirmation code to " + this.email,
+                value: true,
+                status: "success"
+              });
+
+            this.loadingEmail = false;
+            this.step = 2;
+          })
+          .catch(error => {
             this.$store.commit("SET_SNACKBAR", {
               message: getErrorMessage(error),
               value: true,
               status: "error"
             });
-          }
-        });
+            this.loadingEmail = false;
+
+          });
       }
-    }
-  },
-  computed: {
-    getPasswordFieldType() {
-      if (this.showpass) {
-        return 'text'
-      } else {
-        return 'password'
+    },
+    resetComplete() {
+      if(this.$refs.reset.validate()) {
+        this.loadingComplete = true;
+
+        this.$store
+          .dispatch("auth/updatePassword", { email: this.email.trim(), password: this.reset.password, code: this.code })
+          .then(() => {
+            this.$store.commit("SET_SNACKBAR", {
+                message:
+                  "You have reset your password successfully!",
+                value: true,
+                status: "success"
+              });
+            this.loadingComplete = false;
+            this.$router.push({ name: 'login' });
+
+          })
+          .catch(error => {
+            this.$store.commit("SET_SNACKBAR", {
+              message: getErrorMessage(error),
+              value: true,
+              status: "error"
+            });
+            this.loadingComplete = false;
+
+          });
       }
     }
   }
-};
+}
 </script>
 <style scoped lang="css">
 #login {

@@ -7,6 +7,8 @@ const urls = {
     validateCode: '/registration/validateCode/',
     register: '/registration/create',
     getCategory: '/unsecured/getCategories',
+    forgetPassword: '/registration/forgetPassword',
+    updatePassword: '/registration/updatePasswrod',
 
     // FOR LOGIN
     login: "/kiosks/login",

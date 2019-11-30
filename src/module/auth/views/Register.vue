@@ -81,7 +81,7 @@
                         wrap
                         v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
                         justify-center>
-                        <v-flex xs8 md8 lg6>
+                        <v-flex xs8 md9 lg6>
                           <router-link
                             router
                             v-bind:to="{ name: 'login' }"
@@ -95,7 +95,7 @@
                             v-bind:to="{ name: 'forgot' }"
                             flat
                             class="auth-links"
-                          >Forgot password
+                          >Forgot password?
                           </router-link>
                         </v-flex>
                       </v-layout>
@@ -201,7 +201,7 @@
                         wrap
                         v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
                         justify-center>
-                        <v-flex xs8 md8 lg6>
+                        <v-flex xs8 md9 lg6>
                           <router-link
                             router
                             v-bind:to="{ name: 'login' }"
@@ -215,7 +215,7 @@
                             v-bind:to="{ name: 'forgot' }"
                             flat
                             class="auth-links"
-                          >Forgot password
+                          >Forgot password?
                           </router-link>
                         </v-flex>
                       </v-layout>
@@ -298,7 +298,7 @@
                           wrap
                           v-bind:class="$vuetify.breakpoint.xsOnly && 'mt-3' || 'mt-4'"
                           justify-center>
-                          <v-flex xs8 md8 lg6>
+                          <v-flex xs8 md9 lg6>
                             <router-link
                               router
                               v-bind:to="{ name: 'login' }"
@@ -312,7 +312,7 @@
                               v-bind:to="{ name: 'forgot' }"
                               flat
                               class="auth-links"
-                            >Forgot password
+                            >Forgot password?
                             </router-link>
                           </v-flex>
                         </v-layout>
