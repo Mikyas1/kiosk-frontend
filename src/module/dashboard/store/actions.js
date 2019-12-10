@@ -154,11 +154,12 @@ export default {
             })
         })
     },
-    get_inventory: () => {
+    get_inventory: ({ commit, }) => {
         return new Promise((resolve, reject) => {
             apiClient.dashboard.inventory
             .get_inventory()
             .then(response => {
+                commit("SET_INVENTORY", response.data);
                 resolve(response.data);
             })
             .catch(e => {
@@ -172,6 +173,7 @@ export default {
             .add_item(data)
             .then(response => {
                 // update store token
+                commit("ADD_TO_INVENTORY", response.data);
                 commit("SET_STORE_TOKEN", {type: 'SUB', data: response.data.token});
                 resolve(response.data); 
             })

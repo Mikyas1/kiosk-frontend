@@ -1,10 +1,19 @@
 import Inventory from "./views/Inventory";
+import AddItem from "./views/AddItem";
 
 export default [
     {
         path: 'inventory',
         name: 'inventory',
         component: Inventory,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: 'inventory/add-item',
+        name: 'addItem',
+        component: AddItem,
         meta: {
             requiresAuth: true,
         },

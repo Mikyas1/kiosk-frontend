@@ -1,7 +1,7 @@
 <template>
 
     <v-container class="c-body pa-0" fluid="true">
-      <Navbar parent="editSite" icon="brush"/>
+      <Navbar :parent="{name : 'editSite', link : 'editSite'}" icon="brush"/>
 
       <v-layout row wrap
         class="my-4"

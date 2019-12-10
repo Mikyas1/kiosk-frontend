@@ -1,8 +1,10 @@
 <template>
   <v-layout row wrap>
-    <v-flex xs12 md6>
-      <v-card flat class="ma-2 px-4 py-4 c-card">
-        <div>
+    <v-flex xs12>
+      <v-card flat
+        v-bind:class="$vuetify.breakpoint.smAndUp && 'ma-2 px-4 py-4 c-card' || ''"
+        >
+        <div :class="{'c-form': $vuetify.breakpoint.smAndUp}">
           <h2 class="font-weight-regular mb-3">1: Basic Item info</h2>
           <p>
             <v-icon small color="warning">info</v-icon>
@@ -123,9 +125,11 @@
     </v-flex>
 
     <!-- features -->
-    <v-flex xs12 md6>
+    <v-flex xs12>
       <div>
-        <v-card flat class="ma-2 px-4 py-4 c-card">
+        <v-card flat
+        v-bind:class="$vuetify.breakpoint.smAndUp && 'ma-2 px-4 py-4 c-card' || 'mt-2'"
+        >
           <h2 class="font-weight-regular mb-3">2: Item Features</h2>
           <p>Click on the "Add Field" button below to add new feature field.</p>
           <v-form ref="featuer">
@@ -146,21 +150,21 @@
             </div>
 
             <v-layout v-for="(field, index) in newItem.addedField" :key="index" row wrap>
-              <v-flex xs3 md3>
+              <v-flex xs4 sm3>
                 <v-text-field
                   label="Feature"
                   class="input-group--focused pr-4 pl-2 mt-2"
                   v-model="field.label"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs8 md8>
+              <v-flex xs6 sm8>
                 <v-text-field
                   label="value"
                   class="input-group--focused pr-4 pl-2 mt-2"
                   v-model="field.field"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs1 md1>
+              <v-flex xs2 sm1>
                 <v-btn
                   fab
                   depressed
@@ -363,5 +367,8 @@ export default {
   margin-top: -22px;
   font-size: .87em;
   padding-left: 2%;
+}
+.c-form {
+  width: 98%;
 }
 </style>

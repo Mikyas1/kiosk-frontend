@@ -2,7 +2,7 @@
   <div>
 
     <v-container class="c-body pa-0" fluid="true">
-      <Navbar parent="dashboard" icon="dashboard"/>
+      <Navbar :parent="{name : 'dashboard', link : 'dashboard'}" icon="dashboard" />
       
       <v-card height="400" class="mx-4 my-5">
 

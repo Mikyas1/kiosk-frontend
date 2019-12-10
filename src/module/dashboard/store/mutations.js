@@ -9,6 +9,7 @@ export default {
       state.storeInfo = data;
       state.active = data;
       state.storeTags = data;
+      state.inventory = data;
     },
     SET_STORE_DESCRIPTION: (state, data) => {
       state.storeInfo.description = data;
@@ -71,5 +72,11 @@ export default {
       } else if(data.type == 'SET') {
         state.storeInfo.token = data.data;
       }
-    }
+    },
+    SET_INVENTORY: (state, data) => {
+      state.inventory = data;
+    },
+    ADD_TO_INVENTORY: (state, data) => {
+      state.inventory.push(data);
+    },
 };

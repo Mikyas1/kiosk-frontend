@@ -31,4 +31,5 @@ export default {
   },
   storeTags: state => state.storeTags,
   storeToken: state => state.storeInfo.token,
+  inventory: state => state.inventory,
 };

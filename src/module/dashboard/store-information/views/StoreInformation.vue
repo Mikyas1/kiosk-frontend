@@ -1,7 +1,7 @@
 <template>
   <v-container class="c-body pa-0 mb-5" fluid="true">
     <!-- BODY NAVIGATOR -->
-    <Navbar parent="storeInformation" icon="store" />
+    <Navbar :parent="{name : 'storeInformation', link : 'storeInformation'}" icon="store" />
 
     <div>
       <v-layout row wrap class="first-card">

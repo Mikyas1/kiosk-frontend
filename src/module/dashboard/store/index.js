@@ -9,6 +9,7 @@ export default {
         active: null,
         storeInfo: null,
         storeTags: null,
+        inventory: null,
     },
     getters,
     actions,

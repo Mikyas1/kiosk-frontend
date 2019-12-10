@@ -160,7 +160,7 @@ import { quillEditor } from "vue-quill-editor";
 import imageCompression from 'browser-image-compression';
 import { mapGetters } from "vuex";
 
-import VueUploadMultipleImage from "vue-upload-multiple-image";
+// import VueUploadMultipleImage from "vue-upload-multiple-image";
 
 import BasicItemInfo from "./BasicItemInfo";
 import { getLastElement } from "@/resources/helper";
@@ -169,7 +169,7 @@ import { getErrorMessage } from "@/resources/helper";
 export default {
   name: "AddItem",
   components: {
-    VueUploadMultipleImage,
+    // VueUploadMultipleImage,
     quillEditor,
     BasicItemInfo
   },
@@ -492,7 +492,7 @@ export default {
 }
 @media (max-width: 524px) {
   .quill {
-    margin-bottom: 30%;
+    margin-bottom: 25%;
   }
 }
 @media (max-width: 406px) {
@@ -502,12 +502,32 @@ export default {
 }
 @media (max-width: 392px) {
   .quill {
-    margin-bottom: 80%;
+    margin-bottom: 45%;
   }
 }
 @media (max-width: 320px) {
   .quill {
-    margin-bottom: 120%;
+    margin-bottom: 50%;
+  }
+}
+@media (max-width: 300px) {
+  .quill {
+    margin-bottom: 70%;
+  }
+}
+@media (max-width: 280px) {
+  .quill {
+    margin-bottom: 100%;
+  }
+}
+@media (max-width: 265px) {
+  .quill {
+    margin-bottom: 150%;
+  }
+}
+@media (max-width: 230px) {
+  .quill {
+    margin-bottom: 220%;
   }
 }
 </style>

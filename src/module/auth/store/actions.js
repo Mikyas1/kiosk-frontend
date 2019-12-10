@@ -70,7 +70,6 @@ export default {
 
   forgetPassword: ({ commit, }, data) => {
     return new Promise((resolve, reject) => {
-        // console.log(data);
         apiClient.auth.forgetPassword(data)
         .then(response => {
             resolve(response);
@@ -83,7 +82,6 @@ export default {
 
   updatePassword: ({ commit, }, data) => {
     return new Promise((resolve, reject) => {
-        console.log(data);
         apiClient.auth.updatePassword(data)
         .then(response => {
             resolve(response);

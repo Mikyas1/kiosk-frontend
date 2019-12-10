@@ -96,7 +96,7 @@
 
                       <v-form class="pr-2" v-on:submit.prevent="resetComplete" ref="reset">
                         <v-text-field
-                          label="* Confirm"
+                          label="* Code"
                           v-model="code"
                           prepend-icon="check"
                           type="number"

@@ -1,7 +1,7 @@
 <template>
 
     <v-container class="c-body pa-0" fluid="true">
-      <Navbar parent="inventory" icon="widgets" />
+      <Navbar :parent="{name : 'inventory', link : 'inventory'}" icon="widgets" />
 
       <!-- LOADER -->
       <v-progress-linear v-if="loading" v-bind:indeterminate="true" class="my-0"></v-progress-linear>
@@ -74,7 +74,7 @@
                 v-if="renderTable"
                 :headers="get_table_header"
                 :search="search"
-                :items="items"
+                :items="inventory"
                 :rows-per-page-items="[10,25,50,{text:'All','value':-1}]"
                 class="elevation-1 c-table"
                 item-key="id"
@@ -212,8 +212,8 @@
         </v-flex>
       </v-layout>
       <v-layout v-else>
-        <p v-if="error">Loading faild!!</p>
-        <p v-else>Loading...</p>
+        <LoadingFailed v-if="error"></LoadingFailed>
+        <Loading v-else></Loading>
       </v-layout>
 
       </v-card>
@@ -346,11 +346,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Navbar from '@/components/BodyNav'
-import AddItem from '../components/AddItem'
-import DetailItem from '../components/DetailItem'
-import EditItem from '../components/EditItem'
-import LowTokenWarn from '../components/LowTokenWarn'
+import Navbar from '@/components/BodyNav';
+import AddItem from '../components/AddItem';
+import DetailItem from '../components/DetailItem';
+import EditItem from '../components/EditItem';
+import LowTokenWarn from '../components/LowTokenWarn';
+import Loading from '@/components/Loading';
+import LoadingFailed from '@/components/LoadingFailed';
 
 import { getErrorMessage } from "@/resources/helper";
 import { getMainImage } from "@/resources/helper";
@@ -363,7 +365,9 @@ export default {
     AddItem,
     DetailItem,
     EditItem,
-    LowTokenWarn
+    LowTokenWarn,
+    Loading,
+    LoadingFailed,
   },
   
   data() {
@@ -431,7 +435,8 @@ export default {
       sellerCategory: "dashboard/storeCategory",
       branchs: "dashboard/branchs",
       storeTags: "dashboard/storeTags",
-      storeToken: "dashboard/storeToken"
+      storeToken: "dashboard/storeToken",
+      inventory: "dashboard/inventory"
     }),
     get_table_header(){
       if(!this.$vuetify.breakpoint.smAndUp) {
@@ -455,21 +460,8 @@ export default {
       // alert("featching")
       if(this.storeToken > 0) {
         this.addBtn = true;
-        this.$store.dispatch("dashboard/get_store_tag")
-        .then(response=> {
-          this.category = response.data.category;
-          this.tags = response.data.tags;
-          this.addBtn = false;
-          this.addDialog = !this.addDialog;
-        })
-        .catch(error=> {
-          this.$store.commit("SET_SNACKBAR", {
-                message: getErrorMessage(error),
-                value: true,
-                status: "error"
-              });
-          this.addBtn = false;
-        })
+        this.$router.push({ name: 'addItem' });
+        this.addBtn = false;
       } else {
         this.noEnoughTokenDialog = !this.noEnoughTokenDialog;
         this.noEnoughTokenDialogMessage = 'Add';
@@ -573,22 +565,26 @@ export default {
 
   created() {
     this.$store.commit('dashboard/SET_ACTIVE_PAGE', 'inventory');
-    this.loading = true;
-    this.$store.dispatch("dashboard/get_inventory")
-    .then(response => {
-      this.items = response;
-      this.loading = false;
+    if(this.inventory !== null && this.inventory.length === 0) {
+      this.loading = true;
+      this.$store.dispatch("dashboard/get_inventory")
+      .then(response => {
+        this.items = response;
+        this.loading = false;
+        this.show = true;
+      })
+      .catch(error => {
+        this.$store.commit("SET_SNACKBAR", {
+              message: getErrorMessage(error),
+              value: true,
+              status: "error"
+            });
+        this.loading = false;
+        this.error = true;
+      })
+    } else {
       this.show = true;
-    })
-    .catch(error => {
-      this.$store.commit("SET_SNACKBAR", {
-            message: getErrorMessage(error),
-            value: true,
-            status: "error"
-          });
-      this.loading = false;
-      this.error = true;
-    })
+    }
   },
   watch: {
     editDialog: function(val) {

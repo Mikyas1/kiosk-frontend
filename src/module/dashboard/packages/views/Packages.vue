@@ -1,7 +1,7 @@
 <template>
 
     <v-container class="c-body pa-0 mb-5" fluid="true">
-      <Navbar parent="packages" icon="donut_large" />
+      <Navbar :parent="{name : 'packages', link : 'packages'}" icon="donut_large" />
 
       <!-- <v-card height="400" class="mx-4 my-5">
         <h2 class="ml-4 subheading" style="min-width: 100px">

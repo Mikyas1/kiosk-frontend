@@ -49,7 +49,7 @@ export default {
                 return http.put(urls.update_owner, payload);
             },
             get_store_img() {
-                return http.get(urls.store_image)
+                return http.get(urls.store_image);
             },
             update_store_img(payload) {
                 return http.post(urls.store_image_upload, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
