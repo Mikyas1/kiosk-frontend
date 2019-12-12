@@ -5,7 +5,9 @@
         v-bind:class="$vuetify.breakpoint.smAndUp && 'ma-2 px-4 py-4 c-card' || ''"
         >
         <div :class="{'c-form': $vuetify.breakpoint.smAndUp}">
-          <h2 class="font-weight-regular mb-3">1: Basic Item info</h2>
+          <h2 class="font-weight-regular mb-3"
+            :class="{'mt-2': $vuetify.breakpoint.smAndDown}"
+          >1: Basic Item info</h2>
           <p>
             <v-icon small color="warning">info</v-icon>
             Listing Priority is a value you put that will be <strong>directly subtracted</strong> from your token ({{ storeToken }}).
@@ -114,7 +116,7 @@
             <p class="list-priority">- listing priority (item token) is used to give listing prioriyt to items. Items with higher listing priority will get higher probability of being found by buyers.</p>
 
             <v-checkbox
-            v-if="newItem.priorityVal > 9"
+            v-if="newItem.priorityVal > 19"
             v-model="newItem.posted"
             :label="'Post on Social-media'"
             >
@@ -130,7 +132,9 @@
         <v-card flat
         v-bind:class="$vuetify.breakpoint.smAndUp && 'ma-2 px-4 py-4 c-card' || 'mt-2'"
         >
-          <h2 class="font-weight-regular mb-3">2: Item Features</h2>
+          <h2 class="font-weight-regular mb-3"
+            :class="{'mt-4': $vuetify.breakpoint.smAndDown}"
+          >2: Item Features</h2>
           <p>Click on the "Add Field" button below to add new feature field.</p>
           <v-form ref="featuer">
             <div v-if="newItem.category">
@@ -240,8 +244,8 @@ export default {
       storeToken: "dashboard/storeToken",
     }),
     avaliableTokens() {
-      if (this.storeToken > 20) {
-        return 20;
+      if (this.storeToken > 25) {
+        return 25;
       } else {
         return this.storeToken;
       }

@@ -22,7 +22,9 @@
             <v-container>
               
               <div primary-title>
-                <div class="headline mb-3">Add a New Item. You have {{ storeToken }} Tokens</div>
+                <div class="mb-3"
+                  v-bind:class="$vuetify.breakpoint.smAndUp && 'headline' || 'subheading'" 
+                >Add a New Item. You have {{ storeToken }} Tokens</div>
               </div>
 
               <BasicItemInfo 
@@ -36,7 +38,9 @@
                   <v-card flat
                     v-bind:class="$vuetify.breakpoint.smAndUp && 'mx-2 mt-3 px-4 py-4 c-card mb-4' || 'mt-3'"
                   >
-                    <h2 class="font-weight-regular">3: Item Description</h2>
+                    <h2 class="font-weight-regular"
+                      :class="{'mt-5': $vuetify.breakpoint.smAndDown}"
+                    >3: Item Description</h2>
                     <p class="py-3">Detail Descripiton of your item.</p>
                     <quill-editor
                       class="quill"
@@ -61,7 +65,7 @@
                       and it is the one that will be posted to social media.
                     </p>
                     <v-card flat
-                      v-bind:class="$vuetify.breakpoint.smAndUp && 'c-card' || ''"                    
+                      v-bind:class="$vuetify.breakpoint.smAndUp && 'c-card' || ''"
                     >
                       <h2 class="font-weight-regular ml-2">Main Photo:</h2>
                       <v-layout row wrap class="mb-2">
@@ -259,6 +263,7 @@ export default {
     computed: {
       ...mapGetters({
         storeToken: "dashboard/storeToken",
+        isInventoryNull: "dashboard/isInventoryNull",
       })
     },
     methods: {
@@ -449,11 +454,15 @@ export default {
           } else {
             if(this.addBasicInfo.branchs.findIndex(x => x == 'main') != -1) {
               if (this.addBasicInfo.branchs.filter(x => x != 'main').length > 0) {
-                formData.append("branch", this.addBasicInfo.branchs.filter(x => x != 'main'));
+                this.addBasicInfo.branchs.filter(x => x != 'main').forEach(x => {
+                  formData.append("branch", x);
+                });
               }
               formData.append("onMainBranch", true);
             } else {
-              formData.append("branch", this.addBasicInfo.branchs);
+              this.addBasicInfo.branchs.forEach(x => {
+                formData.append("branch", x);
+              });
               formData.append("onMainBranch", false);
             }
           }
@@ -490,6 +499,10 @@ export default {
     },
     created() {
         this.$store.commit('dashboard/SET_ACTIVE_PAGE', 'inventory');
+        if(this.isInventoryNull) {
+            this.$router.push({ name: 'inventory'});
+            return;
+        }
         this.pageLoading = true;
         this.$store.dispatch("dashboard/get_store_tag")
         .then(response=> {

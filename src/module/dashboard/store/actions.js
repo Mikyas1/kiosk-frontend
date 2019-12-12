@@ -172,8 +172,8 @@ export default {
             apiClient.dashboard.inventory
             .add_item(data)
             .then(response => {
-                // update store token
                 commit("ADD_TO_INVENTORY", response.data);
+                // update store token
                 commit("SET_STORE_TOKEN", {type: 'SUB', data: response.data.token});
                 resolve(response.data); 
             })
@@ -187,6 +187,7 @@ export default {
             apiClient.dashboard.inventory
             .delete_item(id)
             .then(response => {
+                commit("DELETE_INVENTORY", id);
                 resolve(response.data);
             })
             .catch(e => {
@@ -200,6 +201,7 @@ export default {
             .update_item_data(data)
             .then(response => {
                 // commit or change item
+                commit("SUBSTUTE_INVENTORY", response.data);
                 commit("SET_STORE_TOKEN", {type: 'SUB', data: response.data.token});
                 resolve(response.data);
             })
@@ -214,7 +216,7 @@ export default {
             .delete_item_image(data)
             .then(response => {
                 // commit or change item
-                // commit("SET_STORE_TOKEN", {type: 'SUB', data: response.data.token});
+                commit("REPLACE_INVENTORY_IMAGE", data);
                 resolve(response.data);
             })
             .catch(e => {
@@ -225,10 +227,11 @@ export default {
     upload_item_image: ({ commit, }, data) => {
         return new Promise((resolve, reject) => {
             apiClient.dashboard.inventory
-            .upload_item_image(data)
+            .upload_item_image(data.data)
             .then(response => {
                 // commit or change item
-                // commit("SET_STORE_TOKEN", {type: 'SUB', data: response.data.token});
+                console.log(data);
+                commit("UPDATE_INVENTORY_IMAGE_LIST", {data: response.data, itemId: data.id});
                 resolve(response.data);
             })
             .catch(e => {

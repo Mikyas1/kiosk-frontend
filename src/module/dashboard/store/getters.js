@@ -32,4 +32,11 @@ export default {
   storeTags: state => state.storeTags,
   storeToken: state => state.storeInfo.token,
   inventory: state => state.inventory,
+  isInventoryNull: state => {
+    if (state.inventory === null) {
+      return true;
+    } else {
+      return false;
+    }
+  } 
 };

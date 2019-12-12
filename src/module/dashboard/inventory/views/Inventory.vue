@@ -24,7 +24,7 @@
                 style="min-width: 85px"
                 v-bind:class="$vuetify.breakpoint.xsOnly && 'mr-0' || 'mr-3'"
               >
-                <v-icon class="primary--text">widgets</v-icon> {{ items.length }} 
+                <v-icon class="primary--text">widgets</v-icon> {{ inventory.length }} 
                 <span v-if="$vuetify.breakpoint.smAndUp">Different</span> Items
               </h2>
               <v-text-field
@@ -41,28 +41,13 @@
                 fab
                 dark
                 class="secondary_1 white--text mt-5 c-btn"
-                v-on:click="openAddPage"
+                v-on:click="goAddPage"
                 v-bind:loading="addBtn"
               >
                 <v-icon>
                     add
                 </v-icon>
               </v-btn>
-
-            <!-- GO TO ADD ITEM DIALOGS -->
-            <v-dialog v-model="addDialog" persistent fullscreen>
-              
-              <div slot="activator"></div>
-              
-              <!-- ADD ITEM DIALOG -->
-                <AddItem
-                  v-on:closeDialog="addDialog = !addDialog"
-                  :category="category"
-                  :tags="tags"
-                  @newItem="addItem"
-                >
-                </AddItem>
-            </v-dialog>
 
           </v-toolbar>
 
@@ -71,7 +56,6 @@
             <v-card-text flat class="pa-0">
               
               <v-data-table
-                v-if="renderTable"
                 :headers="get_table_header"
                 :search="search"
                 :items="inventory"
@@ -219,22 +203,6 @@
       </v-card>
 
       <!-- Dynamic dialog -->
-      <!-- EDIT DIALOG -->
-      <v-dialog v-model="editDialog" persistent fullscreen>
-        <div slot="activator"></div>
-        <EditItem 
-          :item="editItem"
-          :branch="editItemBranch"
-          v-on:closeDialog="editDialog = !editDialog"
-          @editItemSuc="editItemFn"
-          @resetFeaturesHandler="resetFeatures"
-          @removeImage="removeImage"
-          @updateImageList="updateImageList"
-        >
-        </EditItem>
-      </v-dialog>
-
-      <!-- Dynamic dialog -->
       <!-- DETAIL DIALOG -->
       <v-dialog v-model="detailDialog" persistent fullscreen>
         <div slot="activator"></div>
@@ -347,9 +315,7 @@
 <script>
 import { mapGetters } from "vuex";
 import Navbar from '@/components/BodyNav';
-import AddItem from '../components/AddItem';
 import DetailItem from '../components/DetailItem';
-import EditItem from '../components/EditItem';
 import LowTokenWarn from '../components/LowTokenWarn';
 import Loading from '@/components/Loading';
 import LoadingFailed from '@/components/LoadingFailed';
@@ -362,9 +328,7 @@ export default {
 
   components: {
     Navbar,
-    AddItem,
     DetailItem,
-    EditItem,
     LowTokenWarn,
     Loading,
     LoadingFailed,
@@ -373,15 +337,10 @@ export default {
   data() {
     return {
       search: '',
-      addDialog: false,
       deleteItemId: "",
       // for detail dialog
       detailDialog: false,
-      detailItem: {},
-      // for edit dialog
-      editDialog: false,
-      editItem: {},
-      editItemBranch: [],      
+      detailItem: {},     
       // for delete dialog
       deleteDialog: false,
       deleteBtn: false,
@@ -389,7 +348,6 @@ export default {
       noEnoughTokenDialog: false,
       noEnoughTokenDialogMessage: '',
       items: [],
-      renderTable: true,
       headers: [
           {
             text: 'Image',
@@ -425,8 +383,6 @@ export default {
       tags: {},
       show: false,
       error: false,
-      // fnClearFeatureHandler
-      fnClearFeatureHandler: null,
     }
   },
   
@@ -448,16 +404,7 @@ export default {
   },
 
   methods: {
-    openAddPage() {
-      // this should be performed when users want to add item
-      // if (this.storeTags != null) {
-      //   // alert("not featching")
-      //   this.category = this.storeTags.category;
-      //   this.tags = this.storeTags.tags;
-      //   this.addDialog = !this.addDialog;
-      //   return;
-      // }
-      // alert("featching")
+    goAddPage() {
       if(this.storeToken > 0) {
         this.addBtn = true;
         this.$router.push({ name: 'addItem' });
@@ -469,15 +416,7 @@ export default {
     },
     edit(item) {
       if(this.storeToken > 0) {
-        this.editDialog = true;
-        this.editItem = JSON.parse(JSON.stringify(item));
-        this.editItemBranch = this.editItem.branch;
-        if (this.editItem.isOnMainBranch) {
-          this.editItem.branch.push({
-            branchName: "Main Branch",
-            id: "main"
-          });
-        }
+        this.$router.push('inventory/edit-item/' + item.id);
       } else {
         this.noEnoughTokenDialog = !this.noEnoughTokenDialog;
         this.noEnoughTokenDialogMessage = 'Edit';
@@ -492,10 +431,12 @@ export default {
       this.detailItem = item;
     },
     reduceText(text) {
-      if(text.length < 41) {
-        return text;
-      } else if (text.length >= 41) {
-        return text.slice(0, 38) + "...";
+      if(text) {
+        if(text.length < 41) {
+          return text;
+        } else if (text.length >= 41) {
+          return text.slice(0, 38) + "...";
+        }
       }
     },
     deleteItem(id) {
@@ -522,54 +463,17 @@ export default {
           this.deleteBtn = false;
         })
     },
-    addItem(newItem) {
-      this.items.push(newItem);
-    },
     getMainImageHere(item){
       return getMainImage(item);
     },
-    editItemFn(editData) {
-      let index = this.items.findIndex(x => x.id == editData.id);
-      // console.log(index);
-      this.items[index] = null;
-      this.items[index] = editData;
-      this.forceRerenderTable();
-    },
-    forceRerenderTable() {
-      this.renderTable = false;
-      this.$nextTick(() => {
-        this.renderTable = true;
-      });
-    },
-    resetFeatures(fn) {
-      this.fnClearFeatureHandler = fn;
-    },
-    removeImage(data) {
-      if (data.replaceImageId == null) {
-        var item = this.items.filter(x => x.id == data.itemId)[0];
-        item.images = item.images.filter(x => x.id != data.imageId);
-      } else {
-        var item = this.items.filter(x => x.id == data.itemId)[0];
-        item.images = item.images.filter(x => x.id != data.imageId);
-        var index = item.images.findIndex(x => x.id == data.replaceImageId);
-        if (index != -1) {
-          item.images[index].isMain = true;
-        }
-      }
-    },
-    updateImageList(data) {
-      var item = this.items.filter(x => x.id == data.itemId)[0];
-      item.images = data.data;
-    }
   },
 
   created() {
     this.$store.commit('dashboard/SET_ACTIVE_PAGE', 'inventory');
-    if(this.inventory !== null && this.inventory.length === 0) {
+    if(this.inventory === null) {
       this.loading = true;
       this.$store.dispatch("dashboard/get_inventory")
       .then(response => {
-        this.items = response;
         this.loading = false;
         this.show = true;
       })
@@ -586,11 +490,6 @@ export default {
       this.show = true;
     }
   },
-  watch: {
-    editDialog: function(val) {
-      this.fnClearFeatureHandler();
-    }
-  }
 }
 </script>
 
