@@ -44,10 +44,6 @@
 
 export default {
   name: 'BodyNav',
-  props: [
-      'parent',
-      'icon'
-  ],
   props: {
     parent: {
       type: Object,

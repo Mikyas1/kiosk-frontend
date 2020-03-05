@@ -1,14 +1,14 @@
 <template>
     <div>
 
-        <v-container v-if="!isInventoryNull" class="c-body pa-0" fluid="true">
+        <v-container class="c-body pa-0" fluid="true">
             <Navbar :parent="{name : 'inventory', link : 'inventory'}" icon="widgets" :child="childLink"/>
         
             <v-card 
                 class="mb-5 mt-4" min-height="305"
                 v-bind:class="$vuetify.breakpoint.xsOnly && 'mx-1' || 'mx-4'"
             >
-                <v-layout v-if="show" row wrap>
+                <v-layout v-if="show && !isInventoryNull" row wrap>
                     
                     <p class="px-4 py-4 c-card mb-1">
                         Use the form bellow to Update your Item. you have to <strong>resubmit a new listing priority</strong> to update your item.
@@ -198,7 +198,7 @@
                             v-bind:loading="editDataBtn"
                             v-on:click="submitEdit"
                         >
-                            Edit item data
+                            Update Item
                         </v-btn>
 
 
@@ -275,17 +275,13 @@
                         </v-layout>
 
                         <v-btn flat class="warning text-capitalize" v-on:click="closeEdit">Close</v-btn>
-                        
-
+                  
                     </v-container>
-                </v-layout>
-                <v-layout v-else>
-                    <ItemNotFound></ItemNotFound>
-                </v-layout>
-            </v-card>
+                
 
-            <v-dialog v-model="AddImageDialog" 
-                v-bind:max-width="$vuetify.breakpoint.xsOnly && '100%' || '60%'"        
+                <!-- ADD LIST PHOTOS -->
+                <v-dialog v-model="AddImageDialog" 
+                    v-bind:max-width="$vuetify.breakpoint.xsOnly && '100%' || '60%'"        
                 >
                 
                 <div slot="activator"></div>
@@ -351,6 +347,12 @@
                     </v-card>
                 </v-dialog>
                 
+                    
+                </v-layout>
+                <v-layout v-else>
+                    <ItemNotFound></ItemNotFound>
+                </v-layout>
+            </v-card>
 
             <!-- SPACER -->
             <div style="height: 65px"></div>
@@ -687,7 +689,8 @@ export default {
             this.$router.push({ name: 'inventory'});
             return;
         }
-        if(this.item = JSON.parse(JSON.stringify(this.items.filter(x => x.id === Number(this.$route.params.id))[0]))) {
+        if(this.items.findIndex(x => x.id === Number(this.$route.params.id)) !== -1) {
+            this.item = JSON.parse(JSON.stringify(this.items.filter(x => x.id === Number(this.$route.params.id))[0]))
             this.branch = this.item.branch;
             if (this.item.isOnMainBranch) {
                 this.item.branch.push({
@@ -716,6 +719,9 @@ export default {
 .c-image-btn {
   height: 110px;
   width: 155px !important;
+}
+.c-form {
+  width: 96%;
 }
 @media (max-width: 1268px) {
   .quill {

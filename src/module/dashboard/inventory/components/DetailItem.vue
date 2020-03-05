@@ -1,7 +1,7 @@
 <template>
   <div>
     <div primary-title>
-      <div class="headline mb-3 ml-4 pt-4">Item Detail - <span class="c_selected_btn--text">{{ item.name }}</span></div>
+      <div class="headline mb-3 ml-4 pt-4">Item Detail - <span class="c_selected_btn--text">{{ reduceText(item.name) }}</span></div>
     </div>
 
     <v-layout row wrap>
@@ -203,7 +203,16 @@ export default {
     // }
     moveToStorInfo() {
       this.$router.push({name: "storeInformation"});
-    }
+    },
+    reduceText(text) {
+      if(text) {
+        if(text.length < 61) {
+          return text;
+        } else if (text.length >= 61) {
+          return text.slice(0, 58) + "...";
+        }
+      }
+    },
   },
   computed: {
     ...mapGetters({

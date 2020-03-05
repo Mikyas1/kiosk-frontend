@@ -264,6 +264,7 @@ export default {
       ...mapGetters({
         storeToken: "dashboard/storeToken",
         isInventoryNull: "dashboard/isInventoryNull",
+        storeTags: "dashboard/storeTags"
       })
     },
     methods: {
@@ -503,23 +504,29 @@ export default {
             this.$router.push({ name: 'inventory'});
             return;
         }
-        this.pageLoading = true;
-        this.$store.dispatch("dashboard/get_store_tag")
-        .then(response=> {
-          this.category = response.data.category;
-          this.tags = response.data.tags;
-          this.pageLoading = false;
+        if (this.storeTags === null) {
+          this.pageLoading = true;
+          this.$store.dispatch("dashboard/get_store_tag")
+          .then(response=> {
+            this.category = response.data.category;
+            this.tags = response.data.tags;
+            this.pageLoading = false;
+            this.show = true;
+          })
+          .catch(error=> {
+            this.$store.commit("SET_SNACKBAR", {
+              message: getErrorMessage(error),
+              value: true,
+              status: "error"
+            });
+            this.pageLoading = false;
+            this.error = true;
+          })
+        } else {
+          this.tags = this.storeTags.tags;
+          this.category = this.storeTags.category;
           this.show = true;
-        })
-        .catch(error=> {
-          this.$store.commit("SET_SNACKBAR", {
-            message: getErrorMessage(error),
-            value: true,
-            status: "error"
-          });
-          this.pageLoading = false;
-          this.error = true;
-        })
+        }
     }
 }
 </script>

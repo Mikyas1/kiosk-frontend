@@ -71,7 +71,7 @@
                     ></v-text-field>
 
                     <v-text-field
-                      :label="$t('branch_phone_no')"
+                      :label="'* ' + $t('branch_phone_no')"
                       class="input-group--focused pr-4 pl-2"
                       v-model="branchEditing.phones[0].phoneNumber"
                       type="number"
@@ -174,7 +174,7 @@
               ></v-text-field>
 
               <v-text-field
-                :label="$t('branch_phone_no')"
+                :label="'* ' + $t('branch_phone_no')"
                 class="input-group--focused pr-4 pl-2"
                 v-model="newBranch.phoneData[0].newPhoneNumber"
               ></v-text-field>

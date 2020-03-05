@@ -213,7 +213,7 @@ export default {
             emailData: [
               {
                 choice: choice,
-                newEmail: email
+                newEmail: email.trim()
               }
             ]
           },
