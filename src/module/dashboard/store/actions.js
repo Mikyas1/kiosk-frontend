@@ -253,5 +253,19 @@ export default {
                 reject(e);
             })
         })
+    },
+
+    // EDIT SITE
+    get_themes: ({commit,}) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.edit_site
+            .get_themes()
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
     }
 };

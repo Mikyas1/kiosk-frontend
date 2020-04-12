@@ -5,7 +5,7 @@
         >
              <v-card-text>
                 <v-img
-                    :src="require('@/assets/mint.png')"
+                    :src="theme.themePath"
                     crossorigin="anonymous"
                     :lazy-src="require('@/assets/loading.png')"
                     aspect-ratio="1.7"
@@ -14,8 +14,12 @@
                     contain
                 >
                 </v-img> 
-                <div class="mt-3">Theme - {{theme.name}}</div>
-                <p class="grey--text">{{theme.description}}</p>
+                <div class="mt-3">Theme - {{theme.themeName}}</div>
+                <p class="grey--text">
+                    {{theme.description}}
+                    <br>
+                    <span class="theme-token">{{get_theme_token}}</span>
+                </p>
                 <v-btn
                     v-if="!theme.active"
                     round
@@ -45,7 +49,16 @@ export default {
       type: Object,
       required: true
     }
-  },   
+  },
+  computed: {
+      get_theme_token() {
+          if (this.theme.tokenRquired === 0) {
+              return 'Free';
+          } else {
+              return this.theme.tokenRquired + ' Tokens';
+          }
+      }
+  }
 }
 </script>
 
@@ -59,5 +72,9 @@ export default {
 .c-active {
     border: .1em solid #fc4b6c;
     border-radius: 4px;
+}
+.theme-token {
+    font-size: 1.2em;
+    color: #1e88e5;
 }
 </style>

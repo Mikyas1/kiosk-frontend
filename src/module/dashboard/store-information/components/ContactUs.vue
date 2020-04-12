@@ -198,7 +198,9 @@ export default {
 
         this.uploadStoreInfo(data, "Successfully uploaded location").then(() => {
           this.loading = false;
-        });
+        }) .catch(() => {
+            this.loading = false;
+        })
       } else {
         return;
       }

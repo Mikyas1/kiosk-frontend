@@ -41,6 +41,9 @@ const urls = {
     // FOR PACKAGE
     buy_tokens: '/inventory/buyTokens',
 
+    // FOR EDIT SITE
+    get_themes: '/kiosks/getThemes/'
+
 }
 
 export default urls;

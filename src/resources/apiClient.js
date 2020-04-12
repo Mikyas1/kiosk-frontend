@@ -91,6 +91,11 @@ export default {
             buy_tokens() {
                 return http.put(urls.buy_tokens);
             },
+        },
+        edit_site: {
+            get_themes() {
+                return http.get(urls.get_themes);
+            }
         }
     }
 }

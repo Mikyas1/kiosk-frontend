@@ -9,6 +9,8 @@ const getErrorMessage = function (error) {
         return 'Unauthorized to access your request';
       case 405:
         return 'Unauthorized to access your request method';
+      case 400:
+        return 'The requset submited was a bad request';
       default:
         return error.response.data;
     }
