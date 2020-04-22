@@ -42,7 +42,8 @@ const urls = {
     buy_tokens: '/inventory/buyTokens',
 
     // FOR EDIT SITE
-    get_themes: '/kiosks/getThemes/'
+    get_themes: '/kiosks/getThemes/',
+    update_theme: '/kiosks/themeUpdate/'
 
 }
 

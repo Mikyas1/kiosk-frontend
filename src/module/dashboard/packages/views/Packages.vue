@@ -38,6 +38,7 @@
                 round
                 color="c_selected_btn white--text text-capitalize" 
                 v-on:click="purchaseToken"
+                v-if="purchasable(packages.price)"
               >
                 <v-icon small class="mr-2">shop</v-icon>
                 <span class="mr-2">purchase</span>
@@ -78,13 +79,20 @@ export default {
     }),
     getPackages() {
       return packages;
-    }
+    },
   },
   methods: {
     purchaseToken() {
       this.$store.dispatch('dashboard/buy_tokens')
       .then()
       .catch()
+    },
+    purchasable(val) {
+      if (val === "Free" && this.storeToken >= 200) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   created() {

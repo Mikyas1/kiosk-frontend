@@ -109,5 +109,8 @@ export default {
           item.images[index].isMain = true;
         }
       }
+    },
+    SET_THEME: (state, data) => {
+      state.storeInfo.theme = data;
     }
 };

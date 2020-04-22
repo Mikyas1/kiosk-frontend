@@ -267,5 +267,20 @@ export default {
                 reject(e);
             })
         })
-    }
+    },
+
+    update_theme: ({commit,}, theme) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.edit_site
+            .update_theme(theme.id)
+            .then(response => {
+                resolve(response);
+                // update theme in local storage.
+                commit("SET_THEME", theme);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
+    },
 };

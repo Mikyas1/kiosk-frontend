@@ -95,6 +95,9 @@ export default {
         edit_site: {
             get_themes() {
                 return http.get(urls.get_themes);
+            },
+            update_theme(theme_id) {
+                return http.put(urls.update_theme + theme_id);
             }
         }
     }

@@ -12,7 +12,7 @@
         v-bind:class="$vuetify.breakpoint.xsOnly && 'mx-1' || 'mx-4'"
       >
         <v-flex xs12 sm6  v-for="theme in themes" v-bind:key="theme.name">
-          <Theme :theme="theme"/>
+          <Theme :theme="theme" :activeTheme="activeTheme"/>
         </v-flex>
       </v-layout>
 
@@ -35,6 +35,7 @@ import LoadingFailed from '@/components/LoadingFailed';
 import Loading from '@/components/Loading';
 
 import { getErrorMessage } from "@/resources/helper";
+import { mapGetters } from "vuex";
 
 export default {
   name: 'editSite',
@@ -51,6 +52,23 @@ export default {
       error: false,
       themes: null,
     }
+  },
+  computed: {
+    ...mapGetters({
+      themeSelected: "dashboard/themeSelected",
+    }),
+    activeTheme() {
+      if(this.themeSelected === null) {
+        if(this.themes) {
+          return this.themes.filter(x => x.id === 1)[0]
+        }
+      } else {
+        return this.themeSelected;
+      }
+    }
+  },
+  methods: {
+    
   },
   created() {
       this.$store.commit('dashboard/SET_ACTIVE_PAGE', 'editSite');

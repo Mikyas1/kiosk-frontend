@@ -38,5 +38,6 @@ export default {
     } else {
       return false;
     }
-  } 
+  },
+  themeSelected: state => state.storeInfo.theme
 };
