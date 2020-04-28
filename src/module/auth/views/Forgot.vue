@@ -21,7 +21,11 @@
                           <v-subheader
                             align-center
                             class="c_text_1--text headline"
+                            v-bind:class="$vuetify.breakpoint.xsOnly && 'title' || 'display-1'"
                           >
+                            <router-link v-bind:to="{ name: 'home'}">
+                              <img :src="require('@/assets/logo1.png')" height="35" alt="KiosK" class="mr-2">
+                            </router-link>
                             <span>Reset Password</span>
                           </v-subheader>
                         </v-flex>

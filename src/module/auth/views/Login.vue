@@ -13,6 +13,9 @@
                       class="c_text_1--text"
                       v-bind:class="$vuetify.breakpoint.xsOnly && 'headline' || 'mb-3 display-1'"
                     >
+                      <router-link v-bind:to="{ name: 'home'}">
+                        <img :src="require('@/assets/logo1.png')" height="35" alt="KiosK" class="mr-2 mt-2">
+                      </router-link>
                       <span>Login</span>
                     </v-subheader>
                   </v-flex>

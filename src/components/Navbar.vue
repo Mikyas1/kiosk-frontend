@@ -95,16 +95,26 @@
         color="c_primary_dark"
         dark
       >
-        <!-- CAMPANY LOGO -->
-        <img src="../assets/m.png" height="36" alt="KiosK">
 
-        <!-- NAVIGATION DRAWER TITLE -->
-        <v-toolbar-title>
-          <router-link class="c-logo" tag="div" to="/">
-            <span>KIOSK</span>
-            <span class="font-weight-light body-1"> com</span>
-          </router-link>
-        </v-toolbar-title>
+      <!-- NAVIGATION DRAWER TITLE -->
+      <v-toolbar-title>
+        <router-link class="c-logo" tag="div" to="/">
+          
+          <v-layout row wrap class="pt-3 pl-4">
+            <v-flex>
+              <!-- CAMPANY LOGO -->
+              <img :src="require('@/assets/favicon.png')" height="36" alt="KiosK">
+            </v-flex>
+            <v-flex class="pt-1 pl-2">
+              <span>KIOSK</span>
+              <span class="font-weight-light body-1"> et</span>
+            </v-flex>
+          </v-layout>
+
+      </router-link>
+      </v-toolbar-title>
+
+
       </v-toolbar>
 
       <!-- NAVIGATION DRAWER LIST -->
@@ -273,6 +283,9 @@ import { mapGetters } from "vuex";
 .c-logo {
   color: white;
   text-decoration: none;
+}
+.c-logo:hover {
+  cursor: pointer;
 }
 .language-popup {
   min-width: 170px;
