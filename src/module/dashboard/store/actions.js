@@ -283,4 +283,18 @@ export default {
             })
         })
     },
+
+    // DASHBOARD
+    get_activity: ({commit,}, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.dashboard.dashboard
+            .get_activity(data)
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        })
+    },
 };

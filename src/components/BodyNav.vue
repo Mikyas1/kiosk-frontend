@@ -20,7 +20,9 @@
                   <span v-else class="grey--text body-2 font-weight-light"> <v-icon small>keyboard_arrow_right</v-icon> {{ $t(parent.name) }}</span>
                 </v-flex>
                 <v-flex v-if="child">
-                  <span class="grey--text body-2 font-weight-light"> <v-icon small>keyboard_arrow_right</v-icon> {{ $t(child.name) }}</span>                  
+                  <span class="grey--text body-2 font-weight-light">
+                    <v-icon small>keyboard_arrow_right</v-icon> {{ $t(child.name) }}
+                  </span>                  
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -29,7 +31,7 @@
         <v-spacer></v-spacer>
         <v-btn 
           class="secondary_1 white--text text-capitalize"
-          href="http://198.251.64.103/store" 
+          :href="'http://198.251.64.103/store/' + storeUrl" 
           flat
           target="_blank"
         >
@@ -41,6 +43,8 @@
 </template>
 
 <script>
+
+import { mapGetters } from "vuex";
 
 export default {
   name: 'BodyNav',
@@ -57,6 +61,11 @@ export default {
       type: Object,
       required: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      storeUrl: "dashboard/storeUrl",
+    }),
   },
 }
 </script>

@@ -43,7 +43,10 @@ const urls = {
 
     // FOR EDIT SITE
     get_themes: '/kiosks/getThemes/',
-    update_theme: '/kiosks/themeUpdate/'
+    update_theme: '/kiosks/themeUpdate/',
+
+    // FOR DASHBOARD
+    get_activity: '/kiosks/activityHistory',
 
 }
 

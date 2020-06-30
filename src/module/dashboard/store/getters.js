@@ -2,6 +2,7 @@ export default {
   active: state => state.active,
   owner: state => state.storeInfo.owner,
   storeInfo: state => state.storeInfo,
+  storeUrl: state => state.storeInfo.storeUrl,
   storeDescription: state => state.storeInfo.description,
   customerSupport: state => state.storeInfo.customerSupport,
   storeProfile: state => {

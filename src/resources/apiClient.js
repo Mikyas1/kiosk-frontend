@@ -99,6 +99,11 @@ export default {
             update_theme(theme_id) {
                 return http.put(urls.update_theme + theme_id);
             }
+        },
+        dashboard: {
+            get_activity(data) {
+                return http.get(urls.get_activity + data);
+            }
         }
     }
 }
