@@ -1,4 +1,4 @@
-# frontend
+# Kiosk frontend
 
 ## Configuration
 
